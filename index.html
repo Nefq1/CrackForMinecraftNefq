@@ -887,6 +887,21 @@
             overflow-y: auto;
         }
 
+        .userlist-search {
+            margin: 12px 12px 0 12px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 0.9em;
+            outline: none;
+        }
+
+        .userlist-search::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
         .userlist-items {
             display: flex;
             flex-direction: column;
@@ -1771,6 +1786,7 @@
             <span class="userlist-header-toggle">&#9662;</span>
         </div>
         <div class="userlist-body">
+            <input type="text" class="userlist-search" id="userListSearch" placeholder="Поиск по нику..." oninput="filterUserList()">
             <div class="userlist-items" id="userListItems"></div>
             <div class="log-section">
                 <div class="log-title">Лог действий</div>
@@ -1909,14 +1925,21 @@
 
             if (isNefq) {
                 document.getElementById('userListWidget').style.display = 'flex';
-                db.collection('users').onSnapshot((snap) => {
-                    const list = document.getElementById('userListItems');
+                const list = document.getElementById('userListItems');
+                let allUserDocs = [];
+
+                function renderUserList() {
+                    const q = (document.getElementById('userListSearch').value || '').trim().toLowerCase();
                     list.innerHTML = '';
-                    if (snap.empty) {
-                        list.innerHTML = '<div class="ul-date" style="color:rgba(255,255,255,0.4);font-size:0.8em;">Пользователей пока нет</div>';
+                    const docs = allUserDocs.filter((d) => {
+                        const u = d.data();
+                        return !q || (u.username && u.username.toLowerCase().includes(q));
+                    });
+                    if (docs.length === 0) {
+                        list.innerHTML = '<div class="ul-date" style="color:rgba(255,255,255,0.4);font-size:0.8em;">Пользователей не найдено</div>';
                         return;
                     }
-                    snap.forEach((doc) => {
+                    docs.forEach((doc) => {
                         const u = doc.data();
                         const role = u.role || 'Пользователь';
                         const isSelf = u.username.toLowerCase() === 'nefq';
@@ -1927,9 +1950,9 @@
                         const control = isSelf
                             ? `<span class="role-badge role-${role.toLowerCase()}">${escapeHtmlSite(role)}</span>`
                             : `<select class="role-select" onchange="changeSiteUserRole('${doc.id}', this.value)">
-                                   <option value="Пользователь" ${role === 'Пользователь' ? 'selected' : ''}>Пользователь</option>
-                                   <option value="Модератор" ${role === 'Модератор' ? 'selected' : ''}>Модератор</option>
-                               </select>`;
+                                    <option value="Пользователь" ${role === 'Пользователь' ? 'selected' : ''}>Пользователь</option>
+                                    <option value="Модератор" ${role === 'Модератор' ? 'selected' : ''}>Модератор</option>
+                                </select>`;
 
                         const banBtn = isSelf
                             ? ''
@@ -1943,6 +1966,13 @@
                         `;
                         list.appendChild(row);
                     });
+                }
+
+                window.filterUserList = renderUserList;
+
+                db.collection('users').onSnapshot((snap) => {
+                    allUserDocs = snap.docs;
+                    renderUserList();
                 });
             }
 
