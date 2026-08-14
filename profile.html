@@ -276,6 +276,37 @@
             color: #fff;
         }
 
+        .ban-btn {
+            background: rgba(255, 80, 80, 0.2);
+            border: 1px solid rgba(255, 80, 80, 0.5);
+            color: #ff6b6b;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.78em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ban-btn:hover {
+            background: rgba(255, 80, 80, 0.4);
+        }
+
+        .ban-btn.banned {
+            background: rgba(80, 200, 120, 0.2);
+            border-color: rgba(80, 200, 120, 0.5);
+            color: #4fd98a;
+        }
+
+        .ban-btn.banned:hover {
+            background: rgba(80, 200, 120, 0.4);
+        }
+
+        .ul-banned {
+            color: #ff6b6b;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
         .uid {
             background: rgba(255, 255, 255, 0.1);
             padding: 4px 12px;
@@ -602,6 +633,11 @@
                 if (!snap.exists) return;
                 const user = snap.data();
 
+                if (user.banned === true) {
+                    firebase.auth().signOut().then(() => { window.location.href = 'register.html?banned=1'; });
+                    return;
+                }
+
                 if (user.username.toLowerCase() === 'nefq' && user.role !== 'Owner') {
                     db.collection('users').doc(currentUid).update({ role: 'Owner' });
                 }
@@ -670,6 +706,7 @@
                 snap.forEach((doc) => {
                     const u = doc.data();
                     const role = u.role || 'Пользователь';
+                    const banned = u.banned === true;
                     const row = document.createElement('div');
                     row.className = 'user-list-row';
 
@@ -681,9 +718,15 @@
                                <option value="Модератор" ${role === 'Модератор' ? 'selected' : ''}>Модератор</option>
                            </select>`;
 
+                    const banBtn = isSelfNefq
+                        ? ''
+                        : `<button class="ban-btn ${banned ? 'banned' : ''}" onclick="toggleProfileBan('${doc.id}', ${banned})">${banned ? 'Разбанить' : 'Забанить'}</button>`;
+
                     row.innerHTML = `
                         <span class="ul-name">${escapeHtmlProfile(u.username)}</span>
+                        ${banned ? '<span class="ul-banned">[бан]</span>' : ''}
                         ${roleControl}
+                        ${banBtn}
                         <span class="ul-date">${escapeHtmlProfile(u.regDate || '')}</span>
                     `;
                     list.appendChild(row);
@@ -696,6 +739,14 @@
                 showToast('Роль изменена: ' + role);
             }).catch(() => {
                 showToast('Ошибка смены роли');
+            });
+        }
+
+        function toggleProfileBan(docId, banned) {
+            db.collection('users').doc(docId).update({ banned: !banned }).then(() => {
+                showToast(banned ? 'Пользователь разбанен' : 'Пользователь забанен');
+            }).catch(() => {
+                showToast('Ошибка бана');
             });
         }
 

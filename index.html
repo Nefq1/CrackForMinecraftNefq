@@ -929,6 +929,37 @@
             color: #fff;
         }
 
+        .ban-btn {
+            background: rgba(255, 80, 80, 0.2);
+            border: 1px solid rgba(255, 80, 80, 0.5);
+            color: #ff6b6b;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.75em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ban-btn:hover {
+            background: rgba(255, 80, 80, 0.4);
+        }
+
+        .ban-btn.banned {
+            background: rgba(80, 200, 120, 0.2);
+            border-color: rgba(80, 200, 120, 0.5);
+            color: #4fd98a;
+        }
+
+        .ban-btn.banned:hover {
+            background: rgba(80, 200, 120, 0.4);
+        }
+
+        .ul-banned {
+            color: #ff6b6b;
+            font-size: 0.72em;
+            font-weight: 600;
+        }
+
         .chat-widget.collapsed .chat-body {
             display: none;
         }
@@ -1723,6 +1754,7 @@
 
             const chatUserRoles = {};
             const chatUserAvatars = {};
+            const chatUserBanned = {};
             function getRoleColor(role) {
                 if (role === 'Owner') return '#ffd700';
                 if (role === 'Модератор') return '#64c8ff';
@@ -1735,7 +1767,12 @@
                     const key = (d.username || '').toLowerCase();
                     chatUserRoles[key] = d.role || 'Пользователь';
                     chatUserAvatars[key] = d.avatar || '';
+                    chatUserBanned[key] = d.banned === true;
                 });
+                if (chatUserBanned[chatUsername]) {
+                    firebase.auth().signOut().then(() => { window.location.href = 'register.html?banned=1'; });
+                    return;
+                }
                 document.querySelectorAll('#chatMessages .chat-msg-name').forEach((el) => {
                     const name = el.textContent;
                     el.style.color = getRoleColor(chatUserRoles[name] || 'Пользователь');
@@ -1757,6 +1794,10 @@
                 db.collection('users').doc(docId).update({ role: role });
             }
 
+            function toggleSiteBan(docId, banned) {
+                db.collection('users').doc(docId).update({ banned: !banned });
+            }
+
             if (isNefq) {
                 document.getElementById('userListWidget').style.display = 'flex';
                 db.collection('users').onSnapshot((snap) => {
@@ -1770,6 +1811,7 @@
                         const u = doc.data();
                         const role = u.role || 'Пользователь';
                         const isSelf = u.username.toLowerCase() === 'nefq';
+                        const banned = u.banned === true;
                         const row = document.createElement('div');
                         row.className = 'ul-row';
 
@@ -1780,9 +1822,15 @@
                                    <option value="Модератор" ${role === 'Модератор' ? 'selected' : ''}>Модератор</option>
                                </select>`;
 
+                        const banBtn = isSelf
+                            ? ''
+                            : `<button class="ban-btn ${banned ? 'banned' : ''}" onclick="toggleSiteBan('${doc.id}', ${banned})">${banned ? 'Разбанить' : 'Забанить'}</button>`;
+
                         row.innerHTML = `
                             <span class="ul-name">${escapeHtmlSite(u.username)}</span>
+                            ${banned ? '<span class="ul-banned">[бан]</span>' : ''}
                             ${control}
+                            ${banBtn}
                         `;
                         list.appendChild(row);
                     });
@@ -1813,6 +1861,7 @@
             }
 
             async function sendChatMessage() {
+                if (chatUserBanned[chatUsername]) return;
                 const input = document.getElementById('chatInput');
                 const text = input.value.trim();
                 if (!text) return;
@@ -1932,6 +1981,7 @@
             window.showChatMenu = showChatMenu;
             window.chatMenuDelete = chatMenuDelete;
             window.changeSiteUserRole = changeSiteUserRole;
+            window.toggleSiteBan = toggleSiteBan;
         }
     </script>
 </body>
