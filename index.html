@@ -2017,7 +2017,7 @@
                         text: text,
                         time: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    await firebase.firestore().collection('rateLimits').doc(chatUsername).set({
+                    await firebase.firestore().collection('rateLimits').doc(currentUid).set({
                         nextAllowed: firebase.firestore.Timestamp.now().toMillis() + 2700
                     });
                 } catch (e) {
