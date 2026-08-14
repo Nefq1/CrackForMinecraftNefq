@@ -1793,6 +1793,7 @@
                     return;
                 }
                 localStorage.setItem('lastChatMsg', now);
+                input.value = '';
 
                 try {
                     await chatCollection.add({
@@ -1803,7 +1804,6 @@
                     await firebase.firestore().collection('rateLimits').doc(chatUsername).set({
                         nextAllowed: firebase.firestore.Timestamp.now().toMillis() + 2500
                     });
-                    input.value = '';
                 } catch (e) {
                     input.placeholder = 'Анти-флуд: подожди 2 секунды';
                     setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2000);
