@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MinecraftCheatsBYNefq</title>
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link rel="preconnect" href="https://firestore.googleapis.com">
     <style>
         * {
             margin: 0;
@@ -310,7 +312,8 @@
 
         .updates-list {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             gap: 14px;
         }
 
@@ -320,8 +323,10 @@
             border-radius: 12px;
             padding: 16px 18px;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex-direction: row;
+            align-items: baseline;
+            gap: 12px;
+            flex: 1 1 280px;
             transition: all 0.3s ease;
         }
 
@@ -335,6 +340,8 @@
             font-size: 0.8em;
             font-weight: 600;
             letter-spacing: 0.5px;
+            flex: 0 0 auto;
+            white-space: nowrap;
         }
 
         .update-text {
@@ -1263,7 +1270,7 @@
         <div class="footer">
             <div class="footer-author">
                 <span class="footer-text">BY: Nefq</span>
-                <span class="footer-beta">Бета-Версия</span>
+                <span class="footer-beta">Release v1.0</span>
             </div>
             <a href="https://www.youtube.com/@Nefq2" class="youtube-btn" target="_blank">YouTube</a>
             <a href="https://t.me/TheNefq" class="telegram-btn" target="_blank">Telegram</a>
@@ -1423,15 +1430,15 @@
                 list.innerHTML = `
                     <div style="grid-column: 1 / -1; display: flex; flex-direction: row; flex-wrap: wrap; gap: 30px; padding: 40px 0;">
                         <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 15px;">
-                            <img src="rp.png" alt="RP Mod" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
+                            <img src="rp.png" alt="RP Mod" loading="lazy" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
                             <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/f.l.CTPAXAHET.zip" class="download-btn" target="_blank" style="padding: 12px 30px; font-size: 1em;">${t.download}</a>
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 15px;">
-                            <img src="rp2.png" alt="RP Mod 2" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
+                            <img src="rp2.png" alt="RP Mod 2" loading="lazy" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
                             <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/34678.zip" class="download-btn" target="_blank" style="padding: 12px 30px; font-size: 1em;">${t.download}</a>
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 15px;">
-                            <img src="rp3.png" alt="RP Mod 3" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
+                            <img src="rp3.png" alt="RP Mod 3" loading="lazy" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
                         </div>
                     </div>
                 `;
@@ -1441,6 +1448,10 @@
                 document.getElementById('noResults').style.display = 'none';
                 list.innerHTML = `
                     <div class="updates-list">
+                        <div class="update-card">
+                            <div class="update-date">14.08.2026</div>
+                            <div class="update-text">Релиз v1.0! Загружены все клиенты (Delta, Expensive, Rockstar, Monoton, Monoware, Catlavan, Minced, Wild, SkyCore, Zenith, f.l.CTPAXAHET) и Рпшники. Добавлена защита аккаунтов (Firebase Auth), серверный анти-флуд и ограничения: ник до 20 символов, сообщение до 300.</div>
+                        </div>
                         <div class="update-card">
                             <div class="update-date">13.08.2026</div>
                             <div class="update-text">Добавлен чат между пользователями в реальном времени. Теперь можно общаться прямо на сайте!</div>
@@ -1560,7 +1571,7 @@
                 rp: 'Рпшники',
                 soon: 'Скоро...',
                 download: 'Скачать',
-                beta: 'Бета-Версия'
+                beta: 'Release v1.0'
             },
             en: {
                 title: 'Minecraft Cheats',
@@ -1568,7 +1579,7 @@
                 rp: 'RP Mods',
                 soon: 'Coming Soon...',
                 download: 'Download',
-                beta: 'Beta-Version'
+                beta: 'Release v1.0'
             },
             kk: {
                 title: 'Майнкрафт Читтері',
@@ -1576,7 +1587,7 @@
                 rp: 'РП модтары',
                 soon: 'Жақында...',
                 download: 'Жүктеу',
-                beta: 'Бета-Нұсқа'
+                beta: 'Release v1.0'
             }
         };
 
