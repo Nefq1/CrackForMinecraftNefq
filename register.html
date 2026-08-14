@@ -322,7 +322,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check-compat.js"></script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAs0gO57MKXaPqUZS-8eid3T6HBuguXpRs",
@@ -335,13 +334,6 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        if (firebase.appCheck) {
-            const appCheck = firebase.appCheck();
-            appCheck.activate(
-                new firebase.appCheck.RecaptchaV3Provider('6LeRvoUtAAAAAFBrlGD--VFXp4d4MIhQUKHDdwPe'),
-                true
-            );
-        }
 
         function getDeviceId() {
             let id = localStorage.getItem('deviceId');
