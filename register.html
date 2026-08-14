@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать аккаунт - MinecraftCheatsBYNefq</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .register-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .register-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .register-header h1 {
+            font-size: 2em;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+        }
+
+        .register-subtitle {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95em;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #fff;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+            margin-top: 10px;
+        }
+
+        .register-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.85em;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .success-message {
+            color: #51cf66;
+            font-size: 0.85em;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9em;
+        }
+
+        .toggle-form a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .toggle-form a:hover {
+            opacity: 0.8;
+        }
+
+        #loginForm {
+            display: none;
+        }
+
+        @keyframes formFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-animate {
+            animation: formFadeIn 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="register-container">
+        <div class="register-header">
+            <h1 id="formTitle">Создать аккаунт</h1>
+            <a href="index.html" class="back-btn">&lt; На главную</a>
+        </div>
+        <p class="register-subtitle" id="formSubtitle">Заполните форму, чтобы присоединиться к нам.</p>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label>Имя пользователя</label>
+                <input type="text" id="username" placeholder="Введите имя пользователя" maxlength="20" required>
+            </div>
+
+            <div class="form-group">
+                <label>Пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Введите пароль" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('password')">&#128065;</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Повторите пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmPassword" placeholder="Повторите пароль" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">&#128065;</button>
+                </div>
+            </div>
+
+            <div class="error-message" id="errorMsg"></div>
+            <div class="success-message" id="successMsg"></div>
+
+            <button type="submit" class="register-btn">Создать аккаунт</button>
+        </form>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Имя пользователя</label>
+                <input type="text" id="loginUsername" placeholder="Введите имя пользователя" required>
+            </div>
+
+            <div class="form-group">
+                <label>Пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="loginPassword" placeholder="Введите пароль" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">&#128065;</button>
+                </div>
+            </div>
+
+            <div class="error-message" id="loginErrorMsg"></div>
+
+            <button type="submit" class="register-btn">Войти</button>
+        </form>
+
+        <div class="toggle-form">
+            <span id="toggleText">Уже есть аккаунт? <a href="#" onclick="showLogin()">Войти</a></span>
+        </div>
+        <div class="toggle-form" style="display:none;" id="registerToggle">
+            <span>Нет аккаунта? <a href="#" onclick="showRegister()">Создать</a></span>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAs0gO57MKXaPqUZS-8eid3T6HBuguXpRs",
+            authDomain: "crackforminecraftnefq.firebaseapp.com",
+            projectId: "crackforminecraftnefq",
+            storageBucket: "crackforminecraftnefq.firebasestorage.app",
+            messagingSenderId: "203343669542",
+            appId: "1:203343669542:web:2bb33fb9d7caa7f54579e7",
+            measurementId: "G-BCYM03LE00"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function userDocId(name) {
+            return name.trim().toLowerCase();
+        }
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                star.style.animationDuration = `${2 + Math.random() * 3}s`;
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function getNextUID() {
+            let lastUID = parseInt(localStorage.getItem('lastUID') || '0');
+            lastUID++;
+            localStorage.setItem('lastUID', lastUID.toString());
+            return lastUID;
+        }
+
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field.type === 'password') {
+                field.type = 'text';
+            } else {
+                field.type = 'password';
+            }
+        }
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (username.length < 3) {
+                errorMsg.textContent = 'Имя пользователя должно быть не менее 3 символов';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (username.length > 20) {
+                errorMsg.textContent = 'Имя пользователя не должно превышать 20 символов';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (password.length < 6) {
+                errorMsg.textContent = 'Пароль должен быть не менее 6 символов';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMsg.textContent = 'Пароли не совпадают';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            const email = username.toLowerCase() + '@nefq.site';
+
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((cred) => {
+                    const uid = cred.user.uid;
+                    return db.collection('users').doc(uid).set({
+                        username: username,
+                        uid: uid,
+                        role: username.toLowerCase() === 'nefq' ? 'Owner' : 'Пользователь',
+                        regDate: new Date().toLocaleDateString('ru-RU'),
+                        lastVisit: new Date().toLocaleString('ru-RU'),
+                        prevVisit: null,
+                        avatar: null
+                    }).then(() => uid);
+                })
+                .then((uid) => {
+                    localStorage.setItem('currentUser', username);
+                    localStorage.setItem('currentUid', uid);
+                    successMsg.textContent = 'Аккаунт успешно создан!';
+                    successMsg.style.display = 'block';
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                })
+                .catch((err) => {
+                    errorMsg.textContent = 'Ошибка: ' + (err.message || err.code);
+                    errorMsg.style.display = 'block';
+                });
+        });
+
+        function showLogin() {
+            const reg = document.getElementById('registerForm');
+            const log = document.getElementById('loginForm');
+            reg.style.display = 'none';
+            log.style.display = 'block';
+            log.classList.remove('form-animate');
+            void log.offsetWidth;
+            log.classList.add('form-animate');
+            document.getElementById('formTitle').textContent = 'Войти в аккаунт';
+            document.getElementById('formSubtitle').textContent = 'Войдите, чтобы получить доступ.';
+            document.getElementById('toggleText').style.display = 'none';
+            document.getElementById('registerToggle').style.display = 'block';
+        }
+
+        function showRegister() {
+            const reg = document.getElementById('registerForm');
+            const log = document.getElementById('loginForm');
+            reg.style.display = 'block';
+            log.style.display = 'none';
+            reg.classList.remove('form-animate');
+            void reg.offsetWidth;
+            reg.classList.add('form-animate');
+            document.getElementById('formTitle').textContent = 'Создать аккаунт';
+            document.getElementById('formSubtitle').textContent = 'Заполните форму, чтобы присоединиться к нам.';
+            document.getElementById('toggleText').style.display = 'block';
+            document.getElementById('registerToggle').style.display = 'none';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorMsg = document.getElementById('loginErrorMsg');
+
+            errorMsg.style.display = 'none';
+
+            const email = username.toLowerCase() + '@nefq.site';
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((cred) => {
+                    return db.collection('users').doc(cred.user.uid).get();
+                })
+                .then((snap) => {
+                    if (!snap.exists) {
+                        errorMsg.textContent = 'Аккаунт не найден';
+                        errorMsg.style.display = 'block';
+                        return;
+                    }
+                    const u = snap.data();
+                    db.collection('users').doc(snap.id).update({
+                        prevVisit: u.lastVisit || null,
+                        lastVisit: new Date().toLocaleString('ru-RU')
+                    });
+                    localStorage.setItem('currentUser', u.username);
+                    localStorage.setItem('currentUid', snap.id);
+                    window.location.href = 'index.html';
+                })
+                .catch((err) => {
+                    errorMsg.textContent = 'Неверное имя пользователя или пароль';
+                    errorMsg.style.display = 'block';
+                });
+        });
+
+        createStars();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinecraftCheatsBYNefq</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .cursor-glow {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: screen;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-glow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 4em;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7),
+                         0 0 40px rgba(255, 255, 255, 0.5),
+                         0 0 60px rgba(255, 255, 255, 0.3);
+            letter-spacing: 4px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7),
+                             0 0 40px rgba(255, 255, 255, 0.5),
+                             0 0 60px rgba(255, 255, 255, 0.3);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.9),
+                             0 0 50px rgba(255, 255, 255, 0.7),
+                             0 0 80px rgba(255, 255, 255, 0.5),
+                             0 0 100px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tabs-container {
+            display: flex;
+            background: rgba(100, 100, 100, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 8px;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .tab {
+            padding: 12px 30px;
+            background: transparent;
+            border: none;
+            border-radius: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .tab.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .tab-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .tab-content h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .tab-content.animate {
+            animation: tabFadeIn 0.5s cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        @keyframes tabFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .cheat-card {
+            background: rgba(25, 25, 25, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .cheat-card:hover {
+            background: rgba(35, 35, 35, 0.95);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .cheat-name {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .cheat-card:hover .cheat-name {
+            color: #fff;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 8px 18px;
+            background: rgba(50, 50, 50, 0.8);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+            white-space: nowrap;
+        }
+
+        .download-btn:hover {
+            background: rgba(70, 70, 70, 0.9);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95em;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .no-results {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.1em;
+            text-align: center;
+            padding: 40px 0;
+            display: none;
+        }
+
+        .updates-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .update-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .update-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .update-date {
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .update-text {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            background: rgba(60, 60, 60, 0.8);
+            color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tag-cheats { background: rgba(50, 50, 50, 0.9); color: #bbb; }
+        .tag-rp { background: rgba(255, 255, 255, 0.15); color: #ccc; }
+        .tag-config { background: rgba(255, 255, 255, 0.15); color: #ccc; }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+            padding: 20px 0;
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-author {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .footer-beta {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85em;
+            letter-spacing: 1px;
+        }
+
+        .verified {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(80, 200, 120, 0.15);
+            border: 1px solid rgba(80, 200, 120, 0.4);
+            border-radius: 20px;
+        }
+
+        .verified-icon {
+            color: #50c878;
+            font-size: 1em;
+            font-weight: 700;
+        }
+
+        .verified-text {
+            color: #50c878;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .verified-bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 30px;
+            padding: 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .advantages {
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .advantages-title {
+            color: #fff;
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .advantage-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .advantage-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .advantage-icon {
+            color: #50c878;
+            font-size: 1.4em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .advantage-text {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9em;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 900px) {
+            .advantages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .advantages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .image-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            cursor: zoom-out;
+        }
+
+        .image-lightbox.active {
+            display: flex;
+        }
+
+        .image-lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .youtube-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff4444;
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        .youtube-btn:hover {
+            background: rgba(255, 0, 0, 0.4);
+            border-color: #ff4444;
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .telegram-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(0, 136, 204, 0.2);
+            color: #00aaff;
+            border: 1px solid rgba(0, 136, 204, 0.5);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        .telegram-btn:hover {
+            background: rgba(0, 136, 204, 0.4);
+            border-color: #00aaff;
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+            backdrop-filter: blur(5px);
+            white-space: nowrap;
+        }
+
+        .support-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: rgba(255, 80, 80, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 80, 80, 0.5);
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 80, 80, 0.4);
+            border-color: #ff6b6b;
+            box-shadow: 0 0 15px rgba(255, 80, 80, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .top-actions {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 18px;
+            background: rgba(50, 50, 50, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+            user-select: none;
+        }
+
+        .profile:hover {
+            background: rgba(70, 70, 70, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.9em;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .profile-name {
+            color: #fff;
+            font-size: 0.9em;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .role-badge {
+            display: inline-block;
+            font-size: 0.7em;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 8px;
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-role {
+            display: inline-block;
+            align-self: flex-start;
+            font-size: 0.62em;
+            font-weight: 600;
+            padding: 1px 7px;
+            border-radius: 8px;
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .role-owner {
+            color: #111;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .role-moderator {
+            color: #fff;
+            background: rgba(100, 200, 255, 0.25);
+            border: 1px solid rgba(100, 200, 255, 0.6);
+        }
+
+        .role-пользователь,
+        .role-user {
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .profile-date {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.7em;
+        }
+
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .lang-switcher {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(50, 50, 50, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+            user-select: none;
+        }
+
+        .lang-switcher:hover {
+            background: rgba(70, 70, 70, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .lang-switcher svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 140px;
+            z-index: 100;
+            background: rgba(50, 50, 50, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        .lang-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .lang-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .lang-option.selected {
+            color: #fff;
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 340px;
+            max-height: 70vh;
+            background: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .userlist-widget {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            max-height: 70vh;
+            background: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .userlist-widget.collapsed .userlist-body {
+            display: none;
+        }
+
+        .userlist-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(30, 30, 30, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .userlist-header-icon {
+            font-size: 1.1em;
+        }
+
+        .userlist-header-title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            flex: 1;
+        }
+
+        .userlist-header-toggle {
+            color: rgba(255, 255, 255, 0.6);
+            transition: transform 0.3s;
+        }
+
+        .userlist-widget.collapsed .userlist-header-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .userlist-body {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .userlist-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px;
+        }
+
+        .ul-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .ul-name {
+            color: #fff;
+            font-size: 0.85em;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .role-select {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 4px 8px;
+            font-size: 0.78em;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .role-select option {
+            background: #111;
+            color: #fff;
+        }
+
+        .chat-widget.collapsed .chat-body {
+            display: none;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(30, 30, 30, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .chat-header-icon {
+            font-size: 1.1em;
+        }
+
+        .chat-header-title {
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9em;
+            flex: 1;
+            letter-spacing: 1px;
+        }
+
+        .chat-header-toggle {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-clear-btn {
+            background: rgba(255, 80, 80, 0.2);
+            border: 1px solid rgba(255, 80, 80, 0.5);
+            color: #ff6b6b;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.75em;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .chat-clear-btn:hover {
+            background: rgba(255, 80, 80, 0.4);
+        }
+
+        .chat-widget.collapsed .chat-header-toggle {
+            transform: rotate(180deg);
+        }
+
+        .chat-body {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 50vh;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .chat-msg {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .chat-msg-name {
+            color: #64c8ff;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .chat-msg-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .chat-msg-delete {
+            background: rgba(255, 80, 80, 0.2);
+            border: 1px solid rgba(255, 80, 80, 0.5);
+            color: #ff6b6b;
+            border-radius: 6px;
+            width: 22px;
+            height: 22px;
+            font-size: 0.8em;
+            line-height: 1;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .chat-msg-delete:hover {
+            background: rgba(255, 80, 80, 0.4);
+        }
+
+        .chat-context-menu {
+            position: fixed;
+            background: rgba(40, 40, 40, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 4px;
+            z-index: 2000;
+            display: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-context-menu button {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            padding: 8px 18px;
+            cursor: pointer;
+            font-size: 0.85em;
+            width: 100%;
+            text-align: left;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .chat-context-menu button:hover {
+            background: rgba(255, 80, 80, 0.2);
+        }
+
+        .chat-msg-text {
+            color: #111;
+            font-size: 0.85em;
+            line-height: 1.4;
+            word-wrap: break-word;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            width: fit-content;
+            max-width: 100%;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-input-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(30, 30, 30, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 0.85em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-send-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(100, 200, 255, 0.2);
+            border: 1px solid rgba(100, 200, 255, 0.4);
+            border-radius: 50%;
+            color: #64c8ff;
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .chat-send-btn:hover {
+            background: rgba(100, 200, 255, 0.35);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .chat-widget {
+                width: calc(100% - 20px);
+                right: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAs0gO57MKXaPqUZS-8eid3T6HBuguXpRs",
+            authDomain: "crackforminecraftnefq.firebaseapp.com",
+            projectId: "crackforminecraftnefq",
+            storageBucket: "crackforminecraftnefq.firebasestorage.app",
+            messagingSenderId: "203343669542",
+            appId: "1:203343669542:web:2bb33fb9d7caa7f54579e7",
+            measurementId: "G-BCYM03LE00"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function userDocId(name) {
+            return name.trim().toLowerCase();
+        }
+    </script>
+    <div class="stars" id="stars"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <div class="container">
+        <div class="profile" id="profile" onclick="window.location.href='profile.html'">
+            <div class="profile-avatar" id="profileAvatar"></div>
+            <div class="profile-info">
+                <span class="profile-name" id="profileName"></span>
+                <span class="profile-role" id="profileRole"></span>
+                <span class="profile-date" id="profileDate"></span>
+            </div>
+        </div>
+
+        <div class="top-actions">
+            <div class="lang-switcher" id="langSwitcher" onclick="toggleLangDropdown()">
+                <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+                <span id="langText">Русский</span>
+                <div class="lang-dropdown" id="langDropdown">
+                    <div class="lang-option selected" onclick="changeLang('ru')">
+                        <span>Русский</span>
+                    </div>
+                    <div class="lang-option" onclick="changeLang('en')">
+                        <span>English</span>
+                    </div>
+                    <div class="lang-option" onclick="changeLang('kk')">
+                        <span>Қазақша</span>
+                    </div>
+                </div>
+            </div>
+            <a href="https://t.me/Nefqqq" class="support-btn" target="_blank">Support</a>
+            <button class="logout-btn" onclick="logout()">Выйти</button>
+        </div>
+
+        <div class="header">
+            <h1 data-ru="Майнкрафт Читы" data-en="Minecraft Cheats">Майнкрафт Читы</h1>
+        </div>
+
+        <div class="tabs">
+            <div class="tabs-container">
+                <div class="tab active" onclick="switchTab('cheats')">Читы</div>
+                <div class="tab" onclick="switchTab('rp')">Рпшники</div>
+                <div class="tab" onclick="switchTab('updates')">Обновления</div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <h2 id="tab-title">Читы</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Поиск клиента..." oninput="applySearch()">
+            </div>
+            <div class="content-grid" id="content-list">
+                <div class="cheat-card">
+                    <div class="cheat-name">Delta<span class="category-tag tag-cheats">1.16.5</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Delta-cracked.zip" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">Delta<span class="category-tag tag-cheats">1.21.4</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Delta.1.21.4.rar" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">Expensive<span class="category-tag tag-cheats">1.21.11</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Expensive.rar" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">Rokstar<span class="category-tag tag-cheats">1.21.4</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Rockstar-cracked.zip" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">Monoton<span class="category-tag tag-cheats">1.16.5</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Monoton-cracked.rar" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">Monoware<span class="category-tag tag-cheats">1.21.4</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Monoware.rar" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">Catlavan<span class="category-tag tag-cheats">1.16.5</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Catlavan.zip" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Minced<span class="category-tag tag-cheats">1.21.4</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Minced.rar" class="download-btn" target="_blank" download>Скачать</a>
+                    </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">Wild<span class="category-tag tag-cheats">1.21.8</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Wild.rar" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">SkyCore<span class="category-tag tag-cheats">1.21.4</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/SkyCore.zip" class="download-btn" target="_blank">Скачать</a>
+                </div>
+                <div class="cheat-card">
+                    <div class="cheat-name">ZenithDLC<span class="category-tag tag-cheats">1.21.4</span></div>
+                    <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/ZenithDLC.rar" class="download-btn" target="_blank">Скачать</a>
+                </div>
+            </div>
+            <div class="no-results" id="noResults">Ничего не найдено</div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-author">
+                <span class="footer-text">BY: Nefq</span>
+                <span class="footer-beta">Бета-Версия</span>
+            </div>
+            <a href="https://www.youtube.com/@Nefq2" class="youtube-btn" target="_blank">YouTube</a>
+            <a href="https://t.me/TheNefq" class="telegram-btn" target="_blank">Telegram</a>
+        </div>
+
+        <div class="verified-bottom">
+            <span class="verified-icon">&#10003;</span>
+            <span class="verified-text">Проверено</span>
+        </div>
+
+        <div class="advantages">
+            <h3 class="advantages-title">Наши преимущества</h3>
+            <div class="advantages-grid">
+                <div class="advantage-card">
+                    <span class="advantage-icon">&#10003;</span>
+                    <span class="advantage-text">Все читы проверены вручную и не содержат вирусов</span>
+                </div>
+                <div class="advantage-card">
+                    <span class="advantage-icon">&#10003;</span>
+                    <span class="advantage-text">Быстрое скачивание без ожидания и лимитов</span>
+                </div>
+                <div class="advantage-card">
+                    <span class="advantage-icon">&#10003;</span>
+                    <span class="advantage-text">Полностью бесплатно для каждого игрока</span>
+                </div>
+                <div class="advantage-card">
+                    <span class="advantage-icon">&#10003;</span>
+                    <span class="advantage-text">Простой и понятный интерфейс без лишнего</span>
+                </div>
+                <div class="advantage-card">
+                    <span class="advantage-icon">&#10003;</span>
+                    <span class="advantage-text">Оперативная поддержка в Telegram</span>
+                </div>
+                <div class="advantage-card">
+                    <span class="advantage-icon">&#10003;</span>
+                    <span class="advantage-text">Удобный поиск поможет быстро найти нужный вам клиент</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-lightbox" id="imageLightbox" onclick="closeImage()">
+        <img src="" alt="Full size" id="lightboxImg">
+    </div>
+
+    <script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+
+                star.style.animationDelay = `${Math.random() * 4}s`;
+                star.style.animationDuration = `${2 + Math.random() * 3}s`;
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function initCursorGlow() {
+            const glow = document.getElementById('cursorGlow');
+            let mouseX = 0;
+            let mouseY = 0;
+            let isMoving = false;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                if (!isMoving) {
+                    isMoving = true;
+                    requestAnimationFrame(function update() {
+                        glow.style.left = mouseX + 'px';
+                        glow.style.top = mouseY + 'px';
+                        isMoving = false;
+                    });
+                }
+            });
+        }
+
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+
+            event.target.classList.add('active');
+
+            const title = document.getElementById('tab-title');
+            const list = document.getElementById('content-list');
+            const tabContent = document.querySelector('.tab-content');
+            const t = translations[currentLang];
+
+            tabContent.classList.remove('animate');
+            void tabContent.offsetWidth;
+            tabContent.classList.add('animate');
+
+            if (tab === 'cheats') {
+                title.textContent = t.title;
+                document.getElementById('searchInput').style.display = '';
+                list.innerHTML = `
+                    <div class="cheat-card">
+                        <div class="cheat-name">Delta<span class="category-tag tag-cheats">1.16.5</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Delta-cracked.zip" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Delta<span class="category-tag tag-cheats">1.21.4</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Delta.1.21.4.rar" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Expensive<span class="category-tag tag-cheats">1.21.11</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Expensive.rar" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Rokstar<span class="category-tag tag-cheats">1.21.4</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Rockstar-cracked.zip" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Monoton<span class="category-tag tag-cheats">1.16.5</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Monoton-cracked.rar" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Monoware<span class="category-tag tag-cheats">1.21.4</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Monoware.rar" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Catlavan<span class="category-tag tag-cheats">1.16.5</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Catlavan.zip" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Minced<span class="category-tag tag-cheats">1.21.4</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Minced.rar" class="download-btn" target="_blank" download>${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">Wild<span class="category-tag tag-cheats">1.21.8</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/Wild.rar" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">SkyCore<span class="category-tag tag-cheats">1.21.4</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/SkyCore.zip" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                    <div class="cheat-card">
+                        <div class="cheat-name">ZenithDLC<span class="category-tag tag-cheats">1.21.4</span></div>
+                        <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/ZenithDLC.rar" class="download-btn" target="_blank">${t.download}</a>
+                    </div>
+                `;
+            } else if (tab === 'rp') {
+                title.textContent = currentLang === 'kk' ? 'РП модтары' : (currentLang === 'ru' ? 'Рпшники' : 'RP Mods');
+                document.getElementById('searchInput').style.display = 'none';
+                document.getElementById('noResults').style.display = 'none';
+                list.innerHTML = `
+                    <div style="grid-column: 1 / -1; display: flex; flex-direction: row; flex-wrap: wrap; gap: 30px; padding: 40px 0;">
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 15px;">
+                            <img src="rp.png" alt="RP Mod" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
+                            <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/f.l.CTPAXAHET.zip" class="download-btn" target="_blank" style="padding: 12px 30px; font-size: 1em;">${t.download}</a>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 15px;">
+                            <img src="rp2.png" alt="RP Mod 2" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
+                            <a href="https://github.com/Nefq1/CrackForMinecraftNefq/releases/download/v1.0/34678.zip" class="download-btn" target="_blank" style="padding: 12px 30px; font-size: 1em;">${t.download}</a>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 15px;">
+                            <img src="rp3.png" alt="RP Mod 3" onclick="openImage(this.src)" style="max-width: 320px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: pointer;">
+                        </div>
+                    </div>
+                `;
+            } else if (tab === 'updates') {
+                title.textContent = currentLang === 'kk' ? 'Жаңартулар' : (currentLang === 'ru' ? 'Обновления' : 'Updates');
+                document.getElementById('searchInput').style.display = 'none';
+                document.getElementById('noResults').style.display = 'none';
+                list.innerHTML = `
+                    <div class="updates-list">
+                        <div class="update-card">
+                            <div class="update-date">13.08.2026</div>
+                            <div class="update-text">Добавлен чат между пользователями в реальном времени. Теперь можно общаться прямо на сайте!</div>
+                        </div>
+                        <div class="update-card">
+                            <div class="update-date">12.08.2026</div>
+                            <div class="update-text">Добавлен поиск по клиентам во вкладке «Читы».</div>
+                        </div>
+                        <div class="update-card">
+                            <div class="update-date">11.08.2026</div>
+                            <div class="update-text">Сайт запущен. Добавлены первые читы и раздел Рпшники.</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (tab === 'cheats') {
+                applySearch();
+            }
+        }
+
+        function applySearch() {
+            const searchInput = document.getElementById('searchInput');
+            const noResults = document.getElementById('noResults');
+            const q = (searchInput.value || '').toLowerCase().trim();
+            const cards = document.querySelectorAll('#content-list .cheat-card');
+
+            let visible = 0;
+            cards.forEach(card => {
+                const nameEl = card.querySelector('.cheat-name');
+                const name = (nameEl && nameEl.childNodes[0] ? nameEl.childNodes[0].textContent : card.textContent).toLowerCase();
+                const match = name.includes(q);
+                card.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+
+            noResults.style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        function logout() {
+            if (firebase.auth().currentUser) {
+                firebase.auth().signOut().catch(() => {});
+            }
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('currentUid');
+            window.location.href = 'register.html';
+        }
+
+        let currentUsername = '';
+        let currentUid = '';
+
+        function loadProfile() {
+            if (!currentUid) {
+                window.location.href = 'register.html';
+                return;
+            }
+
+            db.collection('users').doc(currentUid).get().then((snap) => {
+                if (!snap.exists) {
+                    window.location.href = 'register.html';
+                    return;
+                }
+                const u = snap.data();
+                db.collection('users').doc(currentUid).update({
+                    prevVisit: u.lastVisit || null,
+                    lastVisit: new Date().toLocaleString('ru-RU')
+                });
+            });
+
+            db.collection('users').doc(currentUid).onSnapshot((snap) => {
+                if (!snap.exists) return;
+                const user = snap.data();
+
+                if (currentUsername.toLowerCase() === 'nefq' && user.role !== 'Owner') {
+                    db.collection('users').doc(currentUid).update({ role: 'Owner' });
+                }
+
+                document.getElementById('profileName').textContent = user.username;
+                const roleEl = document.getElementById('profileRole');
+                const role = user.role || 'Пользователь';
+                roleEl.textContent = role;
+                roleEl.className = 'profile-role role-' + role.toLowerCase();
+                document.getElementById('profileDate').textContent = user.regDate || '';
+
+                const avatar = document.getElementById('profileAvatar');
+                if (user.avatar) {
+                    avatar.innerHTML = `<img src="${user.avatar}" alt="Avatar">`;
+                } else {
+                    avatar.textContent = user.username.charAt(0).toUpperCase();
+                }
+            });
+        }
+
+        function initApp() {
+            firebase.auth().onAuthStateChanged((user) => {
+                if (!user) {
+                    window.location.href = 'register.html';
+                    return;
+                }
+                currentUid = user.uid;
+                currentUsername = user.email.split('@')[0];
+                localStorage.setItem('currentUser', currentUsername);
+                localStorage.setItem('currentUid', currentUid);
+                loadProfile();
+                if (typeof initChat === 'function') initChat(user);
+            });
+        }
+
+        createStars();
+        initCursorGlow();
+        initApp();
+
+        const translations = {
+            ru: {
+                title: 'Майнкрафт Читы',
+                cheats: 'Читы',
+                rp: 'Рпшники',
+                soon: 'Скоро...',
+                download: 'Скачать',
+                beta: 'Бета-Версия'
+            },
+            en: {
+                title: 'Minecraft Cheats',
+                cheats: 'Cheats',
+                rp: 'RP Mods',
+                soon: 'Coming Soon...',
+                download: 'Download',
+                beta: 'Beta-Version'
+            },
+            kk: {
+                title: 'Майнкрафт Читтері',
+                cheats: 'Читтер',
+                rp: 'РП модтары',
+                soon: 'Жақында...',
+                download: 'Жүктеу',
+                beta: 'Бета-Нұсқа'
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function toggleLangDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function changeLang(lang) {
+            currentLang = lang;
+            const langText = document.getElementById('langText');
+            const options = document.querySelectorAll('.lang-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+
+            if (lang === 'ru') {
+                langText.textContent = 'Русский';
+                options[0].classList.add('selected');
+            } else if (lang === 'en') {
+                langText.textContent = 'English';
+                options[1].classList.add('selected');
+            } else if (lang === 'kk') {
+                langText.textContent = 'Қазақша';
+                options[2].classList.add('selected');
+            }
+            document.getElementById('langDropdown').classList.remove('active');
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const t = translations[currentLang];
+
+            document.querySelector('h1').textContent = t.title;
+
+            const tabEls = document.querySelectorAll('.tab');
+            tabEls[0].textContent = currentLang === 'kk' ? 'Читтер' : (currentLang === 'ru' ? 'Читы' : 'Cheats');
+            if (tabEls[1]) tabEls[1].textContent = currentLang === 'kk' ? 'РП модтары' : (currentLang === 'ru' ? 'Рпшники' : 'RP Mods');
+            if (tabEls[2]) tabEls[2].textContent = currentLang === 'kk' ? 'Жаңартулар' : (currentLang === 'ru' ? 'Обновления' : 'Updates');
+
+            document.querySelector('.footer-beta').textContent = t.beta;
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.placeholder = currentLang === 'kk' ? 'Клиентті іздеу...' : (currentLang === 'ru' ? 'Поиск клиента...' : 'Search client...');
+            }
+
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.textContent = t.download;
+            });
+
+            applySearch();
+        }
+
+        document.addEventListener('click', (e) => {
+            const switcher = document.getElementById('langSwitcher');
+            const dropdown = document.getElementById('langDropdown');
+            if (!switcher.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        function openImage(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('imageLightbox').classList.add('active');
+        }
+
+        function closeImage() {
+            document.getElementById('imageLightbox').classList.remove('active');
+        }
+    </script>
+
+    <div class="chat-context-menu" id="chatContextMenu">
+        <button onclick="chatMenuDelete()">&#10005; Удалить</button>
+    </div>
+
+    <div class="userlist-widget collapsed" id="userListWidget" style="display:none;">
+        <div class="userlist-header" onclick="toggleUserList()">
+            <span class="userlist-header-icon">&#128101;</span>
+            <span class="userlist-header-title">ПОЛЬЗОВАТЕЛИ</span>
+            <span class="userlist-header-toggle">&#9662;</span>
+        </div>
+        <div class="userlist-body">
+            <div class="userlist-items" id="userListItems"></div>
+        </div>
+    </div>
+
+    <div class="chat-widget collapsed" id="chatWidget">
+        <div class="chat-header" onclick="toggleChat()">
+            <span class="chat-header-icon">&#128172;</span>
+            <span class="chat-header-title">ЧАТ</span>
+            <button class="chat-clear-btn" id="chatClearBtn" onclick="event.stopPropagation(); clearChat()" style="display:none;">Очистить</button>
+            <span class="chat-header-toggle">&#9662;</span>
+        </div>
+        <div class="chat-body">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Сообщение..." maxlength="300" onkeypress="handleChatKey(event)">
+                <button class="chat-send-btn" onclick="sendChatMessage()">&#10148;</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatCollection = db.collection('messages');
+
+        function initChat(user) {
+            const chatUsername = currentUsername || (user && user.email ? user.email.split('@')[0] : 'Гость');
+            const isNefq = chatUsername.toLowerCase() === 'nefq';
+
+            const chatUserRoles = {};
+            function getRoleColor(role) {
+                if (role === 'Owner') return '#ffd700';
+                if (role === 'Модератор') return '#64c8ff';
+                return 'rgba(255, 255, 255, 0.6)';
+            }
+
+            db.collection('users').onSnapshot((snap) => {
+                snap.forEach((doc) => {
+                    const d = doc.data();
+                    chatUserRoles[d.username] = d.role || 'Пользователь';
+                });
+                document.querySelectorAll('#chatMessages .chat-msg-name').forEach((el) => {
+                    const name = el.textContent;
+                    el.style.color = getRoleColor(chatUserRoles[name] || 'Пользователь');
+                });
+            });
+
+            function escapeHtmlSite(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function toggleUserList() {
+                const widget = document.getElementById('userListWidget');
+                widget.classList.toggle('collapsed');
+            }
+
+            function changeSiteUserRole(docId, role) {
+                db.collection('users').doc(docId).update({ role: role });
+            }
+
+            if (isNefq) {
+                document.getElementById('userListWidget').style.display = 'flex';
+                db.collection('users').onSnapshot((snap) => {
+                    const list = document.getElementById('userListItems');
+                    list.innerHTML = '';
+                    if (snap.empty) {
+                        list.innerHTML = '<div class="ul-date" style="color:rgba(255,255,255,0.4);font-size:0.8em;">Пользователей пока нет</div>';
+                        return;
+                    }
+                    snap.forEach((doc) => {
+                        const u = doc.data();
+                        const role = u.role || 'Пользователь';
+                        const isSelf = u.username.toLowerCase() === 'nefq';
+                        const row = document.createElement('div');
+                        row.className = 'ul-row';
+
+                        const control = isSelf
+                            ? `<span class="role-badge role-${role.toLowerCase()}">${escapeHtmlSite(role)}</span>`
+                            : `<select class="role-select" onchange="changeSiteUserRole('${doc.id}', this.value)">
+                                   <option value="Пользователь" ${role === 'Пользователь' ? 'selected' : ''}>Пользователь</option>
+                                   <option value="Модератор" ${role === 'Модератор' ? 'selected' : ''}>Модератор</option>
+                               </select>`;
+
+                        row.innerHTML = `
+                            <span class="ul-name">${escapeHtmlSite(u.username)}</span>
+                            ${control}
+                        `;
+                        list.appendChild(row);
+                    });
+                });
+            }
+
+            function toggleChat() {
+                const widget = document.getElementById('chatWidget');
+                widget.classList.toggle('collapsed');
+                if (!widget.classList.contains('collapsed')) {
+                    const box = document.getElementById('chatMessages');
+                    box.scrollTop = box.scrollHeight;
+                }
+            }
+
+            function handleChatKey(e) {
+                if (e.key === 'Enter') sendChatMessage();
+            }
+
+            function escapeHtmlChat(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            if (isNefq) {
+                document.getElementById('chatClearBtn').style.display = 'inline-block';
+            }
+
+            async function sendChatMessage() {
+                const input = document.getElementById('chatInput');
+                const text = input.value.trim();
+                if (!text) return;
+
+                if (text.length > 300) {
+                    input.value = text.slice(0, 300);
+                    return;
+                }
+
+                const now = Date.now();
+                const last = parseInt(localStorage.getItem('lastChatMsg') || '0');
+                if (now - last < 2000) {
+                    input.placeholder = 'Подожди 2 секунды...';
+                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2000);
+                    return;
+                }
+                localStorage.setItem('lastChatMsg', now);
+
+                try {
+                    await chatCollection.add({
+                        user: chatUsername,
+                        text: text,
+                        time: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    await firebase.firestore().collection('rateLimits').doc(chatUsername).set({
+                        nextAllowed: firebase.firestore.Timestamp.now().toMillis() + 2500
+                    });
+                    input.value = '';
+                } catch (e) {
+                    input.placeholder = 'Анти-флуд: подожди 2 секунды';
+                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2000);
+                }
+            }
+
+            function clearChat() {
+                if (!isNefq) return;
+                chatCollection.get().then((snapshot) => {
+                    snapshot.forEach((doc) => doc.ref.delete());
+                });
+            }
+
+            chatCollection.orderBy('time', 'asc').onSnapshot((snapshot) => {
+                const box = document.getElementById('chatMessages');
+                box.innerHTML = '';
+                const docs = snapshot.docs;
+                docs.forEach((doc) => {
+                    const msg = doc.data();
+                    const text = msg.text ? escapeHtmlChat(msg.text) : '';
+                    const user = msg.user ? escapeHtmlChat(msg.user) : 'Гость';
+
+                    const el = document.createElement('div');
+                    el.className = 'chat-msg';
+
+                    let ctxAttr = '';
+                    if (isNefq) {
+                        ctxAttr = ` oncontextmenu="showChatMenu(event, '${doc.id}')"`;
+                    }
+
+                    const authorRole = chatUserRoles[user] || 'Пользователь';
+                    const nameColor = getRoleColor(authorRole);
+
+                    el.innerHTML = `
+                        <div class="chat-msg-row"${ctxAttr}>
+                            <div style="flex:1; display:flex; flex-direction:column; gap:2px;">
+                                <span class="chat-msg-name" style="color:${nameColor};">${user}</span>
+                                <span class="chat-msg-text">${text}</span>
+                            </div>
+                        </div>
+                    `;
+                    box.appendChild(el);
+                });
+                box.scrollTop = box.scrollHeight;
+
+                if (docs.length > 100) {
+                    docs.slice(0, docs.length - 100).forEach((d) => d.ref.delete());
+                }
+            });
+
+            function deleteMessage(id) {
+                if (!isNefq) return;
+                chatCollection.doc(id).delete();
+            }
+
+            let chatMenuId = null;
+
+            function showChatMenu(e, id) {
+                if (!isNefq) return;
+                e.preventDefault();
+                chatMenuId = id;
+                const menu = document.getElementById('chatContextMenu');
+                menu.style.display = 'block';
+                menu.style.left = e.clientX + 'px';
+                menu.style.top = e.clientY + 'px';
+            }
+
+            function chatMenuDelete() {
+                if (chatMenuId) deleteMessage(chatMenuId);
+                document.getElementById('chatContextMenu').style.display = 'none';
+            }
+
+            document.addEventListener('click', () => {
+                const menu = document.getElementById('chatContextMenu');
+                if (menu) menu.style.display = 'none';
+            });
+
+            window.toggleChat = toggleChat;
+            window.toggleUserList = toggleUserList;
+            window.clearChat = clearChat;
+            window.handleChatKey = handleChatKey;
+            window.sendChatMessage = sendChatMessage;
+            window.showChatMenu = showChatMenu;
+            window.chatMenuDelete = chatMenuDelete;
+            window.changeSiteUserRole = changeSiteUserRole;
+        }
+    </script>
+</body>
+</html>
