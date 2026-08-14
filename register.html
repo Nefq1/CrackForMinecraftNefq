@@ -322,6 +322,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check-compat.js"></script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAs0gO57MKXaPqUZS-8eid3T6HBuguXpRs",
@@ -334,6 +335,13 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        if (firebase.appCheck) {
+            const appCheck = firebase.appCheck();
+            appCheck.activate(
+                new firebase.appCheck.RecaptchaV3Provider('6LeRvoUtAAAAAFBrlGD--VFXp4d4MIhQUKHDdwPe'),
+                true
+            );
+        }
 
         function getDeviceId() {
             let id = localStorage.getItem('deviceId');
@@ -442,16 +450,17 @@
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((cred) => {
                     const uid = cred.user.uid;
-                    return db.collection('users').doc(uid).set({
-                        username: username,
-                        uid: uid,
-                        role: 'Пользователь',
-                        regDate: new Date().toLocaleDateString('ru-RU'),
-                        lastVisit: new Date().toLocaleString('ru-RU'),
-                        prevVisit: null,
-                        avatar: null,
-                        deviceId: getDeviceId()
-                    }).then(() => uid);
+                    return db.collection('userSecrets').doc(uid).set({ deviceId: getDeviceId() }, { merge: true })
+                        .then(() => db.collection('users').doc(uid).set({
+                            username: username,
+                            uid: uid,
+                            role: 'Пользователь',
+                            regDate: new Date().toLocaleDateString('ru-RU'),
+                            lastVisit: new Date().toLocaleString('ru-RU'),
+                            prevVisit: null,
+                            avatar: null
+                        }))
+                        .then(() => uid);
                 })
                 .then((uid) => {
                     localStorage.setItem('currentUser', username);
