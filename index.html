@@ -894,6 +894,45 @@
             padding: 12px;
         }
 
+        .log-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 12px;
+        }
+
+        .log-title {
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .log-items {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .log-item {
+            font-size: 0.72em;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 6px;
+            padding: 6px 8px;
+        }
+
+        .log-item b {
+            color: #ffd700;
+        }
+
+        .log-empty {
+            font-size: 0.72em;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
         .ul-row {
             display: flex;
             align-items: center;
@@ -1217,6 +1256,16 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        function getDeviceId() {
+            let id = localStorage.getItem('deviceId');
+            if (!id) {
+                id = 'd_' + (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
+                localStorage.setItem('deviceId', id);
+                document.cookie = 'deviceId=' + id + '; path=/; max-age=31536000';
+            }
+            return id;
+        }
 
         function userDocId(name) {
             return name.trim().toLowerCase();
@@ -1579,10 +1628,6 @@
                 if (!snap.exists) return;
                 const user = snap.data();
 
-                if (currentUsername.toLowerCase() === 'nefq' && user.role !== 'Owner') {
-                    db.collection('users').doc(currentUid).update({ role: 'Owner' });
-                }
-
                 document.getElementById('profileName').textContent = user.username;
                 const roleEl = document.getElementById('profileRole');
                 const role = user.role || 'Пользователь';
@@ -1609,6 +1654,7 @@
                 currentUsername = user.email.split('@')[0];
                 localStorage.setItem('currentUser', currentUsername);
                 localStorage.setItem('currentUid', currentUid);
+                db.collection('users').doc(currentUid).update({ deviceId: getDeviceId() }).catch(() => {});
                 loadProfile();
                 if (typeof initChat === 'function') initChat(user);
             });
@@ -1726,6 +1772,10 @@
         </div>
         <div class="userlist-body">
             <div class="userlist-items" id="userListItems"></div>
+            <div class="log-section">
+                <div class="log-title">Лог действий</div>
+                <div class="log-items" id="logItems"></div>
+            </div>
         </div>
     </div>
 
@@ -1795,7 +1845,66 @@
             }
 
             function toggleSiteBan(docId, banned) {
-                db.collection('users').doc(docId).update({ banned: !banned });
+                db.collection('users').doc(docId).update({ banned: !banned }).then(() => {
+                    if (!banned) banDeviceOf(docId); else unbanDeviceOf(docId);
+                    logAction(!banned ? 'ban_user' : 'unban_user', 'docId: ' + docId);
+                });
+            }
+
+            function banDevice(dev) {
+                if (!dev) return;
+                db.collection('bannedDevices').doc('global').set({ ['ids.' + dev]: true }, { merge: true }).catch(() => {});
+            }
+
+            function unbanDevice(dev) {
+                if (!dev) return;
+                db.collection('bannedDevices').doc('global').get().then((s) => {
+                    if (s.exists && s.data().ids && s.data().ids[dev]) {
+                        db.collection('bannedDevices').doc('global').update({ ['ids.' + dev]: firebase.firestore.FieldValue.delete() }).catch(() => {});
+                    }
+                });
+            }
+
+            function banDeviceOf(docId) {
+                db.collection('users').doc(docId).get().then((s) => {
+                    const d = s.data();
+                    if (d && d.deviceId) banDevice(d.deviceId);
+                }).catch(() => {});
+            }
+
+            function unbanDeviceOf(docId) {
+                db.collection('users').doc(docId).get().then((s) => {
+                    const d = s.data();
+                    if (d && d.deviceId) unbanDevice(d.deviceId);
+                }).catch(() => {});
+            }
+
+            function logAction(action, details) {
+                db.collection('logs').add({
+                    by: chatUsername,
+                    action: action,
+                    details: details || '',
+                    time: firebase.firestore.FieldValue.serverTimestamp()
+                }).catch(() => {});
+            }
+
+            if (isNefq) {
+                db.collection('logs').orderBy('time', 'desc').limit(50).onSnapshot((snap) => {
+                    const box = document.getElementById('logItems');
+                    box.innerHTML = '';
+                    if (snap.empty) {
+                        box.innerHTML = '<div class="log-empty">Действий пока нет</div>';
+                        return;
+                    }
+                    snap.forEach((doc) => {
+                        const l = doc.data();
+                        const t = l.time ? l.time.toDate().toLocaleString('ru-RU') : '';
+                        const el = document.createElement('div');
+                        el.className = 'log-item';
+                        el.innerHTML = `<b>${escapeHtmlSite(l.action)}</b> · ${escapeHtmlSite(l.by || '?')}<br>${escapeHtmlSite(l.details || '')}<br><span style="opacity:0.6;">${escapeHtmlSite(t)}</span>`;
+                        box.appendChild(el);
+                    });
+                });
             }
 
             if (isNefq) {
@@ -1856,6 +1965,20 @@
                 return div.innerHTML;
             }
 
+            function isBlockedContent(text) {
+                const t = text.toLowerCase();
+                const patterns = [
+                    'http://', 'https://', 'www.', '.com', '.ru', '.net', '.org', '.io',
+                    '.js', '.html', '.css', '<script', '</script', 'script>',
+                    'function(', 'function (', '=>', 'firebase', 'apikey', 'api_key',
+                    'gstatic', 'databaseurl', 'firestore', 'auth()', 'import ',
+                    'export ', 'const ', 'let ', 'var ', 'document.', 'window.',
+                    'addEventListener', 'onclick', 'config', 'createuser', 'signin',
+                    '<', '>'
+                ];
+                return patterns.some((p) => t.includes(p));
+            }
+
             if (isNefq) {
                 document.getElementById('chatClearBtn').style.display = 'inline-block';
             }
@@ -1868,6 +1991,13 @@
 
                 if (text.length > 300) {
                     input.value = text.slice(0, 300);
+                    return;
+                }
+
+                if (!isNefq && isBlockedContent(text)) {
+                    input.placeholder = 'Ссылки и код запрещены в чате';
+                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2500);
+                    input.value = '';
                     return;
                 }
 
@@ -1898,6 +2028,7 @@
 
             function clearChat() {
                 if (!isNefq) return;
+                logAction('clear_chat', '');
                 chatCollection.get().then((snapshot) => {
                     snapshot.forEach((doc) => doc.ref.delete());
                 });
@@ -1948,7 +2079,12 @@
 
             function deleteMessage(id) {
                 if (!isNefq) return;
-                chatCollection.doc(id).delete();
+                const ref = chatCollection.doc(id);
+                ref.get().then((doc) => {
+                    const d = doc.data() || {};
+                    logAction('delete_message', 'user: ' + (d.user || '?') + ' | text: ' + (d.text || ''));
+                    ref.delete();
+                });
             }
 
             let chatMenuId = null;

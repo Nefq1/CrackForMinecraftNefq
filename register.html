@@ -335,6 +335,16 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        function getDeviceId() {
+            let id = localStorage.getItem('deviceId');
+            if (!id) {
+                id = 'd_' + (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
+                localStorage.setItem('deviceId', id);
+                document.cookie = 'deviceId=' + id + '; path=/; max-age=31536000';
+            }
+            return id;
+        }
+
         if (location.search.includes('banned=1')) {
             const b = document.getElementById('errorMsg');
             b.textContent = 'Ваш аккаунт заблокирован. Обратитесь к администратору.';
@@ -415,8 +425,8 @@
                 return;
             }
 
-            if (password.length < 6) {
-                errorMsg.textContent = 'Пароль должен быть не менее 6 символов';
+            if (password.length < 8) {
+                errorMsg.textContent = 'Пароль должен быть не менее 8 символов';
                 errorMsg.style.display = 'block';
                 return;
             }
@@ -435,11 +445,12 @@
                     return db.collection('users').doc(uid).set({
                         username: username,
                         uid: uid,
-                        role: username.toLowerCase() === 'nefq' ? 'Owner' : 'Пользователь',
+                        role: 'Пользователь',
                         regDate: new Date().toLocaleDateString('ru-RU'),
                         lastVisit: new Date().toLocaleString('ru-RU'),
                         prevVisit: null,
-                        avatar: null
+                        avatar: null,
+                        deviceId: getDeviceId()
                     }).then(() => uid);
                 })
                 .then((uid) => {

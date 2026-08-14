@@ -568,6 +568,16 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        function getDeviceId() {
+            let id = localStorage.getItem('deviceId');
+            if (!id) {
+                id = 'd_' + (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
+                localStorage.setItem('deviceId', id);
+                document.cookie = 'deviceId=' + id + '; path=/; max-age=31536000';
+            }
+            return id;
+        }
+
         function userDocId(name) {
             return name.trim().toLowerCase();
         }
@@ -638,10 +648,6 @@
                     return;
                 }
 
-                if (user.username.toLowerCase() === 'nefq' && user.role !== 'Owner') {
-                    db.collection('users').doc(currentUid).update({ role: 'Owner' });
-                }
-
                 document.getElementById('usernameDisplay').textContent = user.username;
                 document.getElementById('usernameInfo').textContent = user.username;
 
@@ -677,6 +683,7 @@
                 currentUsername = user.email.split('@')[0];
                 localStorage.setItem('currentUser', currentUsername);
                 localStorage.setItem('currentUid', currentUid);
+                db.collection('users').doc(currentUid).update({ deviceId: getDeviceId() }).catch(() => {});
                 loadProfile();
             });
         }
@@ -734,16 +741,52 @@
             });
         }
 
+        function logAction(action, details) {
+            db.collection('logs').add({
+                by: currentUsername,
+                action: action,
+                details: details || '',
+                time: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(() => {});
+        }
+
         function changeUserRole(docId, role) {
             db.collection('users').doc(docId).update({ role: role }).then(() => {
+                logAction('change_role', 'docId: ' + docId + ' | role: ' + role);
                 showToast('Роль изменена: ' + role);
             }).catch(() => {
                 showToast('Ошибка смены роли');
             });
         }
 
+        function banDevice(dev) {
+            if (!dev) return;
+            db.collection('bannedDevices').doc('global').set({ ['ids.' + dev]: true }, { merge: true }).catch(() => {});
+        }
+
+        function unbanDevice(dev) {
+            if (!dev) return;
+            db.collection('bannedDevices').doc('global').get().then((s) => {
+                if (s.exists && s.data().ids && s.data().ids[dev]) {
+                    db.collection('bannedDevices').doc('global').update({ ['ids.' + dev]: firebase.firestore.FieldValue.delete() }).catch(() => {});
+                }
+            });
+        }
+
         function toggleProfileBan(docId, banned) {
             db.collection('users').doc(docId).update({ banned: !banned }).then(() => {
+                if (!banned) {
+                    db.collection('users').doc(docId).get().then((s) => {
+                        const d = s.data();
+                        if (d && d.deviceId) banDevice(d.deviceId);
+                    }).catch(() => {});
+                } else {
+                    db.collection('users').doc(docId).get().then((s) => {
+                        const d = s.data();
+                        if (d && d.deviceId) unbanDevice(d.deviceId);
+                    }).catch(() => {});
+                }
+                logAction(!banned ? 'ban_user' : 'unban_user', 'docId: ' + docId);
                 showToast(banned ? 'Пользователь разбанен' : 'Пользователь забанен');
             }).catch(() => {
                 showToast('Ошибка бана');
