@@ -1025,6 +1025,29 @@
             gap: 8px;
         }
 
+        .chat-avatar {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 2px;
+        }
+
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .chat-msg-delete {
             background: rgba(255, 80, 80, 0.2);
             border: 1px solid rgba(255, 80, 80, 0.5);
@@ -1699,6 +1722,7 @@
             const isNefq = chatUsername.toLowerCase() === 'nefq';
 
             const chatUserRoles = {};
+            const chatUserAvatars = {};
             function getRoleColor(role) {
                 if (role === 'Owner') return '#ffd700';
                 if (role === 'Модератор') return '#64c8ff';
@@ -1708,7 +1732,9 @@
             db.collection('users').onSnapshot((snap) => {
                 snap.forEach((doc) => {
                     const d = doc.data();
-                    chatUserRoles[d.username] = d.role || 'Пользователь';
+                    const key = (d.username || '').toLowerCase();
+                    chatUserRoles[key] = d.role || 'Пользователь';
+                    chatUserAvatars[key] = d.avatar || '';
                 });
                 document.querySelectorAll('#chatMessages .chat-msg-name').forEach((el) => {
                     const name = el.textContent;
@@ -1847,9 +1873,15 @@
 
                     const authorRole = chatUserRoles[user] || 'Пользователь';
                     const nameColor = getRoleColor(authorRole);
+                    const avatarRaw = chatUserAvatars[user] || '';
+                    const avatarUrl = (avatarRaw.startsWith('http') || avatarRaw.startsWith('data:image')) ? avatarRaw : '';
+                    const avatarHtml = avatarUrl
+                        ? `<div class="chat-avatar"><img src="${avatarUrl}" alt="${user}"></div>`
+                        : `<div class="chat-avatar">${user.charAt(0).toUpperCase()}</div>`;
 
                     el.innerHTML = `
                         <div class="chat-msg-row"${ctxAttr}>
+                            ${avatarHtml}
                             <div style="flex:1; display:flex; flex-direction:column; gap:2px;">
                                 <span class="chat-msg-name" style="color:${nameColor};">${user}</span>
                                 <span class="chat-msg-text">${text}</span>
