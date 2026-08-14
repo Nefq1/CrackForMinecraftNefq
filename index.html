@@ -2001,6 +2001,14 @@
                     return;
                 }
 
+                const now = Date.now();
+                const last = parseInt(localStorage.getItem('lastChatMsg') || '0');
+                if (now - last < 2000) {
+                    input.placeholder = 'Подожди 2 секунды...';
+                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2000);
+                    return;
+                }
+                localStorage.setItem('lastChatMsg', now);
                 input.value = '';
 
                 try {
