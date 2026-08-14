@@ -2011,9 +2011,9 @@
 
                 const now = Date.now();
                 const last = parseInt(localStorage.getItem('lastChatMsg') || '0');
-                if (now - last < 2000) {
-                    input.placeholder = 'Подожди 2 секунды...';
-                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2000);
+                if (now - last < 2700) {
+                    input.placeholder = 'Подожди 3 секунды...';
+                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2700);
                     return;
                 }
                 localStorage.setItem('lastChatMsg', now);
@@ -2026,11 +2026,11 @@
                         time: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     await firebase.firestore().collection('rateLimits').doc(chatUsername).set({
-                        nextAllowed: firebase.firestore.Timestamp.now().toMillis() + 2500
+                        nextAllowed: firebase.firestore.Timestamp.now().toMillis() + 2700
                     });
                 } catch (e) {
-                    input.placeholder = 'Анти-флуд: подожди 2 секунды';
-                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2000);
+                    input.placeholder = 'Анти-флуд: подожди 3 секунды';
+                    setTimeout(() => { input.placeholder = 'Сообщение...'; }, 2700);
                 }
             }
 
