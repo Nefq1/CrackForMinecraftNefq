@@ -1,37 +1,1964 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
+﻿<!DOCTYPE html>
+<!-- saved from url=(0134)file:///C:/Users/mihai/OneDrive/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/Default%20Project/Cracks%20for%20Minecraft.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CrackForMinecraftNefq</title>
+<title>MinecraftCracks</title>
 <style>
   :root{
-    --bg:#0b0b10; --accent:#00e5ff; --accent2:#a855f7;
-    --text:#e8e8f0; --muted:#8a8aa0;
+    --bg: #000000;
+    --card: #0a0a0a;
+    --card-border: #2a2a2a;
+    --accent: #ffffff;
+    --accent-2: #c9c9c9;
+    --text: #f5f5f5;
+    --text-dim: #9a9a9a;
+    --pill: #1c1c1c;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family:'Segoe UI',system-ui,sans-serif;color:var(--text);
-    background:radial-gradient(1200px 600px at 70% -10%,rgba(168,85,247,.18),transparent),
-               radial-gradient(900px 500px at 0% 10%,rgba(0,229,255,.12),transparent),
-               var(--bg);
-    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+  *{ box-sizing: border-box; }
+  html,body{
+    margin:0; padding:0;
+    background: #000000;
+    color: var(--text);
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
-  .card{text-align:center;max-width:640px;padding:48px 32px;
-    background:rgba(20,20,30,.55);border:1px solid rgba(255,255,255,.08);
-    border-radius:22px;backdrop-filter:blur(14px);box-shadow:0 10px 40px rgba(0,0,0,.4);}
-  .logo{font-size:46px;font-weight:800;letter-spacing:.5px;
-    background:linear-gradient(90deg,var(--accent),var(--accent2));
-    -webkit-background-clip:text;background-clip:text;color:transparent;}
-  .tag{color:var(--muted);margin-top:14px;font-size:17px;line-height:1.5}
-  footer{text-align:center;color:var(--muted);margin-top:32px;font-size:13px}
+  #cursorTrail{
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+  }
+  .stars{
+    position: fixed; inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star{
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    width: var(--s);
+    height: var(--s);
+    background: #ffffff;
+    border-radius: 50%;
+    opacity: var(--o);
+    animation: drift var(--dur) linear infinite, twinkle var(--tdur) ease-in-out infinite;
+    animation-delay: var(--delay), var(--tdelay);
+  }
+  @keyframes drift{
+    from{ transform: translate(0, 0); }
+    to{ transform: translate(var(--dx), var(--dy)); }
+  }
+  @keyframes twinkle{
+    0%, 100%{ opacity: var(--o); }
+    50%{ opacity: calc(var(--o) * 0.25); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .star{ animation: none; }
+  }
+  .comets{
+    position: fixed; inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .comet{
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px 2px rgba(255,255,255,0.85);
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: comet-fly var(--cdur) linear var(--cdelay) infinite;
+  }
+  .comet::after{
+    content: '';
+    position: absolute;
+    top: 50%; right: 2px;
+    width: var(--tail, 130px); height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(270deg, rgba(255,255,255,0.95), rgba(255,255,255,0));
+    border-radius: 2px;
+  }
+  @keyframes comet-fly{
+    0%   { transform: translate(0, 0) rotate(45deg); opacity: 0; }
+    10%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { transform: translate(var(--cx, 80vw), var(--cy, 90vh)) rotate(45deg); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .comet{ animation: none; display: none; }
+  }
+  .top-right{
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .lang-switch{
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .lang-switch:hover{
+    color: var(--text);
+    border-color: var(--accent);
+  }
+  @media (max-width: 560px){
+    .top-right{
+      top: 10px;
+      right: 10px;
+      gap: 8px;
+    }
+    .lang-switch{
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }
+  .support-btn{
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .support-btn:hover{
+    color: #ffffff;
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.12);
+  }
+  @media (max-width: 560px){
+    .support-btn{
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }
+  .wrap{
+    position: relative; z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+  h1.title{
+    text-align: center;
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: 8px;
+    transform: scaleX(1.14);
+    transform-origin: center;
+    margin: 0 0 36px;
+    color: #ffffff;
+    text-shadow:
+      0 0 8px rgba(255,255,255,0.45),
+      0 0 22px rgba(255,255,255,0.35),
+      0 0 48px rgba(180,200,255,0.30),
+      0 0 90px rgba(140,170,255,0.22);
+    animation: title-glow 3.6s ease-in-out infinite;
+  }
+  @keyframes title-glow{
+    0%, 100%{
+      text-shadow:
+        0 0 8px rgba(255,255,255,0.45),
+        0 0 22px rgba(255,255,255,0.35),
+        0 0 48px rgba(180,200,255,0.30),
+        0 0 90px rgba(140,170,255,0.22);
+    }
+    50%{
+      text-shadow:
+        0 0 12px rgba(255,255,255,0.60),
+        0 0 30px rgba(255,255,255,0.45),
+        0 0 64px rgba(180,200,255,0.40),
+        0 0 120px rgba(140,170,255,0.30);
+    }
+  }
+  @media (prefers-reduced-motion: reduce){
+    h1.title{ animation: none; }
+  }
+  nav.tabs{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    padding: 6px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    width: fit-content;
+  }
+  nav.tabs button{
+    position: relative;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease, transform .15s ease;
+    overflow: hidden;
+  }
+  nav.tabs button:hover{
+    color: var(--text);
+  }
+  nav.tabs button:active{
+    transform: scale(.97);
+  }
+  nav.tabs button.active{
+    background: var(--accent);
+    color: #000000;
+    box-shadow: 0 0 14px rgba(255,255,255,0.35);
+  }
+  h2.section-title{
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 28px;
+  }
+  .search-box{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 28px;
+    max-width: 420px;
+  }
+  #cheatsSearch{
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--text);
+    font-size: 15px;
+    font-family: inherit;
+    padding: 12px 18px;
+    border-radius: 999px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  #cheatsSearch::placeholder{
+    color: var(--text-dim);
+  }
+  #cheatsSearch:focus{
+    border-color: var(--accent);
+    box-shadow: 0 0 14px rgba(255,255,255,0.25);
+  }
+  .no-results{
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 15px;
+    padding: 30px 0;
+  }
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 800px){
+    .grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px){
+    .grid{ grid-template-columns: 1fr; }
+    h1.title{ font-size: 30px; letter-spacing: 5px; transform: scaleX(1.06); }
+  }
+  .card{
+    background: linear-gradient(180deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9));
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+  .card.selected{
+    border-color: var(--accent);
+    box-shadow: 0 0 22px rgba(255,255,255,0.25);
+    animation: card-select .4s ease;
+  }
+  @keyframes card-select{
+    0%{ transform: scale(1); }
+    45%{ transform: scale(1.035); }
+    100%{ transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .card.selected{ animation: none; }
+  }
+  .card h3{
+    margin: 0 0 18px;
+    font-size: 19px;
+    font-weight: 700;
+  }
+  .card-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .version-pill{
+    background: var(--pill);
+    color: var(--accent-2);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 8px;
+  }
+  .dl-btn{
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .2s ease;
+  }
+  .dl-btn:hover{
+    background: rgba(255,255,255,0.1);
+  }
+  .empty{
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 15px;
+    padding: 40px 0;
+  }
+  .cheats-note{
+    text-align: center;
+    margin-top: 36px;
+  }
+  .cheats-note .by-line{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .by-avatar{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+  .tg-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: var(--accent);
+    text-decoration: none;
+    transition: background .2s ease, transform .15s ease;
+  }
+  .tg-btn:hover{
+    background: rgba(255,255,255,0.22);
+    transform: translateY(-1px);
+  }
+  .tg-btn:active{
+    transform: translateY(0) scale(.95);
+  }
+  .yt-btn{
+    background: rgba(255,255,255,0.1);
+    color: var(--accent);
+  }
+  .yt-btn:hover{
+    background: rgba(255,255,255,0.22);
+  }
+  .cheats-note .beta-line{
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  .advantages{
+    display: flex;
+    gap: 28px;
+    margin: 24px auto 0;
+    max-width: 920px;
+  }
+  .adv-col{
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+  }
+  .adv-col--right{
+    text-align: right;
+    align-items: flex-end;
+  }
+  .advantages-note{
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text-dim);
+  }
+  @media (max-width: 600px){
+    .advantages{
+      flex-direction: column;
+      gap: 14px;
+    }
+    .adv-col, .adv-col--right{
+      text-align: center;
+      align-items: center;
+    }
+  }
+  footer{
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 70px;
+  }
+  .advantages-section{
+    margin-top: 40px;
+  }
+  .adv-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 8px;
+  }
+  @media (max-width: 800px){
+    .adv-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px){
+    .adv-grid{ grid-template-columns: 1fr; }
+  }
+  .adv-card{
+    background: linear-gradient(180deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9));
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px 22px;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .adv-card:hover{
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 0 22px rgba(255,255,255,0.15);
+  }
+  .adv-icon{
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  .adv-card h3{
+    margin: 0 0 10px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .adv-card p{
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+  .tabs-row{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  .brand-tag{
+    position: absolute;
+    left: 0;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+  }
+  @media (max-width: 700px){
+    .brand-tag{
+      position: static;
+      display: block;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .tabs-row{
+      flex-direction: column;
+    }
+  }
+  .tab-panel{
+    display: none;
+  }
+  .tab-panel.active{
+    display: block;
+    animation: tab-in .35s ease both;
+  }
+  .tab-panel.leaving{
+    display: block;
+    animation: tab-out .2s ease both;
+  }
+  @keyframes tab-in{
+    from{ opacity: 0; transform: translateY(10px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  @keyframes tab-out{
+    from{ opacity: 1; transform: translateY(0); }
+    to{ opacity: 0; transform: translateY(-10px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .tab-panel.active, .tab-panel.leaving{ animation: none; }
+  }
+  .auth-modal{
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 20px;
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  .auth-modal.visible{
+    opacity: 1;
+  }
+  .auth-modal[hidden]{ display: none; }
+  body.modal-open{ overflow: hidden; }
+  .auth-box{
+    width: 100%; max-width: 360px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    transform: translateY(20px) scale(.95);
+    transition: transform .3s ease, opacity .3s ease;
+    opacity: 0;
+  }
+  .auth-modal.visible .auth-box{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  .ban-notice{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: auth-in .35s ease;
+  }
+  .ban-notice[hidden]{ display: none; }
+  .ban-notice-icon{
+    font-size: 46px;
+    line-height: 1;
+  }
+  .ban-notice-title{
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffd54d;
+  }
+  .ban-notice-text{
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .ban-notice-sub{
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-dim);
+  }
+  .ban-support{
+    margin-top: 6px;
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffd54d, #ffb347);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: transform .2s ease, filter .2s ease;
+  }
+  .ban-support:hover{
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+  }
+  @keyframes auth-in{
+    from{ opacity: 0; transform: translateY(16px) scale(.98); }
+    to{ opacity: 1; transform: none; }
+  }
+  .auth-tabs{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .auth-tab{
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 12px;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-tab::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 70%);
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  .auth-tab:hover::before{
+    opacity: 1;
+  }
+  .auth-tab.active{
+    color: #000000;
+    background: var(--accent);
+    border-color: transparent;
+    transform: scale(1.03);
+    box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+  }
+  .auth-tab:active{
+    transform: scale(0.97);
+  }
+  .auth-title{
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 22px;
+  }
+  #regForm, #loginForm{
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  .auth-field{
+    margin-bottom: 14px;
+  }
+  .auth-field label{
+    display: block;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-bottom: 6px;
+    transition: color .2s ease;
+  }
+  .auth-field:focus-within label{
+    color: var(--accent);
+  }
+  .auth-field input{
+    width: 100%;
+    padding: 11px 13px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+  }
+  .auth-field input::placeholder{
+    color: var(--text-dim);
+    transition: color .3s ease, opacity .3s ease;
+  }
+  .auth-field input:focus{
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.12), 0 0 20px rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-1px);
+  }
+  .auth-field input:focus::placeholder{
+    opacity: 0.4;
+  }
+  .auth-field input:hover:not(:focus){
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.06);
+  }
+  .auth-error{
+    color: #ffcf66;
+    font-size: 12px;
+    margin: 2px 0 12px;
+    min-height: 14px;
+    text-align: center;
+  }
+  .auth-submit{
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    border: none;
+    border-radius: 12px;
+    color: #000000;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .3s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-submit::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent 50%);
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  .auth-submit:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(255,255,255,0.25);
+  }
+  .auth-submit:hover::after{ opacity: 1; }
+  .auth-submit:active{
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(255,255,255,0.15);
+  }
+  .profile{
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 3;
+  }
+  .profile[hidden]{ display: none; }
+  .profile-trigger{
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .profile-trigger:hover{
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.12);
+  }
+  .profile-avatar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; height: 100%;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    background-size: cover;
+    background-position: center;
+  }
+  .profile-panel{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 320px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+    transition: opacity .3s ease, transform .3s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+    z-index: 102;
+  }
+  .profile-panel.open{
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+  }
+  .profile-panel[hidden]{ display: none; }
+  .profile-backdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 101;
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+  }
+  .profile-backdrop.open{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .profile-avatar-large{
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: #000000;
+    background: hsl(220, 58%, 55%);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+  .profile-nick{
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    word-break: break-word;
+  }
+  .profile-uid{
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .profile-dates{
+    margin-bottom: 14px;
+    padding: 10px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .profile-date{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    padding: 4px 0;
+  }
+  .profile-date + .profile-date{
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 4px;
+    padding-top: 8px;
+  }
+  .profile-date-label{
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+  .profile-date-value{
+    color: var(--text);
+    font-weight: 600;
+  }
+  .profile-field{
+    display: block;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .profile-field input[type="text"]{
+    width: 100%;
+    margin-top: 6px;
+    padding: 9px 11px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+  }
+  .profile-field input[type="text"]:focus{
+    outline: none;
+    border-color: var(--accent);
+  }
+  .profile-field input[type="file"]{
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-dim);
+    width: 100%;
+  }
+  .profile-url-btn{
+    width: 100%;
+    padding: 8px 0;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .2s ease;
+  }
+  .profile-url-btn:hover{ background: rgba(255,255,255,0.12); }
+  .profile-actions{
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .profile-logout, .profile-close{
+    flex: 1;
+    padding: 9px 0;
+    border-radius: 10px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .profile-logout{
+    background: rgba(255,170,0,0.15);
+    border-color: rgba(255,170,0,0.4);
+    color: #ffd98a;
+  }
+  .profile-logout:hover{ background: rgba(255,170,0,0.28); }
+  .profile-close{
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.14);
+    color: var(--text);
+  }
+  .profile-close:hover{ background: rgba(255,255,255,0.12); }
+  @media (max-width: 560px){
+    .profile{ top: 10px; left: 10px; }
+    .profile-trigger{ width: 38px; height: 38px; }
+    .profile-panel{ width: 260px; }
+  }
+
+  /* ---- Чат ---- */
+  .chat-widget{
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    z-index: 50;
+  }
+  .chat-toggle{
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: var(--accent);
+    color: #000;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .chat-toggle:hover{
+    transform: scale(1.08);
+    box-shadow: 0 10px 30px rgba(255,255,255,0.25);
+  }
+  .chat-panel{
+    position: fixed;
+    bottom: 82px;
+    right: 18px;
+    width: 320px;
+    max-height: 460px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    transition: opacity .25s ease, transform .25s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .chat-panel.open{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .chat-panel[hidden]{ display: none; }
+  .chat-header{
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+  }
+  .chat-title{
+    font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chat-online{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 8px #4ade80;
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-dot{
+    0%, 100%{ opacity: 1; transform: scale(1); }
+    50%{ opacity: 0.5; transform: scale(0.8); }
+  }
+  .chat-header-actions{
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chat-clear{
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--text-dim);
+    font-size: 14px;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s ease;
+  }
+  .chat-clear[hidden]{ display: none; }
+  .chat-clear:hover{
+    color: #ffcf66;
+    background: rgba(255,138,138,0.12);
+    border-color: rgba(255,138,138,0.3);
+  }
+  .chat-close{
+    background: none; border: none; color: var(--text-dim);
+    font-size: 20px; cursor: pointer; line-height: 1;
+    transition: color .15s ease;
+  }
+  .chat-close:hover{ color: var(--text); }
+  .chat-messages{
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+    max-height: 310px;
+  }
+  .chat-messages::-webkit-scrollbar{ width: 6px; }
+  .chat-messages::-webkit-scrollbar-track{ background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+  }
+  .chat-messages::-webkit-scrollbar-thumb:hover{ background: rgba(255,255,255,0.3); }
+  .chat-msg{
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    max-width: 90%;
+    align-self: flex-start;
+    position: relative;
+    margin-bottom: 8px;
+    animation: msg-in .25s ease;
+  }
+  .chat-msg-avatar{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: #000;
+    user-select: none;
+  }
+  .chat-msg-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .chat-msg.own{
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+  .chat-msg.own .chat-msg-avatar{ display: none; }
+  .chat-msg-body{
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .chat-msg-name{
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 12px;
+    margin: 0 0 2px 4px;
+  }
+  .chat-msg-bubble{
+    background: rgba(255,255,255,0.08);
+    border-radius: 14px 14px 14px 4px;
+    padding: 7px 11px 6px;
+    font-size: 13px;
+    word-break: break-word;
+    position: relative;
+    max-width: 100%;
+    display: inline-block;
+  }
+  .chat-msg.own .chat-msg-bubble{
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px 14px 4px 14px;
+    color: var(--text);
+  }
+  .chat-msg-text{ color: var(--text); white-space: pre-wrap; }
+  .chat-msg.own .chat-msg-text{ color: var(--text); }
+  .chat-msg-time{
+    display: inline-block;
+    font-size: 9px;
+    color: var(--text-dim);
+    opacity: 0.65;
+    margin-left: 10px;
+    vertical-align: bottom;
+    float: right;
+    white-space: nowrap;
+  }
+  .chat-msg.own .chat-msg-time{ color: var(--text-dim); }
+  .chat-msg-del{
+    position: absolute;
+    top: 3px; right: 4px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #ffcf66;
+    font-size: 12px; line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    padding: 0;
+    transition: opacity .15s ease;
+    z-index: 2;
+  }
+  .chat-msg:hover .chat-msg-del{ opacity: 1; }
+  .chat-msg:hover .chat-msg-ban{ opacity: 1; }
+  .chat-msg-del:hover{ color: #ffd54d; }
+  .chat-msg-ban{ position: absolute; top: 3px; right: 26px; width: 18px; height: 18px; border-radius: 50%; background: #171200; border: 1px solid rgba(255,200,60,0.2); color: #ffcf66; font-size: 10px; line-height: 1; cursor: pointer; opacity: 0; padding: 0; transition: opacity .15s ease; z-index: 2; }
+  .chat-msg-ban:hover{ color: #ffd54d; }
+  .chat-msg.own .chat-msg-del{ background: #fff; color: #ffd54d; }
+
+  /* ---- Обновление ---- */
+  .updates-list{
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .update-item{
+    display: flex;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    animation: msg-in .3s ease;
+  }
+  .update-date{
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 6px 10px;
+    height: fit-content;
+    white-space: nowrap;
+  }
+  .update-body{
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .update-body strong{
+    color: #fff;
+  }
+  .chat-form{
+    display: flex; gap: 6px; padding: 10px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .chat-form input{
+    flex: 1;
+    padding: 9px 11px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit; font-size: 13px;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .chat-form input:focus{
+    outline: none; border-color: var(--accent);
+    background: rgba(255,255,255,0.08);
+  }
+  .chat-send{
+    width: 42px;
+    border: none; border-radius: 10px;
+    background: var(--accent); color: #000;
+    font-size: 16px; cursor: pointer;
+    transition: filter .15s ease, transform .15s ease;
+  }
+  .chat-send:hover{ filter: brightness(1.1); }
+  .chat-send:active{ transform: scale(0.94); }
+
+  /* ---- Users Widget ---- */
+  .users-toggle{
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #111;
+    border: 2px solid rgba(255,200,60,0.4);
+    color: #ffcf33;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .15s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .users-toggle:hover{
+    background: #171200;
+    border-color: #ffcf33;
+    transform: scale(1.05);
+  }
+  .users-widget{
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 300px;
+    max-height: 420px;
+    background: rgba(12,12,12,0.98);
+    border: 1px solid rgba(255,200,60,0.25);
+    border-radius: 16px;
+    padding: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: opacity .25s ease, transform .25s ease;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .users-widget.open{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+  }
+  .users-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: rgba(255,200,60,0.08);
+    border-bottom: 1px solid rgba(255,200,60,0.12);
+  }
+  .users-title{
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+  }
+  .users-close{
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 18px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all .12s ease;
+  }
+  .users-close:hover{ color: #ffcf33; background: rgba(255,200,60,0.1); }
+  .users-list{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+    max-height: 360px;
+    padding: 8px;
+  }
+  .users-list::-webkit-scrollbar{ width: 4px; }
+  .users-list::-webkit-scrollbar-thumb{ background: rgba(255,200,60,0.3); border-radius: 2px; }
+  .users-item{
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,200,60,0.04);
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: all .12s ease;
+    overflow: hidden;
+  }
+  .users-item:hover{ background: rgba(255,200,60,0.08); border-color: rgba(255,200,60,0.12); }
+  .users-item-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background .12s ease;
+  }
+  .users-item-row:hover{ background: rgba(255,200,60,0.05); }
+  .users-item-avatar{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ffcf33;
+    color: #1a1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .users-item-avatar img{ width: 100%; height: 100%; object-fit: cover; }
+  .users-item-info{ flex: 1; min-width: 0; }
+  .users-item-name{
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .users-item-uid{
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 1px;
+  }
+  .users-item-arrow{
+    font-size: 18px;
+    color: var(--text-dim);
+    transition: transform .2s ease;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .users-item-arrow.open{ transform: rotate(90deg); color: #ffcf33; }
+  .users-item-panel{
+    padding: 0 12px 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .users-item-panel[hidden]{ display: none; }
+  .users-item-ban{
+    padding: 6px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .12s ease;
+  }
+  .users-item-ban:hover{ transform: scale(1.03); }
+  .users-item-ban.ban{ background: #ffcf33; color: #1a1200; }
+  .users-item-ban.ban:hover{ background: #c99700; }
+  .users-item-ban.unban{ background: #00c853; color: #fff; }
+  .users-item-ban.unban:hover{ background: #00a843; }
+
+  /* ---- Ban Modal ---- */
+  .ban-modal{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .ban-modal[hidden]{ display: none; }
+  .ban-modal-box{
+    background: #111;
+    border: 1px solid rgba(255,200,60,0.3);
+    border-radius: 20px;
+    padding: 36px 32px 28px;
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+    box-shadow: 0 16px 48px rgba(255,200,60,0.15), 0 0 0 1px rgba(255,200,60,0.1);
+  }
+  .ban-modal-icon{
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  .ban-modal-title{
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .ban-modal-name{
+    font-size: 14px;
+    color: #ffcf33;
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .ban-modal-actions{
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  .ban-modal-btn{
+    padding: 10px 28px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .ban-modal-cancel{
+    background: rgba(255,255,255,0.08);
+    color: #aaa;
+  }
+  .ban-modal-cancel:hover{ background: rgba(255,255,255,0.14); color: #fff; }
+  .ban-modal-confirm{
+    background: #ffcf33;
+    color: #1a1200;
+  }
+  .ban-modal-confirm:hover{ background: #c99700; transform: scale(1.03); }
+
+  .respack-preview{
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  .respack-preview img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s;
+  }
+  .respack-preview:hover img{ transform: scale(1.06); }
+
+  /* ---- Оптимизация для мобильных/тач-устройств ---- */
+  @media (max-width: 768px), (hover: none){
+    *{ backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+    .star{ animation: none !important; }
+  }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="logo">CrackForMinecraftNefq</div>
-    <div class="tag">Читы для Minecraft.<br>Сообщество закрыто на техобслуживание.</div>
-    <footer>© CrackForMinecraftNefq</footer>
+<canvas id="cursorTrail"></canvas>
+<div class="stars" id="stars"><div class="star" style="--s: 2.4px; --x: 80.77471869070449%; --y: 60.5439104902709%; --dx: -17px; --dy: -11px; --dur: 37.5s; --delay: -4.3s; --tdur: 4.2s; --tdelay: -2.2s; --o: 0.42;"></div><div class="star" style="--s: 2.6px; --x: 15.718760590892789%; --y: 60.288140511666064%; --dx: -38px; --dy: 6px; --dur: 39.1s; --delay: -24.8s; --tdur: 4.3s; --tdelay: -1.3s; --o: 0.86;"></div><div class="star" style="--s: 1.8px; --x: 48.91683434175261%; --y: 1.1976890248097782%; --dx: -40px; --dy: 4px; --dur: 40.3s; --delay: -17.4s; --tdur: 2.8s; --tdelay: -2.2s; --o: 0.67;"></div><div class="star" style="--s: 2.0px; --x: 63.16630649840378%; --y: 28.073816743267344%; --dx: 20px; --dy: -38px; --dur: 25.5s; --delay: -18.9s; --tdur: 3.0s; --tdelay: -3.4s; --o: 0.75;"></div><div class="star" style="--s: 1.9px; --x: 34.92569119843343%; --y: 52.53138330821579%; --dx: 21px; --dy: -7px; --dur: 39.8s; --delay: -25.0s; --tdur: 4.6s; --tdelay: -1.4s; --o: 0.78;"></div><div class="star" style="--s: 2.1px; --x: 70.27063217777207%; --y: 59.12588090812314%; --dx: -39px; --dy: -36px; --dur: 30.5s; --delay: -12.6s; --tdur: 2.0s; --tdelay: -1.8s; --o: 0.74;"></div><div class="star" style="--s: 1.0px; --x: 47.019678102963624%; --y: 40.84912611517998%; --dx: 2px; --dy: -36px; --dur: 47.5s; --delay: -28.4s; --tdur: 4.4s; --tdelay: -3.4s; --o: 0.71;"></div><div class="star" style="--s: 1.5px; --x: 32.94726561133656%; --y: 70.5153955214763%; --dx: -7px; --dy: -12px; --dur: 47.4s; --delay: -6.2s; --tdur: 4.8s; --tdelay: -0.9s; --o: 0.63;"></div><div class="star" style="--s: 2.1px; --x: 20.779986035132403%; --y: 15.649911628401858%; --dx: 5px; --dy: 13px; --dur: 27.2s; --delay: -15.7s; --tdur: 4.6s; --tdelay: -0.4s; --o: 0.76;"></div><div class="star" style="--s: 1.4px; --x: 88.6487160614456%; --y: 6.4450270403633265%; --dx: 21px; --dy: -30px; --dur: 34.3s; --delay: -28.0s; --tdur: 3.6s; --tdelay: -2.9s; --o: 0.75;"></div><div class="star" style="--s: 0.9px; --x: 78.02376188543221%; --y: 76.79375653789808%; --dx: 37px; --dy: -9px; --dur: 39.9s; --delay: -22.9s; --tdur: 4.8s; --tdelay: -3.2s; --o: 0.46;"></div><div class="star" style="--s: 2.3px; --x: 72.38787497123087%; --y: 90.07132908213815%; --dx: -33px; --dy: 32px; --dur: 33.6s; --delay: -7.4s; --tdur: 2.5s; --tdelay: -2.6s; --o: 0.62;"></div><div class="star" style="--s: 2.2px; --x: 12.868080554369621%; --y: 5.415514092181839%; --dx: -38px; --dy: 18px; --dur: 30.5s; --delay: -16.1s; --tdur: 4.4s; --tdelay: -1.1s; --o: 0.47;"></div><div class="star" style="--s: 1.9px; --x: 19.822456453106618%; --y: 6.870991227618106%; --dx: 25px; --dy: -12px; --dur: 40.6s; --delay: -2.0s; --tdur: 5.0s; --tdelay: -2.8s; --o: 0.62;"></div><div class="star" style="--s: 2.4px; --x: 78.01194465735563%; --y: 23.71715943301226%; --dx: 20px; --dy: 38px; --dur: 33.1s; --delay: -14.4s; --tdur: 3.5s; --tdelay: -0.5s; --o: 0.52;"></div><div class="star" style="--s: 0.7px; --x: 12.445953708227853%; --y: 76.3193062974263%; --dx: 27px; --dy: -38px; --dur: 39.3s; --delay: -18.6s; --tdur: 4.6s; --tdelay: -1.6s; --o: 0.50;"></div><div class="star" style="--s: 2.1px; --x: 78.74198299479309%; --y: 98.97479639824135%; --dx: 30px; --dy: -25px; --dur: 31.3s; --delay: -19.1s; --tdur: 4.2s; --tdelay: -3.1s; --o: 0.81;"></div><div class="star" style="--s: 1.2px; --x: 38.81062299597487%; --y: 67.60634897918688%; --dx: -13px; --dy: -23px; --dur: 36.8s; --delay: -1.7s; --tdur: 3.8s; --tdelay: -0.1s; --o: 0.77;"></div><div class="star" style="--s: 1.3px; --x: 25.847644825487524%; --y: 34.42856145577535%; --dx: 24px; --dy: -6px; --dur: 49.7s; --delay: -5.6s; --tdur: 4.4s; --tdelay: -2.5s; --o: 0.91;"></div><div class="star" style="--s: 1.3px; --x: 30.80609217964283%; --y: 19.836794524023638%; --dx: 36px; --dy: 14px; --dur: 37.5s; --delay: -23.6s; --tdur: 3.2s; --tdelay: -3.4s; --o: 0.41;"></div><div class="star" style="--s: 1.8px; --x: 94.4456905896849%; --y: 30.010672461812995%; --dx: -40px; --dy: -37px; --dur: 42.2s; --delay: -1.6s; --tdur: 4.0s; --tdelay: -2.5s; --o: 0.48;"></div><div class="star" style="--s: 2.3px; --x: 42.2120032173369%; --y: 63.44840796212122%; --dx: 15px; --dy: -14px; --dur: 34.9s; --delay: -10.2s; --tdur: 4.3s; --tdelay: -0.8s; --o: 0.35;"></div><div class="star" style="--s: 1.7px; --x: 74.71621533581218%; --y: 20.735505978808778%; --dx: -30px; --dy: 8px; --dur: 32.5s; --delay: -16.7s; --tdur: 4.4s; --tdelay: -2.3s; --o: 0.42;"></div><div class="star" style="--s: 1.5px; --x: 48.68303424812501%; --y: 39.48941031547437%; --dx: 23px; --dy: -27px; --dur: 36.6s; --delay: -4.7s; --tdur: 3.4s; --tdelay: -3.7s; --o: 0.44;"></div><div class="star" style="--s: 2.4px; --x: 59.74400911149341%; --y: 90.1019446930537%; --dx: 6px; --dy: 8px; --dur: 36.5s; --delay: -29.2s; --tdur: 3.2s; --tdelay: -1.8s; --o: 0.37;"></div><div class="star" style="--s: 2.1px; --x: 30.437104938331984%; --y: 80.63073498799122%; --dx: 17px; --dy: -25px; --dur: 44.4s; --delay: -23.8s; --tdur: 2.6s; --tdelay: -0.7s; --o: 0.55;"></div><div class="star" style="--s: 2.1px; --x: 75.94235768262185%; --y: 18.111089786650147%; --dx: -33px; --dy: -24px; --dur: 43.2s; --delay: -25.2s; --tdur: 2.7s; --tdelay: -1.8s; --o: 0.37;"></div><div class="star" style="--s: 1.4px; --x: 1.623599374395035%; --y: 16.157890362025405%; --dx: -20px; --dy: -40px; --dur: 27.3s; --delay: -0.0s; --tdur: 3.6s; --tdelay: -3.6s; --o: 0.69;"></div><div class="star" style="--s: 2.0px; --x: 57.838819848085635%; --y: 19.618547066651438%; --dx: -26px; --dy: 37px; --dur: 42.9s; --delay: -4.7s; --tdur: 3.8s; --tdelay: -3.5s; --o: 0.62;"></div><div class="star" style="--s: 1.0px; --x: 75.33156309917638%; --y: 44.43292786226042%; --dx: -17px; --dy: 16px; --dur: 45.5s; --delay: -3.1s; --tdur: 3.0s; --tdelay: -3.2s; --o: 0.58;"></div><div class="star" style="--s: 0.9px; --x: 37.52025021554645%; --y: 0.25828425406326794%; --dx: 33px; --dy: 7px; --dur: 45.3s; --delay: -23.6s; --tdur: 4.0s; --tdelay: -1.9s; --o: 0.58;"></div><div class="star" style="--s: 2.3px; --x: 63.992776872270994%; --y: 71.59472310404831%; --dx: -18px; --dy: 33px; --dur: 37.0s; --delay: -8.8s; --tdur: 2.1s; --tdelay: -1.0s; --o: 0.40;"></div><div class="star" style="--s: 1.1px; --x: 52.14033032825171%; --y: 56.00343799779499%; --dx: 39px; --dy: 3px; --dur: 27.6s; --delay: -3.9s; --tdur: 4.0s; --tdelay: -0.6s; --o: 0.44;"></div><div class="star" style="--s: 1.3px; --x: 93.40436390182246%; --y: 50.69210697689537%; --dx: 10px; --dy: -22px; --dur: 46.3s; --delay: -7.5s; --tdur: 2.9s; --tdelay: -2.1s; --o: 0.78;"></div><div class="star" style="--s: 1.9px; --x: 25.54692010436336%; --y: 71.3744149627772%; --dx: -2px; --dy: 24px; --dur: 36.2s; --delay: -14.0s; --tdur: 3.9s; --tdelay: -3.3s; --o: 0.48;"></div><div class="star" style="--s: 1.2px; --x: 3.1915777115412047%; --y: 72.94518630641906%; --dx: -19px; --dy: 22px; --dur: 36.4s; --delay: -27.5s; --tdur: 4.1s; --tdelay: -1.2s; --o: 0.58;"></div><div class="star" style="--s: 2.3px; --x: 46.22973693700006%; --y: 87.46892575986291%; --dx: 20px; --dy: -34px; --dur: 37.6s; --delay: -13.6s; --tdur: 4.9s; --tdelay: -3.5s; --o: 0.38;"></div><div class="star" style="--s: 1.4px; --x: 90.38833648062378%; --y: 28.942244380017957%; --dx: 17px; --dy: 29px; --dur: 43.4s; --delay: -16.4s; --tdur: 2.0s; --tdelay: -1.5s; --o: 0.68;"></div><div class="star" style="--s: 1.4px; --x: 22.701205333874853%; --y: 24.036912524579456%; --dx: 31px; --dy: 0px; --dur: 33.9s; --delay: -21.8s; --tdur: 3.5s; --tdelay: -0.5s; --o: 0.75;"></div><div class="star" style="--s: 1.1px; --x: 91.73146999704444%; --y: 24.372788136573654%; --dx: 36px; --dy: -36px; --dur: 42.6s; --delay: -4.8s; --tdur: 2.7s; --tdelay: -1.0s; --o: 0.38;"></div><div class="star" style="--s: 2.2px; --x: 17.906583107917207%; --y: 96.62008574097383%; --dx: 28px; --dy: -25px; --dur: 40.0s; --delay: -22.1s; --tdur: 4.1s; --tdelay: -1.2s; --o: 0.86;"></div><div class="star" style="--s: 1.5px; --x: 26.41906861486585%; --y: 37.78401536903962%; --dx: -19px; --dy: 36px; --dur: 44.8s; --delay: -22.1s; --tdur: 3.4s; --tdelay: -0.5s; --o: 0.95;"></div><div class="star" style="--s: 1.6px; --x: 3.3069518477079174%; --y: 49.77823941784032%; --dx: -21px; --dy: 31px; --dur: 45.0s; --delay: -13.6s; --tdur: 4.4s; --tdelay: -2.9s; --o: 0.86;"></div><div class="star" style="--s: 2.4px; --x: 67.838552777645%; --y: 96.99578052308485%; --dx: -33px; --dy: 36px; --dur: 36.2s; --delay: -10.2s; --tdur: 2.8s; --tdelay: -1.6s; --o: 0.52;"></div><div class="star" style="--s: 1.8px; --x: 71.12714853744939%; --y: 79.16167456837995%; --dx: -40px; --dy: 12px; --dur: 25.2s; --delay: -12.6s; --tdur: 2.6s; --tdelay: -0.3s; --o: 0.61;"></div><div class="star" style="--s: 2.4px; --x: 98.88295441912071%; --y: 57.627754545726674%; --dx: -38px; --dy: -38px; --dur: 47.0s; --delay: -29.5s; --tdur: 3.0s; --tdelay: -0.9s; --o: 0.59;"></div><div class="star" style="--s: 1.9px; --x: 47.3821680568938%; --y: 45.56032690237397%; --dx: -14px; --dy: -28px; --dur: 30.4s; --delay: -3.3s; --tdur: 2.5s; --tdelay: -2.7s; --o: 0.86;"></div><div class="star" style="--s: 1.6px; --x: 84.60948804255577%; --y: 92.31814239949402%; --dx: 24px; --dy: 31px; --dur: 49.3s; --delay: -13.1s; --tdur: 3.5s; --tdelay: -2.6s; --o: 0.79;"></div><div class="star" style="--s: 1.5px; --x: 35.05591932493424%; --y: 28.470504790383455%; --dx: -33px; --dy: 18px; --dur: 43.5s; --delay: -22.0s; --tdur: 2.9s; --tdelay: -3.6s; --o: 0.89;"></div><div class="star" style="--s: 2.2px; --x: 46.09020620936614%; --y: 68.47378329850106%; --dx: 30px; --dy: 34px; --dur: 46.3s; --delay: -7.2s; --tdur: 4.3s; --tdelay: -3.8s; --o: 0.83;"></div><div class="star" style="--s: 0.7px; --x: 29.140477778046947%; --y: 84.47305071088083%; --dx: 3px; --dy: 12px; --dur: 42.4s; --delay: -12.0s; --tdur: 3.9s; --tdelay: -3.1s; --o: 0.77;"></div><div class="star" style="--s: 1.5px; --x: 4.772538613879829%; --y: 90.74879195142476%; --dx: -16px; --dy: -4px; --dur: 39.6s; --delay: -19.7s; --tdur: 4.3s; --tdelay: -1.0s; --o: 0.84;"></div><div class="star" style="--s: 2.3px; --x: 99.90917133392124%; --y: 22.046238997539625%; --dx: 39px; --dy: -33px; --dur: 32.1s; --delay: -0.1s; --tdur: 2.6s; --tdelay: -0.1s; --o: 0.76;"></div><div class="star" style="--s: 2.4px; --x: 28.35108929315544%; --y: 99.35588361953862%; --dx: -39px; --dy: -5px; --dur: 30.4s; --delay: -10.1s; --tdur: 3.6s; --tdelay: -0.0s; --o: 0.72;"></div><div class="star" style="--s: 1.7px; --x: 64.13006705253316%; --y: 10.308396491885286%; --dx: -8px; --dy: -28px; --dur: 28.2s; --delay: -5.8s; --tdur: 2.9s; --tdelay: -1.6s; --o: 0.53;"></div><div class="star" style="--s: 2.5px; --x: 66.39802928176188%; --y: 43.31617431210749%; --dx: -0px; --dy: 39px; --dur: 29.9s; --delay: -29.0s; --tdur: 4.4s; --tdelay: -1.7s; --o: 0.90;"></div><div class="star" style="--s: 2.0px; --x: 41.89277015774857%; --y: 59.7276199921266%; --dx: 36px; --dy: -15px; --dur: 42.2s; --delay: -20.9s; --tdur: 3.2s; --tdelay: -2.2s; --o: 0.54;"></div><div class="star" style="--s: 2.1px; --x: 7.038415247406949%; --y: 63.67588247831348%; --dx: 0px; --dy: 15px; --dur: 37.3s; --delay: -10.1s; --tdur: 2.4s; --tdelay: -1.4s; --o: 0.82;"></div><div class="star" style="--s: 1.5px; --x: 41.99743467592103%; --y: 47.19037530029948%; --dx: -24px; --dy: -14px; --dur: 36.5s; --delay: -29.6s; --tdur: 2.3s; --tdelay: -2.7s; --o: 0.62;"></div><div class="star" style="--s: 1.7px; --x: 72.1637192529562%; --y: 94.94528702863443%; --dx: 19px; --dy: 28px; --dur: 42.6s; --delay: -24.7s; --tdur: 4.6s; --tdelay: -3.3s; --o: 0.46;"></div><div class="star" style="--s: 1.1px; --x: 77.8966742657361%; --y: 46.287975122783735%; --dx: 39px; --dy: 14px; --dur: 46.2s; --delay: -21.2s; --tdur: 2.6s; --tdelay: -2.7s; --o: 0.73;"></div><div class="star" style="--s: 2.3px; --x: 30.730120642515622%; --y: 74.14512386704963%; --dx: 3px; --dy: 28px; --dur: 28.0s; --delay: -15.3s; --tdur: 2.2s; --tdelay: -0.1s; --o: 0.41;"></div><div class="star" style="--s: 1.8px; --x: 90.47385279975205%; --y: 82.5909621376961%; --dx: -24px; --dy: -11px; --dur: 43.6s; --delay: -0.8s; --tdur: 2.4s; --tdelay: -1.3s; --o: 0.89;"></div><div class="star" style="--s: 1.2px; --x: 28.55439892307293%; --y: 8.537800453003552%; --dx: -39px; --dy: -17px; --dur: 44.9s; --delay: -10.0s; --tdur: 3.6s; --tdelay: -2.0s; --o: 0.66;"></div><div class="star" style="--s: 0.8px; --x: 89.40461902475776%; --y: 34.21823098303665%; --dx: -11px; --dy: -27px; --dur: 25.1s; --delay: -16.9s; --tdur: 3.4s; --tdelay: -2.0s; --o: 0.59;"></div><div class="star" style="--s: 2.4px; --x: 53.74620374986255%; --y: 58.92213171328302%; --dx: 32px; --dy: 37px; --dur: 35.6s; --delay: -10.3s; --tdur: 2.3s; --tdelay: -2.4s; --o: 0.87;"></div><div class="star" style="--s: 1.5px; --x: 11.818408836955541%; --y: 81.13255115070021%; --dx: 7px; --dy: -7px; --dur: 46.9s; --delay: -15.4s; --tdur: 3.0s; --tdelay: -3.0s; --o: 0.84;"></div><div class="star" style="--s: 1.7px; --x: 66.98603929229247%; --y: 43.95558569943569%; --dx: 2px; --dy: -21px; --dur: 45.1s; --delay: -8.5s; --tdur: 3.6s; --tdelay: -3.7s; --o: 0.91;"></div><div class="star" style="--s: 1.9px; --x: 42.58332144768768%; --y: 87.30937489759%; --dx: 3px; --dy: -10px; --dur: 33.4s; --delay: -10.6s; --tdur: 3.5s; --tdelay: -2.0s; --o: 0.49;"></div><div class="star" style="--s: 2.1px; --x: 0.44168106536247587%; --y: 83.0523294115933%; --dx: 37px; --dy: -7px; --dur: 30.0s; --delay: -15.4s; --tdur: 3.6s; --tdelay: -2.6s; --o: 0.36;"></div><div class="star" style="--s: 1.5px; --x: 53.91420025000213%; --y: 42.97858594653873%; --dx: 27px; --dy: 3px; --dur: 26.3s; --delay: -13.3s; --tdur: 4.2s; --tdelay: -3.1s; --o: 0.87;"></div><div class="star" style="--s: 1.5px; --x: 38.71044391930187%; --y: 35.421899959574624%; --dx: -11px; --dy: -11px; --dur: 26.6s; --delay: -28.8s; --tdur: 2.7s; --tdelay: -1.4s; --o: 0.79;"></div><div class="star" style="--s: 2.0px; --x: 61.83998567119242%; --y: 25.586947659253656%; --dx: 10px; --dy: 11px; --dur: 27.4s; --delay: -0.8s; --tdur: 4.5s; --tdelay: -2.6s; --o: 0.81;"></div><div class="star" style="--s: 2.6px; --x: 97.24740424492259%; --y: 19.51862460682412%; --dx: 15px; --dy: -13px; --dur: 49.8s; --delay: -18.7s; --tdur: 4.3s; --tdelay: -1.4s; --o: 0.36;"></div><div class="star" style="--s: 1.5px; --x: 10.81604771159138%; --y: 21.632163778172053%; --dx: -24px; --dy: 12px; --dur: 41.8s; --delay: -23.5s; --tdur: 3.9s; --tdelay: -3.4s; --o: 0.67;"></div><div class="star" style="--s: 2.0px; --x: 66.11590103179746%; --y: 82.08009579610292%; --dx: 34px; --dy: 7px; --dur: 41.7s; --delay: -29.8s; --tdur: 3.0s; --tdelay: -1.8s; --o: 0.55;"></div><div class="star" style="--s: 1.1px; --x: 57.26469853653631%; --y: 40.72169036494575%; --dx: 35px; --dy: 4px; --dur: 41.9s; --delay: -4.3s; --tdur: 2.6s; --tdelay: -3.0s; --o: 0.86;"></div><div class="star" style="--s: 1.4px; --x: 82.75879209752792%; --y: 78.13821951852562%; --dx: 9px; --dy: 31px; --dur: 42.7s; --delay: -3.9s; --tdur: 4.1s; --tdelay: -2.5s; --o: 0.71;"></div><div class="star" style="--s: 1.8px; --x: 49.599745102227374%; --y: 6.021068544098518%; --dx: -20px; --dy: 28px; --dur: 27.2s; --delay: -29.1s; --tdur: 4.3s; --tdelay: -3.1s; --o: 0.69;"></div><div class="star" style="--s: 0.7px; --x: 92.36958961072274%; --y: 12.723502812927467%; --dx: 34px; --dy: -36px; --dur: 43.4s; --delay: -2.1s; --tdur: 3.9s; --tdelay: -3.2s; --o: 0.77;"></div><div class="star" style="--s: 2.0px; --x: 4.592235691021607%; --y: 69.52253705310461%; --dx: -21px; --dy: -8px; --dur: 40.3s; --delay: -3.3s; --tdur: 4.8s; --tdelay: -3.2s; --o: 0.86;"></div><div class="star" style="--s: 1.8px; --x: 89.04577414184631%; --y: 71.01953410420747%; --dx: 27px; --dy: -15px; --dur: 30.9s; --delay: -29.9s; --tdur: 2.2s; --tdelay: -1.1s; --o: 0.74;"></div><div class="star" style="--s: 1.9px; --x: 72.68544207064413%; --y: 9.830465945463784%; --dx: -36px; --dy: -23px; --dur: 41.2s; --delay: -17.4s; --tdur: 4.4s; --tdelay: -1.7s; --o: 0.76;"></div><div class="star" style="--s: 1.8px; --x: 28.402277062245794%; --y: 58.56282375830063%; --dx: 29px; --dy: 25px; --dur: 31.5s; --delay: -21.1s; --tdur: 4.7s; --tdelay: -1.2s; --o: 0.92;"></div><div class="star" style="--s: 1.7px; --x: 86.30320801865432%; --y: 13.278122557248128%; --dx: -22px; --dy: 22px; --dur: 25.7s; --delay: -22.1s; --tdur: 3.9s; --tdelay: -0.9s; --o: 0.82;"></div><div class="star" style="--s: 2.4px; --x: 42.114539556895316%; --y: 22.22897299704899%; --dx: -2px; --dy: 13px; --dur: 39.9s; --delay: -23.1s; --tdur: 4.0s; --tdelay: -0.4s; --o: 0.48;"></div><div class="star" style="--s: 1.8px; --x: 81.04874673092911%; --y: 30.506730853154217%; --dx: 9px; --dy: -21px; --dur: 43.4s; --delay: -10.6s; --tdur: 3.9s; --tdelay: -1.7s; --o: 0.76;"></div><div class="star" style="--s: 1.4px; --x: 50.8109876850984%; --y: 47.44489922380155%; --dx: 1px; --dy: -6px; --dur: 42.1s; --delay: -24.2s; --tdur: 2.1s; --tdelay: -3.0s; --o: 0.64;"></div><div class="star" style="--s: 2.1px; --x: 27.682177174061373%; --y: 59.49153043390485%; --dx: 14px; --dy: -11px; --dur: 48.9s; --delay: -17.0s; --tdur: 4.4s; --tdelay: -3.1s; --o: 0.48;"></div><div class="star" style="--s: 1.0px; --x: 37.4466237536277%; --y: 59.798207364881925%; --dx: 20px; --dy: -12px; --dur: 34.0s; --delay: -13.1s; --tdur: 2.9s; --tdelay: -3.1s; --o: 0.61;"></div><div class="star" style="--s: 1.3px; --x: 54.56588247150508%; --y: 56.94746020440029%; --dx: -40px; --dy: -29px; --dur: 41.1s; --delay: -24.9s; --tdur: 4.5s; --tdelay: -2.1s; --o: 0.65;"></div><div class="star" style="--s: 2.0px; --x: 57.09298926355836%; --y: 51.675386063705716%; --dx: 31px; --dy: -37px; --dur: 41.1s; --delay: -2.9s; --tdur: 4.5s; --tdelay: -3.3s; --o: 0.71;"></div><div class="star" style="--s: 1.8px; --x: 23.612921110579364%; --y: 91.75293947878525%; --dx: 5px; --dy: -22px; --dur: 35.7s; --delay: -11.8s; --tdur: 3.7s; --tdelay: -2.0s; --o: 0.91;"></div><div class="star" style="--s: 1.4px; --x: 41.4734878473852%; --y: 31.148911990520723%; --dx: 16px; --dy: -19px; --dur: 30.0s; --delay: -13.5s; --tdur: 2.4s; --tdelay: -3.9s; --o: 0.83;"></div><div class="star" style="--s: 1.4px; --x: 88.60121791069244%; --y: 12.465890675787906%; --dx: -29px; --dy: 24px; --dur: 45.1s; --delay: -1.0s; --tdur: 2.3s; --tdelay: -2.6s; --o: 0.89;"></div><div class="star" style="--s: 1.8px; --x: 24.01202562432976%; --y: 64.56317212681245%; --dx: -29px; --dy: -37px; --dur: 44.8s; --delay: -7.0s; --tdur: 2.4s; --tdelay: -1.2s; --o: 0.36;"></div><div class="star" style="--s: 1.0px; --x: 83.69474669481507%; --y: 39.123261194037525%; --dx: -21px; --dy: 27px; --dur: 30.6s; --delay: -2.4s; --tdur: 4.6s; --tdelay: -0.4s; --o: 0.95;"></div><div class="star" style="--s: 1.5px; --x: 8.823764419632418%; --y: 19.796953423588405%; --dx: -34px; --dy: 13px; --dur: 41.9s; --delay: -9.3s; --tdur: 4.3s; --tdelay: -0.3s; --o: 0.43;"></div><div class="star" style="--s: 0.8px; --x: 62.903809080128084%; --y: 38.86504226807597%; --dx: 6px; --dy: -23px; --dur: 42.4s; --delay: -22.7s; --tdur: 2.6s; --tdelay: -2.2s; --o: 0.47;"></div><div class="star" style="--s: 1.5px; --x: 12.6392255547222%; --y: 82.89184131479708%; --dx: 17px; --dy: -19px; --dur: 26.7s; --delay: -22.1s; --tdur: 3.2s; --tdelay: -3.4s; --o: 0.84;"></div><div class="star" style="--s: 1.8px; --x: 5.344314755928337%; --y: 34.251460912823376%; --dx: -26px; --dy: -32px; --dur: 32.4s; --delay: -6.0s; --tdur: 4.7s; --tdelay: -2.3s; --o: 0.52;"></div><div class="star" style="--s: 1.9px; --x: 16.19211787110757%; --y: 91.6183988164738%; --dx: 3px; --dy: -14px; --dur: 33.4s; --delay: -16.7s; --tdur: 4.8s; --tdelay: -0.9s; --o: 0.80;"></div><div class="star" style="--s: 0.9px; --x: 39.1715747936074%; --y: 81.53421574014251%; --dx: -25px; --dy: 10px; --dur: 45.8s; --delay: -26.4s; --tdur: 3.3s; --tdelay: -3.3s; --o: 0.53;"></div><div class="star" style="--s: 0.7px; --x: 89.52803893362552%; --y: 25.377321504059815%; --dx: 8px; --dy: -10px; --dur: 34.7s; --delay: -9.9s; --tdur: 2.7s; --tdelay: -1.8s; --o: 0.72;"></div><div class="star" style="--s: 0.7px; --x: 91.23449315919204%; --y: 15.624934826904834%; --dx: -20px; --dy: 5px; --dur: 43.5s; --delay: -2.6s; --tdur: 3.1s; --tdelay: -0.1s; --o: 0.68;"></div><div class="star" style="--s: 1.2px; --x: 18.36174864666942%; --y: 83.08905798667747%; --dx: 9px; --dy: 35px; --dur: 43.7s; --delay: -23.2s; --tdur: 3.9s; --tdelay: -3.2s; --o: 0.89;"></div><div class="star" style="--s: 0.7px; --x: 89.93360878760387%; --y: 49.298400537392276%; --dx: 15px; --dy: 20px; --dur: 36.7s; --delay: -12.6s; --tdur: 3.5s; --tdelay: -1.2s; --o: 0.37;"></div><div class="star" style="--s: 0.9px; --x: 99.1939395720743%; --y: 98.08709827598324%; --dx: -20px; --dy: 7px; --dur: 37.6s; --delay: -2.4s; --tdur: 3.0s; --tdelay: -2.7s; --o: 0.38;"></div><div class="star" style="--s: 2.3px; --x: 25.958229086309537%; --y: 94.22380301648727%; --dx: 18px; --dy: -10px; --dur: 48.6s; --delay: -0.2s; --tdur: 4.8s; --tdelay: -2.3s; --o: 0.52;"></div><div class="star" style="--s: 0.9px; --x: 26.705579803131773%; --y: 71.45621774972744%; --dx: 23px; --dy: -34px; --dur: 48.4s; --delay: -20.0s; --tdur: 2.1s; --tdelay: -3.1s; --o: 0.81;"></div><div class="star" style="--s: 0.7px; --x: 72.22484391742672%; --y: 14.463389707298335%; --dx: -8px; --dy: -5px; --dur: 25.6s; --delay: -24.4s; --tdur: 4.5s; --tdelay: -2.5s; --o: 0.78;"></div><div class="star" style="--s: 2.3px; --x: 69.79117410892167%; --y: 72.79103497670849%; --dx: -39px; --dy: 20px; --dur: 33.2s; --delay: -9.8s; --tdur: 3.8s; --tdelay: -2.2s; --o: 0.78;"></div><div class="star" style="--s: 2.0px; --x: 4.453485672194102%; --y: 55.367357225175226%; --dx: 35px; --dy: 16px; --dur: 40.3s; --delay: -28.1s; --tdur: 2.0s; --tdelay: -2.3s; --o: 0.42;"></div><div class="star" style="--s: 1.3px; --x: 98.12487366273145%; --y: 19.11312687209188%; --dx: -23px; --dy: 6px; --dur: 30.8s; --delay: -8.0s; --tdur: 2.8s; --tdelay: -3.7s; --o: 0.92;"></div><div class="star" style="--s: 2.2px; --x: 8.140262756797355%; --y: 21.603305063366594%; --dx: 29px; --dy: -37px; --dur: 33.9s; --delay: -29.5s; --tdur: 2.6s; --tdelay: -0.3s; --o: 0.79;"></div><div class="star" style="--s: 1.5px; --x: 28.06416434601273%; --y: 24.151199136230815%; --dx: 18px; --dy: 2px; --dur: 34.3s; --delay: -17.7s; --tdur: 2.4s; --tdelay: -0.9s; --o: 0.49;"></div><div class="star" style="--s: 1.4px; --x: 51.389715260956734%; --y: 87.50473789023631%; --dx: 28px; --dy: -8px; --dur: 43.7s; --delay: -2.2s; --tdur: 4.6s; --tdelay: -1.2s; --o: 0.89;"></div><div class="star" style="--s: 1.0px; --x: 1.9036998729841992%; --y: 62.722102523088694%; --dx: 15px; --dy: -10px; --dur: 32.6s; --delay: -1.2s; --tdur: 2.3s; --tdelay: -3.9s; --o: 0.43;"></div><div class="star" style="--s: 0.7px; --x: 86.69470285114805%; --y: 3.898142262885007%; --dx: -7px; --dy: -20px; --dur: 49.7s; --delay: -8.3s; --tdur: 4.9s; --tdelay: -2.7s; --o: 0.56;"></div><div class="star" style="--s: 1.0px; --x: 84.87208815081942%; --y: 41.95310623414036%; --dx: -17px; --dy: 20px; --dur: 35.0s; --delay: -7.5s; --tdur: 4.2s; --tdelay: -3.7s; --o: 0.39;"></div><div class="star" style="--s: 1.7px; --x: 97.80870939504518%; --y: 30.11380292789069%; --dx: -32px; --dy: 15px; --dur: 31.7s; --delay: -17.1s; --tdur: 2.1s; --tdelay: -2.6s; --o: 0.69;"></div><div class="star" style="--s: 0.9px; --x: 34.46387936708799%; --y: 37.33602062388325%; --dx: 23px; --dy: 29px; --dur: 27.7s; --delay: -15.9s; --tdur: 3.9s; --tdelay: -2.3s; --o: 0.93;"></div><div class="star" style="--s: 0.7px; --x: 37.16638900867173%; --y: 8.170765793185097%; --dx: 32px; --dy: -14px; --dur: 37.6s; --delay: -18.4s; --tdur: 3.4s; --tdelay: -3.2s; --o: 0.60;"></div><div class="star" style="--s: 0.6px; --x: 63.60249920814655%; --y: 38.34903525271216%; --dx: -26px; --dy: -37px; --dur: 41.3s; --delay: -12.5s; --tdur: 2.2s; --tdelay: -2.9s; --o: 0.72;"></div><div class="star" style="--s: 1.2px; --x: 72.30277819913101%; --y: 47.05249935871644%; --dx: -31px; --dy: -7px; --dur: 29.2s; --delay: -13.1s; --tdur: 4.7s; --tdelay: -3.5s; --o: 0.91;"></div><div class="star" style="--s: 1.8px; --x: 35.82669957791512%; --y: 63.48872812830011%; --dx: 11px; --dy: -2px; --dur: 46.4s; --delay: -5.0s; --tdur: 4.1s; --tdelay: -1.6s; --o: 0.72;"></div><div class="star" style="--s: 1.4px; --x: 47.47690934669732%; --y: 83.76063368554557%; --dx: 14px; --dy: -30px; --dur: 43.1s; --delay: -26.8s; --tdur: 3.7s; --tdelay: -2.0s; --o: 0.42;"></div><div class="star" style="--s: 1.3px; --x: 65.22103545579803%; --y: 15.644142740195866%; --dx: 1px; --dy: 3px; --dur: 43.1s; --delay: -11.9s; --tdur: 4.1s; --tdelay: -2.6s; --o: 0.82;"></div><div class="star" style="--s: 1.1px; --x: 17.873217029168366%; --y: 70.57915688398421%; --dx: 12px; --dy: -8px; --dur: 29.7s; --delay: -22.4s; --tdur: 4.3s; --tdelay: -0.5s; --o: 0.83;"></div><div class="star" style="--s: 2.5px; --x: 38.667637626506%; --y: 2.2457431715930287%; --dx: -31px; --dy: -16px; --dur: 40.8s; --delay: -20.2s; --tdur: 2.5s; --tdelay: -2.2s; --o: 0.78;"></div><div class="star" style="--s: 2.1px; --x: 34.59937524209441%; --y: 18.206519698499214%; --dx: 30px; --dy: -10px; --dur: 40.1s; --delay: -7.8s; --tdur: 4.6s; --tdelay: -0.7s; --o: 0.66;"></div><div class="star" style="--s: 1.6px; --x: 66.97385074398964%; --y: 12.030452960825688%; --dx: -24px; --dy: 14px; --dur: 49.9s; --delay: -5.9s; --tdur: 3.5s; --tdelay: -0.3s; --o: 0.64;"></div><div class="star" style="--s: 0.8px; --x: 3.7931929260234476%; --y: 94.80276321374451%; --dx: 20px; --dy: -32px; --dur: 42.3s; --delay: -12.9s; --tdur: 2.4s; --tdelay: -1.3s; --o: 0.49;"></div><div class="star" style="--s: 0.7px; --x: 40.997739323754324%; --y: 24.393701545725634%; --dx: 18px; --dy: -2px; --dur: 30.9s; --delay: -17.8s; --tdur: 2.9s; --tdelay: -0.6s; --o: 0.81;"></div><div class="star" style="--s: 1.4px; --x: 29.7250560588054%; --y: 71.49848482167587%; --dx: 4px; --dy: -11px; --dur: 45.7s; --delay: -25.7s; --tdur: 3.2s; --tdelay: -3.9s; --o: 0.48;"></div><div class="star" style="--s: 1.4px; --x: 38.79881223802813%; --y: 30.067656708721092%; --dx: 15px; --dy: 34px; --dur: 30.0s; --delay: -29.7s; --tdur: 4.3s; --tdelay: -1.8s; --o: 0.88;"></div><div class="star" style="--s: 1.3px; --x: 71.56501735353123%; --y: 45.13671010160486%; --dx: -38px; --dy: 30px; --dur: 37.7s; --delay: -28.7s; --tdur: 4.9s; --tdelay: -3.5s; --o: 0.68;"></div><div class="star" style="--s: 1.7px; --x: 47.24159568798173%; --y: 53.177422377613595%; --dx: 28px; --dy: 23px; --dur: 26.7s; --delay: -2.8s; --tdur: 2.8s; --tdelay: -2.2s; --o: 0.82;"></div><div class="star" style="--s: 1.3px; --x: 73.87903015883886%; --y: 91.64766621834605%; --dx: -5px; --dy: 35px; --dur: 35.2s; --delay: -14.9s; --tdur: 5.0s; --tdelay: -2.1s; --o: 0.61;"></div><div class="star" style="--s: 2.3px; --x: 26.247695477356668%; --y: 4.5309073667508475%; --dx: -35px; --dy: -32px; --dur: 26.3s; --delay: -2.7s; --tdur: 3.9s; --tdelay: -0.7s; --o: 0.91;"></div><div class="star" style="--s: 1.0px; --x: 19.992387881890515%; --y: 21.56274850787493%; --dx: 32px; --dy: -10px; --dur: 25.4s; --delay: -15.4s; --tdur: 2.5s; --tdelay: -3.5s; --o: 0.40;"></div><div class="star" style="--s: 0.9px; --x: 46.2088514417918%; --y: 33.009438019759415%; --dx: 2px; --dy: 32px; --dur: 40.2s; --delay: -19.5s; --tdur: 5.0s; --tdelay: -2.9s; --o: 0.78;"></div><div class="star" style="--s: 2.1px; --x: 82.10748545779192%; --y: 75.61916614882877%; --dx: 32px; --dy: 3px; --dur: 25.4s; --delay: -19.1s; --tdur: 5.0s; --tdelay: -1.2s; --o: 0.77;"></div><div class="star" style="--s: 1.0px; --x: 36.382981791116876%; --y: 87.93318462166283%; --dx: 24px; --dy: -23px; --dur: 42.3s; --delay: -0.5s; --tdur: 4.3s; --tdelay: -2.0s; --o: 0.81;"></div><div class="star" style="--s: 1.0px; --x: 78.22580449856929%; --y: 25.890908622322005%; --dx: 26px; --dy: -12px; --dur: 26.0s; --delay: -14.0s; --tdur: 4.5s; --tdelay: -0.5s; --o: 0.38;"></div><div class="star" style="--s: 1.8px; --x: 75.07325552214695%; --y: 82.82549960491676%; --dx: -26px; --dy: 29px; --dur: 50.0s; --delay: -5.2s; --tdur: 3.9s; --tdelay: -0.1s; --o: 0.39;"></div><div class="star" style="--s: 2.2px; --x: 94.32679193156389%; --y: 50.03586889562913%; --dx: 19px; --dy: -9px; --dur: 28.2s; --delay: -2.0s; --tdur: 2.9s; --tdelay: -2.4s; --o: 0.51;"></div><div class="star" style="--s: 1.6px; --x: 86.18603323335715%; --y: 36.5695645233444%; --dx: -38px; --dy: -22px; --dur: 45.0s; --delay: -17.6s; --tdur: 5.0s; --tdelay: -3.0s; --o: 0.42;"></div><div class="star" style="--s: 1.3px; --x: 96.9106528726132%; --y: 40.251305042237874%; --dx: -8px; --dy: -14px; --dur: 33.8s; --delay: -2.7s; --tdur: 4.5s; --tdelay: -1.2s; --o: 0.50;"></div><div class="star" style="--s: 0.8px; --x: 47.76812620030313%; --y: 27.378015815255317%; --dx: 3px; --dy: 26px; --dur: 47.3s; --delay: -21.3s; --tdur: 2.6s; --tdelay: -0.0s; --o: 0.44;"></div><div class="star" style="--s: 2.2px; --x: 10.823513306179066%; --y: 6.709318334888781%; --dx: -31px; --dy: -1px; --dur: 34.0s; --delay: -1.6s; --tdur: 4.1s; --tdelay: -2.8s; --o: 0.58;"></div><div class="star" style="--s: 0.6px; --x: 68.57145844685772%; --y: 30.764153603765276%; --dx: 32px; --dy: -12px; --dur: 37.6s; --delay: -21.4s; --tdur: 3.5s; --tdelay: -0.8s; --o: 0.62;"></div><div class="star" style="--s: 1.6px; --x: 10.19673983180378%; --y: 38.130749108596916%; --dx: 25px; --dy: -1px; --dur: 39.2s; --delay: -7.8s; --tdur: 2.6s; --tdelay: -2.5s; --o: 0.37;"></div><div class="star" style="--s: 2.1px; --x: 33.32083144175737%; --y: 14.58474672608837%; --dx: -40px; --dy: 9px; --dur: 48.4s; --delay: -7.5s; --tdur: 2.7s; --tdelay: -2.8s; --o: 0.86;"></div><div class="star" style="--s: 1.4px; --x: 36.298261200263084%; --y: 42.31250336029703%; --dx: -13px; --dy: 35px; --dur: 38.0s; --delay: -15.3s; --tdur: 4.6s; --tdelay: -2.0s; --o: 0.47;"></div><div class="star" style="--s: 1.5px; --x: 11.380854701100274%; --y: 57.403106363017045%; --dx: -24px; --dy: -3px; --dur: 48.3s; --delay: -1.6s; --tdur: 4.5s; --tdelay: -2.4s; --o: 0.60;"></div><div class="star" style="--s: 2.3px; --x: 49.003207545424445%; --y: 47.99810135570384%; --dx: -38px; --dy: -32px; --dur: 30.8s; --delay: -5.2s; --tdur: 3.5s; --tdelay: -0.1s; --o: 0.48;"></div><div class="star" style="--s: 1.4px; --x: 65.19913179912577%; --y: 76.28435011699646%; --dx: -37px; --dy: -30px; --dur: 38.3s; --delay: -13.7s; --tdur: 3.1s; --tdelay: -1.8s; --o: 0.49;"></div><div class="star" style="--s: 1.1px; --x: 57.9977971030081%; --y: 79.22249690900823%; --dx: 24px; --dy: -4px; --dur: 29.1s; --delay: -17.5s; --tdur: 3.4s; --tdelay: -3.4s; --o: 0.46;"></div><div class="star" style="--s: 1.3px; --x: 57.175452432686825%; --y: 29.6907515301583%; --dx: 24px; --dy: 21px; --dur: 47.4s; --delay: -23.6s; --tdur: 4.2s; --tdelay: -1.2s; --o: 0.49;"></div><div class="star" style="--s: 2.5px; --x: 40.221575540647%; --y: 25.76516608104201%; --dx: 12px; --dy: 34px; --dur: 44.2s; --delay: -25.4s; --tdur: 2.5s; --tdelay: -2.9s; --o: 0.59;"></div><div class="star" style="--s: 0.7px; --x: 9.818968463445865%; --y: 30.42986633197604%; --dx: -7px; --dy: 25px; --dur: 48.7s; --delay: -14.8s; --tdur: 2.9s; --tdelay: -0.8s; --o: 0.79;"></div><div class="star" style="--s: 2.2px; --x: 57.47064289227358%; --y: 25.58419450801017%; --dx: 18px; --dy: -20px; --dur: 47.5s; --delay: -3.8s; --tdur: 3.6s; --tdelay: -0.8s; --o: 0.64;"></div><div class="star" style="--s: 1.7px; --x: 27.62912789890548%; --y: 31.155652007568868%; --dx: -16px; --dy: -10px; --dur: 26.1s; --delay: -18.9s; --tdur: 2.7s; --tdelay: -2.3s; --o: 0.64;"></div><div class="star" style="--s: 2.0px; --x: 53.42482456098045%; --y: 64.699102476044%; --dx: -32px; --dy: 4px; --dur: 49.5s; --delay: -2.9s; --tdur: 2.1s; --tdelay: -0.7s; --o: 0.63;"></div><div class="star" style="--s: 1.0px; --x: 43.42686651081653%; --y: 51.7150969903068%; --dx: 1px; --dy: -19px; --dur: 41.8s; --delay: -15.9s; --tdur: 2.3s; --tdelay: -3.9s; --o: 0.72;"></div><div class="star" style="--s: 2.5px; --x: 73.42251828409935%; --y: 16.719235076572048%; --dx: 13px; --dy: 27px; --dur: 49.1s; --delay: -20.3s; --tdur: 2.5s; --tdelay: -0.4s; --o: 0.72;"></div><div class="star" style="--s: 0.6px; --x: 92.25507978366942%; --y: 92.93550582111439%; --dx: -40px; --dy: 25px; --dur: 45.7s; --delay: -1.2s; --tdur: 4.3s; --tdelay: -3.1s; --o: 0.87;"></div><div class="star" style="--s: 1.5px; --x: 12.420167504303947%; --y: 20.4764868510795%; --dx: -9px; --dy: 33px; --dur: 29.0s; --delay: -19.1s; --tdur: 4.2s; --tdelay: -0.4s; --o: 0.75;"></div><div class="star" style="--s: 2.3px; --x: 35.525643445921375%; --y: 13.629622571195387%; --dx: 25px; --dy: -35px; --dur: 47.7s; --delay: -22.9s; --tdur: 2.7s; --tdelay: -1.2s; --o: 0.53;"></div><div class="star" style="--s: 1.0px; --x: 35.60746616883732%; --y: 61.033612937513105%; --dx: -0px; --dy: -12px; --dur: 47.8s; --delay: -27.2s; --tdur: 4.2s; --tdelay: -2.5s; --o: 0.45;"></div><div class="star" style="--s: 1.6px; --x: 61.620863150710484%; --y: 34.40510719083556%; --dx: 31px; --dy: 18px; --dur: 28.3s; --delay: -5.7s; --tdur: 4.1s; --tdelay: -2.3s; --o: 0.59;"></div><div class="star" style="--s: 1.0px; --x: 67.19858346708017%; --y: 72.92217711122235%; --dx: 23px; --dy: -4px; --dur: 48.1s; --delay: -6.6s; --tdur: 4.0s; --tdelay: -2.4s; --o: 0.77;"></div><div class="star" style="--s: 1.2px; --x: 84.6518297226192%; --y: 8.26462223102361%; --dx: 35px; --dy: -30px; --dur: 47.7s; --delay: -25.3s; --tdur: 3.0s; --tdelay: -3.8s; --o: 0.71;"></div><div class="star" style="--s: 1.4px; --x: 63.71720239284836%; --y: 60.750222085930574%; --dx: 31px; --dy: -19px; --dur: 36.1s; --delay: -26.2s; --tdur: 2.0s; --tdelay: -2.0s; --o: 0.47;"></div><div class="star" style="--s: 2.5px; --x: 1.4390663143591498%; --y: 75.71615133316895%; --dx: 10px; --dy: -1px; --dur: 30.0s; --delay: -14.7s; --tdur: 3.9s; --tdelay: -3.2s; --o: 0.70;"></div><div class="star" style="--s: 0.8px; --x: 76.82355635925813%; --y: 56.56321303699653%; --dx: 24px; --dy: 14px; --dur: 49.8s; --delay: -16.5s; --tdur: 4.1s; --tdelay: -3.4s; --o: 0.68;"></div><div class="star" style="--s: 2.1px; --x: 44.874929219834826%; --y: 79.30062983317579%; --dx: 40px; --dy: -22px; --dur: 30.8s; --delay: -25.4s; --tdur: 4.1s; --tdelay: -1.9s; --o: 0.58;"></div><div class="star" style="--s: 0.8px; --x: 97.69699289009769%; --y: 29.55943358310561%; --dx: -35px; --dy: 21px; --dur: 37.2s; --delay: -21.0s; --tdur: 3.1s; --tdelay: -1.9s; --o: 0.50;"></div><div class="star" style="--s: 2.0px; --x: 18.638445644638%; --y: 87.74260139360894%; --dx: 4px; --dy: 24px; --dur: 41.3s; --delay: -26.8s; --tdur: 3.7s; --tdelay: -0.2s; --o: 0.46;"></div><div class="star" style="--s: 0.7px; --x: 89.71750975371616%; --y: 60.29250674222174%; --dx: 20px; --dy: -32px; --dur: 39.8s; --delay: -4.5s; --tdur: 3.0s; --tdelay: -3.5s; --o: 0.65;"></div><div class="star" style="--s: 2.4px; --x: 94.87386042416274%; --y: 50.09171755624284%; --dx: -15px; --dy: -22px; --dur: 49.0s; --delay: -12.3s; --tdur: 3.7s; --tdelay: -2.9s; --o: 0.84;"></div><div class="star" style="--s: 0.7px; --x: 66.18626836032689%; --y: 11.813263913427107%; --dx: 7px; --dy: 30px; --dur: 25.8s; --delay: -15.9s; --tdur: 4.5s; --tdelay: -2.2s; --o: 0.43;"></div><div class="star" style="--s: 2.0px; --x: 81.76125297226818%; --y: 14.405204187459619%; --dx: -16px; --dy: -18px; --dur: 38.4s; --delay: -22.8s; --tdur: 3.6s; --tdelay: -1.8s; --o: 0.91;"></div><div class="star" style="--s: 0.8px; --x: 31.507921375583138%; --y: 24.284852086016684%; --dx: 33px; --dy: 8px; --dur: 32.7s; --delay: -19.3s; --tdur: 3.2s; --tdelay: -0.6s; --o: 0.36;"></div><div class="star" style="--s: 0.9px; --x: 73.36640700650285%; --y: 82.69068335506896%; --dx: -16px; --dy: 15px; --dur: 29.0s; --delay: -17.7s; --tdur: 2.7s; --tdelay: -0.2s; --o: 0.87;"></div><div class="star" style="--s: 1.8px; --x: 65.29036980084035%; --y: 57.75484628248619%; --dx: -33px; --dy: -27px; --dur: 39.5s; --delay: -15.5s; --tdur: 4.3s; --tdelay: -0.3s; --o: 0.36;"></div><div class="star" style="--s: 1.4px; --x: 16.705489639889525%; --y: 65.38140211644662%; --dx: 1px; --dy: -11px; --dur: 25.3s; --delay: -11.7s; --tdur: 4.6s; --tdelay: -2.1s; --o: 0.68;"></div><div class="star" style="--s: 0.9px; --x: 30.930321634010618%; --y: 57.26426416114526%; --dx: 34px; --dy: 37px; --dur: 29.0s; --delay: -4.1s; --tdur: 4.8s; --tdelay: -0.2s; --o: 0.64;"></div><div class="star" style="--s: 0.8px; --x: 45.448773416595735%; --y: 27.716856762445307%; --dx: 30px; --dy: -30px; --dur: 32.5s; --delay: -26.5s; --tdur: 2.1s; --tdelay: -0.9s; --o: 0.95;"></div><div class="star" style="--s: 1.8px; --x: 10.786835044391797%; --y: 25.451427725484066%; --dx: 26px; --dy: -34px; --dur: 32.6s; --delay: -6.5s; --tdur: 3.7s; --tdelay: -3.7s; --o: 0.61;"></div><div class="star" style="--s: 2.4px; --x: 74.8280614833676%; --y: 53.68379053784946%; --dx: -39px; --dy: 18px; --dur: 41.5s; --delay: -15.3s; --tdur: 4.5s; --tdelay: -1.4s; --o: 0.85;"></div><div class="star" style="--s: 2.4px; --x: 1.2828849493748073%; --y: 21.092942252425438%; --dx: 11px; --dy: -27px; --dur: 45.6s; --delay: -23.0s; --tdur: 2.4s; --tdelay: -3.7s; --o: 0.69;"></div><div class="star" style="--s: 1.2px; --x: 70.60422614328287%; --y: 97.31703176819386%; --dx: -0px; --dy: -23px; --dur: 41.3s; --delay: -2.9s; --tdur: 3.8s; --tdelay: -2.8s; --o: 0.93;"></div><div class="star" style="--s: 1.6px; --x: 1.9925161356333598%; --y: 38.20022410761648%; --dx: -21px; --dy: 24px; --dur: 46.8s; --delay: -3.6s; --tdur: 3.6s; --tdelay: -0.9s; --o: 0.72;"></div><div class="star" style="--s: 1.6px; --x: 61.551223033447855%; --y: 30.961905847186944%; --dx: 1px; --dy: -16px; --dur: 44.6s; --delay: -19.6s; --tdur: 3.7s; --tdelay: -1.6s; --o: 0.72;"></div><div class="star" style="--s: 2.6px; --x: 59.254692489726544%; --y: 51.27865390262777%; --dx: -36px; --dy: -16px; --dur: 47.8s; --delay: -25.1s; --tdur: 5.0s; --tdelay: -2.5s; --o: 0.70;"></div><div class="star" style="--s: 2.2px; --x: 12.500582304203167%; --y: 78.79103750650005%; --dx: 22px; --dy: -24px; --dur: 38.5s; --delay: -6.5s; --tdur: 3.9s; --tdelay: -1.9s; --o: 0.70;"></div><div class="star" style="--s: 0.6px; --x: 5.36405950234462%; --y: 25.281131442034855%; --dx: -18px; --dy: -37px; --dur: 38.7s; --delay: -28.0s; --tdur: 2.2s; --tdelay: -0.4s; --o: 0.93;"></div><div class="star" style="--s: 2.1px; --x: 4.598665250281053%; --y: 52.27406175393025%; --dx: -2px; --dy: 26px; --dur: 37.1s; --delay: -0.1s; --tdur: 4.9s; --tdelay: -3.4s; --o: 0.66;"></div><div class="star" style="--s: 2.5px; --x: 90.52225373297392%; --y: 25.090620552690034%; --dx: -14px; --dy: 30px; --dur: 28.3s; --delay: -10.3s; --tdur: 3.5s; --tdelay: -2.7s; --o: 0.52;"></div><div class="star" style="--s: 1.8px; --x: 77.62864583887973%; --y: 68.44239759174539%; --dx: 19px; --dy: 10px; --dur: 40.5s; --delay: -21.6s; --tdur: 3.4s; --tdelay: -0.8s; --o: 0.72;"></div><div class="star" style="--s: 0.9px; --x: 82.62394718727751%; --y: 17.523039171680267%; --dx: -14px; --dy: -13px; --dur: 31.8s; --delay: -2.7s; --tdur: 4.8s; --tdelay: -2.8s; --o: 0.42;"></div><div class="star" style="--s: 2.1px; --x: 11.68459631400447%; --y: 15.406934134195872%; --dx: -40px; --dy: 3px; --dur: 38.1s; --delay: -22.9s; --tdur: 3.4s; --tdelay: -2.7s; --o: 0.74;"></div><div class="star" style="--s: 0.9px; --x: 20.271589153595205%; --y: 77.53099707072127%; --dx: 38px; --dy: 27px; --dur: 33.7s; --delay: -4.9s; --tdur: 3.0s; --tdelay: -2.3s; --o: 0.51;"></div><div class="star" style="--s: 1.2px; --x: 0.7657265268165903%; --y: 41.3817903910349%; --dx: 15px; --dy: -31px; --dur: 25.4s; --delay: -1.4s; --tdur: 2.6s; --tdelay: -2.8s; --o: 0.95;"></div><div class="star" style="--s: 1.6px; --x: 38.851813991909026%; --y: 91.39749127049876%; --dx: -27px; --dy: -16px; --dur: 40.5s; --delay: -3.9s; --tdur: 2.7s; --tdelay: -2.0s; --o: 0.75;"></div><div class="star" style="--s: 2.2px; --x: 3.9276285770381447%; --y: 54.155480292447436%; --dx: -11px; --dy: 7px; --dur: 46.1s; --delay: -14.4s; --tdur: 3.3s; --tdelay: -1.4s; --o: 0.85;"></div><div class="star" style="--s: 2.5px; --x: 16.993985346903372%; --y: 7.805821419914894%; --dx: 38px; --dy: -30px; --dur: 28.8s; --delay: -22.9s; --tdur: 3.6s; --tdelay: -1.3s; --o: 0.43;"></div><div class="star" style="--s: 1.1px; --x: 94.23089147133943%; --y: 47.7096949168828%; --dx: -9px; --dy: -25px; --dur: 49.9s; --delay: -23.8s; --tdur: 3.5s; --tdelay: -1.8s; --o: 0.38;"></div><div class="star" style="--s: 2.5px; --x: 49.19090617111919%; --y: 70.47147271687737%; --dx: -1px; --dy: -25px; --dur: 37.3s; --delay: -25.8s; --tdur: 4.0s; --tdelay: -0.3s; --o: 0.52;"></div><div class="star" style="--s: 1.1px; --x: 58.32978248002445%; --y: 81.21675449561265%; --dx: -35px; --dy: -22px; --dur: 35.7s; --delay: -15.2s; --tdur: 5.0s; --tdelay: -1.7s; --o: 0.90;"></div><div class="star" style="--s: 1.1px; --x: 26.042837189928857%; --y: 54.931436806247305%; --dx: 24px; --dy: 30px; --dur: 43.3s; --delay: -24.2s; --tdur: 2.3s; --tdelay: -3.1s; --o: 0.60;"></div><div class="star" style="--s: 1.7px; --x: 36.17334934615464%; --y: 75.30932560881006%; --dx: 33px; --dy: -18px; --dur: 25.3s; --delay: -15.5s; --tdur: 3.8s; --tdelay: -2.3s; --o: 0.89;"></div><div class="star" style="--s: 2.3px; --x: 8.407313002089156%; --y: 21.65994095715462%; --dx: 33px; --dy: -36px; --dur: 40.6s; --delay: -24.6s; --tdur: 4.7s; --tdelay: -0.6s; --o: 0.56;"></div><div class="star" style="--s: 1.2px; --x: 40.70776051150459%; --y: 63.77601765521745%; --dx: 22px; --dy: -39px; --dur: 38.4s; --delay: -8.7s; --tdur: 3.7s; --tdelay: -3.5s; --o: 0.61;"></div><div class="star" style="--s: 0.9px; --x: 9.04918640699659%; --y: 14.118553579717464%; --dx: -18px; --dy: -18px; --dur: 28.0s; --delay: -19.5s; --tdur: 3.0s; --tdelay: -2.2s; --o: 0.85;"></div><div class="star" style="--s: 0.8px; --x: 84.3014980288587%; --y: 45.043780373489604%; --dx: -16px; --dy: 6px; --dur: 39.2s; --delay: -27.5s; --tdur: 2.5s; --tdelay: -2.9s; --o: 0.41;"></div><div class="star" style="--s: 2.5px; --x: 16.387560748973762%; --y: 20.185229127793214%; --dx: -23px; --dy: 20px; --dur: 28.4s; --delay: -19.7s; --tdur: 2.5s; --tdelay: -0.4s; --o: 0.76;"></div><div class="star" style="--s: 2.3px; --x: 90.10936004182908%; --y: 2.8492694346054503%; --dx: -23px; --dy: -23px; --dur: 26.3s; --delay: -0.3s; --tdur: 4.8s; --tdelay: -1.1s; --o: 0.43;"></div><div class="star" style="--s: 1.7px; --x: 24.215960821826798%; --y: 51.929031503082236%; --dx: -26px; --dy: -18px; --dur: 44.6s; --delay: -7.2s; --tdur: 3.1s; --tdelay: -3.4s; --o: 0.85;"></div><div class="star" style="--s: 2.1px; --x: 72.69737670135193%; --y: 65.64084528906851%; --dx: 8px; --dy: 39px; --dur: 47.8s; --delay: -19.4s; --tdur: 3.0s; --tdelay: -3.2s; --o: 0.51;"></div><div class="star" style="--s: 2.5px; --x: 26.137019247392303%; --y: 77.96913630708518%; --dx: -10px; --dy: -9px; --dur: 42.9s; --delay: -24.1s; --tdur: 3.7s; --tdelay: -0.0s; --o: 0.43;"></div><div class="star" style="--s: 1.2px; --x: 51.806210207259284%; --y: 10.251302549231877%; --dx: -2px; --dy: -7px; --dur: 45.2s; --delay: -19.0s; --tdur: 3.0s; --tdelay: -1.7s; --o: 0.74;"></div><div class="star" style="--s: 0.8px; --x: 6.952954551143476%; --y: 39.25863213998768%; --dx: -5px; --dy: 34px; --dur: 28.7s; --delay: -28.5s; --tdur: 5.0s; --tdelay: -2.7s; --o: 0.90;"></div><div class="star" style="--s: 2.6px; --x: 52.12743275442764%; --y: 18.38061303976486%; --dx: 32px; --dy: -27px; --dur: 49.4s; --delay: -22.0s; --tdur: 3.8s; --tdelay: -0.7s; --o: 0.40;"></div><div class="star" style="--s: 1.9px; --x: 97.1791264757439%; --y: 44.980467194424044%; --dx: -5px; --dy: 35px; --dur: 46.8s; --delay: -2.9s; --tdur: 4.3s; --tdelay: -3.2s; --o: 0.49;"></div><div class="star" style="--s: 0.8px; --x: 93.19065193264375%; --y: 90.8625070834691%; --dx: -6px; --dy: -30px; --dur: 38.4s; --delay: -0.3s; --tdur: 2.1s; --tdelay: -0.9s; --o: 0.73;"></div><div class="star" style="--s: 2.5px; --x: 19.48763805247219%; --y: 80.94984930745458%; --dx: -26px; --dy: 33px; --dur: 40.1s; --delay: -14.4s; --tdur: 4.7s; --tdelay: -0.8s; --o: 0.76;"></div><div class="star" style="--s: 1.6px; --x: 15.481317624549785%; --y: 98.74869983435866%; --dx: 22px; --dy: -5px; --dur: 30.4s; --delay: -17.4s; --tdur: 4.8s; --tdelay: -4.0s; --o: 0.74;"></div><div class="star" style="--s: 2.1px; --x: 75.67873995847994%; --y: 40.96182030707762%; --dx: -39px; --dy: -33px; --dur: 35.9s; --delay: -26.9s; --tdur: 3.1s; --tdelay: -1.3s; --o: 0.88;"></div><div class="star" style="--s: 2.5px; --x: 80.57143161341747%; --y: 97.64483950690172%; --dx: 9px; --dy: -15px; --dur: 37.5s; --delay: -11.7s; --tdur: 4.6s; --tdelay: -1.8s; --o: 0.60;"></div><div class="star" style="--s: 1.9px; --x: 64.19214183930093%; --y: 35.49311436877204%; --dx: 23px; --dy: 13px; --dur: 48.3s; --delay: -13.9s; --tdur: 2.6s; --tdelay: -3.0s; --o: 0.63;"></div><div class="star" style="--s: 1.0px; --x: 45.046673157828735%; --y: 77.63888442488238%; --dx: 37px; --dy: 1px; --dur: 40.8s; --delay: -1.2s; --tdur: 2.3s; --tdelay: -1.7s; --o: 0.78;"></div><div class="star" style="--s: 1.6px; --x: 22.110882118961605%; --y: 50.74162559617727%; --dx: -34px; --dy: 10px; --dur: 26.7s; --delay: -8.0s; --tdur: 3.3s; --tdelay: -1.3s; --o: 0.86;"></div><div class="star" style="--s: 2.2px; --x: 0.462722761438783%; --y: 19.518479402954657%; --dx: -25px; --dy: 22px; --dur: 38.0s; --delay: -11.3s; --tdur: 4.2s; --tdelay: -3.5s; --o: 0.37;"></div><div class="star" style="--s: 1.4px; --x: 1.0041944195224417%; --y: 74.90185159515596%; --dx: -16px; --dy: -18px; --dur: 39.9s; --delay: -18.3s; --tdur: 3.1s; --tdelay: -0.3s; --o: 0.70;"></div><div class="star" style="--s: 2.4px; --x: 35.107815913382936%; --y: 88.6220965987446%; --dx: 17px; --dy: -31px; --dur: 29.4s; --delay: -10.5s; --tdur: 4.9s; --tdelay: -0.7s; --o: 0.38;"></div><div class="star" style="--s: 2.4px; --x: 95.86091006612884%; --y: 16.375664937251223%; --dx: -21px; --dy: -23px; --dur: 40.3s; --delay: -19.7s; --tdur: 3.3s; --tdelay: -2.9s; --o: 0.87;"></div><div class="star" style="--s: 2.4px; --x: 89.28389900836889%; --y: 85.30821617579943%; --dx: -22px; --dy: -4px; --dur: 44.5s; --delay: -27.0s; --tdur: 3.7s; --tdelay: -2.3s; --o: 0.78;"></div><div class="star" style="--s: 1.0px; --x: 68.30816481158763%; --y: 52.617596227153065%; --dx: 16px; --dy: 26px; --dur: 31.2s; --delay: -8.4s; --tdur: 3.0s; --tdelay: -3.3s; --o: 0.73;"></div><div class="star" style="--s: 2.5px; --x: 50.99077221103362%; --y: 50.747766030362484%; --dx: 40px; --dy: -14px; --dur: 45.7s; --delay: -19.6s; --tdur: 4.4s; --tdelay: -2.4s; --o: 0.37;"></div><div class="star" style="--s: 0.7px; --x: 97.28371309939045%; --y: 3.6192425076356893%; --dx: 14px; --dy: 16px; --dur: 36.7s; --delay: -21.5s; --tdur: 2.2s; --tdelay: -1.3s; --o: 0.53;"></div><div class="star" style="--s: 1.5px; --x: 34.05516558574384%; --y: 23.718247093996535%; --dx: -36px; --dy: -38px; --dur: 35.6s; --delay: -20.9s; --tdur: 3.4s; --tdelay: -0.1s; --o: 0.55;"></div><div class="star" style="--s: 1.0px; --x: 47.85342412966236%; --y: 99.80703139260746%; --dx: -12px; --dy: 37px; --dur: 45.7s; --delay: -1.9s; --tdur: 3.0s; --tdelay: -1.9s; --o: 0.84;"></div><div class="star" style="--s: 2.3px; --x: 1.4842124213173102%; --y: 51.36836366120217%; --dx: 21px; --dy: -37px; --dur: 33.3s; --delay: -1.8s; --tdur: 2.7s; --tdelay: -0.1s; --o: 0.88;"></div><div class="star" style="--s: 1.8px; --x: 34.70085018975402%; --y: 12.841090203107575%; --dx: 39px; --dy: -29px; --dur: 45.0s; --delay: -16.4s; --tdur: 4.4s; --tdelay: -0.4s; --o: 0.92;"></div><div class="star" style="--s: 1.7px; --x: 42.476457551285804%; --y: 27.410593739322998%; --dx: -8px; --dy: 15px; --dur: 31.8s; --delay: -5.9s; --tdur: 3.1s; --tdelay: -0.1s; --o: 0.64;"></div><div class="star" style="--s: 0.7px; --x: 99.726259012936%; --y: 0.10609031500200539%; --dx: -35px; --dy: 5px; --dur: 41.6s; --delay: -18.0s; --tdur: 3.5s; --tdelay: -2.3s; --o: 0.36;"></div><div class="star" style="--s: 1.9px; --x: 3.01656665478901%; --y: 5.93121104774762%; --dx: 37px; --dy: 35px; --dur: 45.2s; --delay: -11.8s; --tdur: 3.0s; --tdelay: -0.2s; --o: 0.86;"></div><div class="star" style="--s: 0.9px; --x: 20.52784345873595%; --y: 6.367154312327006%; --dx: -26px; --dy: -2px; --dur: 39.0s; --delay: -23.0s; --tdur: 3.8s; --tdelay: -0.2s; --o: 0.55;"></div><div class="star" style="--s: 1.3px; --x: 73.92114406996363%; --y: 51.075080001298915%; --dx: 20px; --dy: -0px; --dur: 28.2s; --delay: -13.5s; --tdur: 3.3s; --tdelay: -1.7s; --o: 0.60;"></div><div class="star" style="--s: 2.0px; --x: 31.34198218419938%; --y: 4.855860155684155%; --dx: 19px; --dy: 11px; --dur: 46.6s; --delay: -28.5s; --tdur: 3.1s; --tdelay: -1.0s; --o: 0.72;"></div><div class="star" style="--s: 2.2px; --x: 24.81649024369276%; --y: 24.79779765569162%; --dx: -7px; --dy: -23px; --dur: 43.2s; --delay: -3.6s; --tdur: 2.5s; --tdelay: -2.4s; --o: 0.93;"></div><div class="star" style="--s: 2.3px; --x: 98.27188410134717%; --y: 16.210339497225124%; --dx: -11px; --dy: -38px; --dur: 49.1s; --delay: -22.0s; --tdur: 3.7s; --tdelay: -2.9s; --o: 0.71;"></div><div class="star" style="--s: 2.0px; --x: 57.77564200119738%; --y: 31.314456514784794%; --dx: -31px; --dy: 24px; --dur: 47.6s; --delay: -21.3s; --tdur: 4.6s; --tdelay: -2.6s; --o: 0.94;"></div><div class="star" style="--s: 1.6px; --x: 48.603056360626674%; --y: 39.81146326988073%; --dx: -18px; --dy: -14px; --dur: 49.8s; --delay: -25.6s; --tdur: 3.9s; --tdelay: -1.5s; --o: 0.90;"></div><div class="star" style="--s: 0.8px; --x: 52.44067816773048%; --y: 77.18944387567652%; --dx: -16px; --dy: -28px; --dur: 28.5s; --delay: -13.4s; --tdur: 2.5s; --tdelay: -1.1s; --o: 0.44;"></div><div class="star" style="--s: 1.2px; --x: 23.73598928574404%; --y: 95.39185941575906%; --dx: 25px; --dy: 17px; --dur: 31.9s; --delay: -1.4s; --tdur: 4.1s; --tdelay: -1.7s; --o: 0.52;"></div><div class="star" style="--s: 1.2px; --x: 51.23442887406959%; --y: 90.47452613514237%; --dx: 24px; --dy: -26px; --dur: 35.2s; --delay: -19.7s; --tdur: 2.7s; --tdelay: -3.6s; --o: 0.86;"></div><div class="star" style="--s: 1.2px; --x: 65.1998198743154%; --y: 77.5435460966129%; --dx: -16px; --dy: 11px; --dur: 27.6s; --delay: -16.3s; --tdur: 2.2s; --tdelay: -3.1s; --o: 0.52;"></div><div class="star" style="--s: 0.9px; --x: 82.82763572374843%; --y: 77.67125707841961%; --dx: 20px; --dy: -25px; --dur: 36.5s; --delay: -6.3s; --tdur: 2.6s; --tdelay: -1.9s; --o: 0.49;"></div><div class="star" style="--s: 2.2px; --x: 9.994207578817417%; --y: 21.673636342205103%; --dx: -38px; --dy: -2px; --dur: 31.6s; --delay: -2.7s; --tdur: 2.5s; --tdelay: -3.0s; --o: 0.60;"></div><div class="star" style="--s: 1.0px; --x: 22.014337168708707%; --y: 38.57012930001077%; --dx: 19px; --dy: -5px; --dur: 39.6s; --delay: -20.3s; --tdur: 4.2s; --tdelay: -2.2s; --o: 0.73;"></div><div class="star" style="--s: 1.3px; --x: 47.46231422341422%; --y: 57.05177496283596%; --dx: 7px; --dy: -20px; --dur: 41.4s; --delay: -14.9s; --tdur: 3.9s; --tdelay: -1.1s; --o: 0.64;"></div><div class="star" style="--s: 2.2px; --x: 0.2871633535979856%; --y: 73.94488358106473%; --dx: 17px; --dy: -27px; --dur: 46.7s; --delay: -14.1s; --tdur: 3.9s; --tdelay: -0.0s; --o: 0.56;"></div><div class="star" style="--s: 2.3px; --x: 17.03723665509277%; --y: 45.80570682958056%; --dx: -17px; --dy: -38px; --dur: 39.6s; --delay: -26.8s; --tdur: 4.1s; --tdelay: -3.6s; --o: 0.37;"></div><div class="star" style="--s: 1.6px; --x: 35.83049816234093%; --y: 60.72882173823001%; --dx: -18px; --dy: 30px; --dur: 42.5s; --delay: -16.6s; --tdur: 2.2s; --tdelay: -2.1s; --o: 0.85;"></div><div class="star" style="--s: 0.8px; --x: 12.710944156555293%; --y: 56.84693133111881%; --dx: -27px; --dy: -16px; --dur: 46.3s; --delay: -14.6s; --tdur: 4.4s; --tdelay: -3.9s; --o: 0.93;"></div><div class="star" style="--s: 2.2px; --x: 98.42915806407552%; --y: 34.307179847757276%; --dx: 5px; --dy: -11px; --dur: 49.5s; --delay: -5.0s; --tdur: 2.4s; --tdelay: -2.8s; --o: 0.67;"></div><div class="star" style="--s: 2.4px; --x: 82.05048525949917%; --y: 61.40231657967151%; --dx: -21px; --dy: 36px; --dur: 42.9s; --delay: -7.5s; --tdur: 2.6s; --tdelay: -0.4s; --o: 0.91;"></div><div class="star" style="--s: 1.1px; --x: 79.22587637766847%; --y: 82.51146117224806%; --dx: -16px; --dy: 6px; --dur: 29.7s; --delay: -8.1s; --tdur: 4.2s; --tdelay: -0.7s; --o: 0.77;"></div><div class="star" style="--s: 2.0px; --x: 76.9634519445021%; --y: 5.917349964437868%; --dx: -30px; --dy: 22px; --dur: 39.7s; --delay: -9.9s; --tdur: 3.6s; --tdelay: -3.7s; --o: 0.87;"></div><div class="star" style="--s: 2.1px; --x: 56.594885611971755%; --y: 42.4913665825946%; --dx: 16px; --dy: -28px; --dur: 36.6s; --delay: -11.7s; --tdur: 2.2s; --tdelay: -2.6s; --o: 0.51;"></div><div class="star" style="--s: 2.6px; --x: 31.138963869976543%; --y: 60.817823903174386%; --dx: -3px; --dy: -34px; --dur: 30.8s; --delay: -26.8s; --tdur: 3.9s; --tdelay: -3.0s; --o: 0.83;"></div><div class="star" style="--s: 2.4px; --x: 20.3380193046215%; --y: 24.714916307207258%; --dx: 27px; --dy: -27px; --dur: 33.2s; --delay: -13.8s; --tdur: 3.3s; --tdelay: -2.6s; --o: 0.38;"></div><div class="star" style="--s: 2.4px; --x: 55.06354982181494%; --y: 33.49109093958821%; --dx: -25px; --dy: 2px; --dur: 26.0s; --delay: -18.2s; --tdur: 2.0s; --tdelay: -1.5s; --o: 0.50;"></div><div class="star" style="--s: 1.5px; --x: 90.22011656379925%; --y: 24.316275279669043%; --dx: -6px; --dy: -24px; --dur: 28.8s; --delay: -15.2s; --tdur: 4.3s; --tdelay: -0.6s; --o: 0.69;"></div><div class="star" style="--s: 1.7px; --x: 96.51497743323063%; --y: 49.37689720547378%; --dx: 2px; --dy: 16px; --dur: 43.7s; --delay: -9.7s; --tdur: 3.5s; --tdelay: -0.2s; --o: 0.91;"></div><div class="star" style="--s: 0.7px; --x: 28.343612773531245%; --y: 9.213342133403534%; --dx: -6px; --dy: -1px; --dur: 44.0s; --delay: -27.5s; --tdur: 3.9s; --tdelay: -2.3s; --o: 0.35;"></div></div>
+
+<div class="wrap">
+  <div class="top-right">
+    <a class="support-btn" id="supportBtn" href="https://t.me/Nefqqq" target="_blank" rel="noopener">support</a>
+    <button class="lang-switch" id="langSwitch" type="button" aria-label="Switch language">RU / EN</button>
   </div>
-</body>
-</html>
+  <h1 class="title">Minecraft Cracks</h1>
+
+  <div class="tabs-row">
+  
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="cheats" data-i18n="tab_cheats">Читы</button>
+    <button class="tab-btn" data-tab="visuals" data-i18n="tab_visuals">Визуалы</button>
+    <button class="tab-btn" data-tab="respacks" data-i18n="tab_respacks">Ресурспаки</button>
+    <button class="tab-btn" data-tab="updates" data-i18n="tab_updates">Обновление</button>
+  </nav>
+  </div>
+
+  <section id="cheats" class="tab-panel active">
+    <h2 class="section-title" data-i18n="cheats_title">Читы для клиентов</h2>
+    <div class="search-box">
+      <input type="search" id="cheatsSearch" placeholder="Поиск читов…" data-i18n-placeholder="search_ph" autocomplete="off">
+    </div>
+    <div class="grid" id="cheatsGrid">
+      <div class="card">
+        <h3>Zenith Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/ZenithDLC.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Delta Client</h3>
+        <div class="card-footer">
+<span class="version-pill">1.21.4</span>        
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/Delta.1.21.4.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Expensive Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.11</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/Expensive.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Rockstar Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/migodi2/cracksforminecraftmigodi2/releases/download/v1.0/Rockstar-cracked.zip" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Monoton Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.16.5</span>
+          <a class="dl-btn" href="https://github.com/migodi2/cracksforminecraftmigodi2/releases/download/v1.0/Monoton-cracked.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Monoware Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/Monoware.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Nuclear Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/migodi2/cracksforminecraftmigodi2/releases/download/v1.0/nuclear.jar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Catlavan Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.16.5</span>
+          <a class="dl-btn" href="https://github.com/migodi2/cracksforminecraftmigodi2/releases/download/v1.0/Catlavan.zip" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Minced Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/Minced.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>SkyCore Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/SkyCore.zip" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Wild Client</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/Wild.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+    </div>
+    <div class="cheats-note">
+      <p class="by-line">
+        <img class="by-avatar" src="avatar.jpg" alt="Nefq">
+        BY: Nefq
+        <a class="tg-btn" href="https://t.me/TheNefq" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+            <path d="M21.05 2.93 2.6 10.2c-1.24.5-1.23 1.19-.23 1.5l4.72 1.47 1.83 5.6c.22.6.11.84.75.84.5 0 .72-.23 1-.5l2.4-2.33 4.79 3.54c.88.49 1.52.24 1.74-.82L22.9 4.3c.32-1.3-.5-1.88-1.85-1.37Zm-3.1 3.6L9.2 13.3l-.35 3.63-1.7-5.2 10.8-6.8c.5-.3.96-.14.58.19Z"></path>
+          </svg>
+        </a>
+        <a class="tg-btn yt-btn" href="https://www.youtube.com/@Nefq2" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+            <path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.81ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"></path>
+          </svg>
+        </a>
+      </p>
+
+    </div>
+
+  </section>
+
+  <section id="visuals" class="tab-panel">
+    <h2 class="section-title" data-i18n="visuals_title">Визуалы</h2>
+    <div class="grid" id="visualsGrid">
+      <div class="card">
+        <h3>Destra Visuals</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.4</span>
+          <a class="dl-btn" href="https://github.com/migodi2/cracksforminecraftmigodi2/releases/download/v1.0/destravisuals-cracked.jar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>PulseVisuals</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.21.11</span>
+          <a class="dl-btn" href="https://github.com/migodi2/cracksforminecraftmigodi2/releases/download/v1.0/PulseVisuals.1.21.11.jar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="respacks" class="tab-panel">
+    <h2 class="section-title" data-i18n="tab_respacks">Ресурспаки</h2>
+    <div class="grid" id="respacksGrid">
+      <div class="card respack-card">
+        <div class="respack-preview" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="rp.png" alt="Resource Pack">
+        </div>
+        <h3>PvP Resource Pack</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.16.5 - 1.21+</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/f.l.CTPAXAHET.zip" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+      <div class="card respack-card">
+        <div class="respack-preview" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="rp2.png" alt="Resource Pack 2">
+        </div>
+        <h3>PvP Resource Pack</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.16.5 - 1.21+</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/34678.zip" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="updates" class="tab-panel">
+    <h2 class="section-title" data-i18n="tab_updates">Обновление</h2>
+    <div class="updates-list">
+      <div class="update-item">
+        <div class="update-date">15.08.2026</div>
+        <div class="update-body">
+          Полный редизайн сайта с новыми клиентами и визуалами!!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="advantages-section">
+    <h2 class="section-title">Наши Преимущества</h2>
+    <div class="adv-grid">
+      <div class="adv-card">
+        <div class="adv-icon">⚡</div>
+        <h3>Всегда свежие кряки</h3>
+        <p>Выкладываем рабочие версии сразу после слива. Никаких устаревших или сломанных сборок.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">🛡️</div>
+        <h3>Безопасно и проверено</h3>
+        <p>Каждый файл проверяется перед публикацией. Никаких скрытых стилеров и вирусов.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">🔎</div>
+        <h3>Удобный поиск</h3>
+        <p>Находи нужный клиент по названию или версии за пару секунд прямо на сайте.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">💬</div>
+        <h3>Поддержка и релизы</h3>
+        <p>Свежие сборки и помощь — в нашем Telegram-канале и на YouTube, всегда под рукой.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">🎯</div>
+        <h3>Широкий выбор</h3>
+        <p>Читы, визуалы и ресурспаки для всех популярных версий Minecraft.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">🔄</div>
+        <h3>Регулярные обновления</h3>
+        <p>Следим за новинками сцены и добавляем актуальные сборки каждую неделю.</p>
+      </div>
+    </div>
+  </section>
+
+   
+</div>
+
+
+<script>
+  const translations = {
+    ru: {
+      tab_cheats: 'Читы',
+      tab_respacks: 'Ресурспаки',
+      tab_visuals: 'Визуалы',
+      tab_configs: 'Конфиги',
+      tab_updates: 'Обновление',
+      cheats_title: 'Читы для клиентов',
+      visuals_title: 'Визуалы',
+      dl: 'Скачать',
+      beta_note: 'Это только бета версия, дальше будет лучше!',
+      empty_note: 'Раздел пока пуст — добавьте свои карточки по образцу выше.',
+      search_ph: 'Поиск читов…',
+      reg_title: 'Регистрация',
+      reg_submit: 'Зарегистрироваться',
+      reg_err_name: 'Имя должно быть минимум 3 символа',
+      reg_err_pass: 'Пароль должен быть минимум 6 символов',
+      reg_err_match: 'Пароли не совпадают',
+      reg_err_taken: 'Такое имя уже занято',
+      reg_ok: 'Добро пожаловать, ',
+      tab_register: 'Регистрация',
+      tab_login: 'Войти',
+      login_submit: 'Войти',
+      login_err: 'Неверное имя или пароль',
+      profile_logout: 'Выйти',
+      profile_close: 'Закрыть',
+      profile_upload: 'добавить аватарку',
+      profile_registered: 'Регистрация:',
+      profile_lastvisit: 'Последний визит:',
+      chat_title: 'Чат'
+    },
+    en: {
+      tab_cheats: 'Cheats',
+      tab_respacks: 'Resource packs',
+      tab_visuals: 'Visuals',
+      tab_configs: 'Configs',
+      tab_updates: 'Updates',
+      cheats_title: 'Cheats for clients',
+      visuals_title: 'Visuals',
+      dl: 'Download',
+      beta_note: 'This is just a beta version, it will get better!',
+      empty_note: 'This section is empty — add your own cards like above.',
+      search_ph: 'Search cheats…',
+      reg_title: 'Register',
+      reg_submit: 'Sign up',
+      reg_err_name: 'Username must be at least 3 characters',
+      reg_err_pass: 'Password must be at least 6 characters',
+      reg_err_match: 'Passwords do not match',
+      reg_err_taken: 'This username is already taken',
+      reg_ok: 'Welcome, ',
+      tab_register: 'Register',
+      tab_login: 'Log in',
+      login_submit: 'Log in',
+      login_err: 'Wrong username or password',
+      profile_logout: 'Log out',
+      profile_close: 'Close',
+      profile_upload: 'add avatar',
+      profile_registered: 'Registered:',
+      profile_lastvisit: 'Last visit:',
+      chat_title: 'Chat'
+    }
+  };
+  let currentLang = 'ru';
+  function applyLang(lang){
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key]) el.textContent = translations[lang][key];
+    });
+    document.getElementById('langSwitch').textContent = lang === 'ru' ? 'RU / EN' : 'EN / RU';
+  }
+  document.getElementById('langSwitch').addEventListener('click', ()=>{
+    applyLang(currentLang === 'ru' ? 'en' : 'ru');
+  });
+</script>
+<script>
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card=>{
+    card.addEventListener('click', (e)=>{
+      if(e.target.closest('.dl-btn')) return;
+      const wasSelected = card.classList.contains('selected');
+      cards.forEach(c=>{
+        c.classList.remove('selected');
+        c.style.animation = 'none';
+      });
+      if(!wasSelected){
+        void card.offsetWidth;
+        card.style.animation = '';
+        card.classList.add('selected');
+      }
+    });
+  });
+</script>
+<script>
+  const starsRoot = document.getElementById('stars');
+  const isCoarse = ('ontouchstart' in window) || window.matchMedia('(hover: none), (max-width: 768px)').matches;
+  const STAR_COUNT = isCoarse ? 22 : 70;
+  for(let i=0;i<STAR_COUNT;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = (Math.random()*2 + 0.6).toFixed(1);
+    const x = Math.random()*100;
+    const y = Math.random()*100;
+    const dx = (Math.random()*80 - 40).toFixed(0) + 'px';
+    const dy = (Math.random()*80 - 40).toFixed(0) + 'px';
+    const dur = (Math.random()*25 + 25).toFixed(1) + 's';
+    const delay = (-Math.random()*30).toFixed(1) + 's';
+    const tdur = (Math.random()*3 + 2).toFixed(1) + 's';
+    const tdelay = (-Math.random()*4).toFixed(1) + 's';
+    const o = (Math.random()*0.6 + 0.35).toFixed(2);
+    s.style.setProperty('--s', size + 'px');
+    s.style.setProperty('--x', x + '%');
+    s.style.setProperty('--y', y + '%');
+    s.style.setProperty('--dx', dx);
+    s.style.setProperty('--dy', dy);
+    s.style.setProperty('--dur', dur);
+    s.style.setProperty('--delay', delay);
+    s.style.setProperty('--tdur', tdur);
+    s.style.setProperty('--tdelay', tdelay);
+    s.style.setProperty('--o', o);
+    starsRoot.appendChild(s);
+  }
+
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  // Cursor trail
+  const trailCanvas = document.getElementById('cursorTrail');
+  if(trailCanvas && canHover){
+    const ctx = trailCanvas.getContext('2d');
+    let W, H;
+    function resizeTrail(){
+      W = trailCanvas.width = window.innerWidth;
+      H = trailCanvas.height = window.innerHeight;
+    }
+    resizeTrail();
+    window.addEventListener('resize', resizeTrail);
+
+    const points = [];
+    const MAX = 16;
+    let mx = W/2, my = H/2;
+    let lastMove = Date.now();
+    window.addEventListener('mousemove', (e)=>{
+      mx = e.clientX; my = e.clientY;
+      lastMove = Date.now();
+      const last = points[points.length - 1];
+      if(!last || Math.hypot(mx - last.x, my - last.y) > 2){
+        points.push({x: mx, y: my});
+        if(points.length > MAX) points.shift();
+      }
+    });
+
+    function drawTrail(){
+      if(Date.now() - lastMove > 60 && points.length > 0){
+        points.shift();
+      }
+
+      ctx.clearRect(0, 0, W, H);
+      if(points.length < 3){ requestAnimationFrame(drawTrail); return; }
+
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      for(let i = 2; i < points.length; i++){
+        const t = i / points.length;
+        const xc = (points[i-1].x + points[i].x) / 2;
+        const yc = (points[i-1].y + points[i].y) / 2;
+        ctx.beginPath();
+        ctx.moveTo((points[i-2].x + points[i-1].x)/2, (points[i-2].y + points[i-1].y)/2);
+        ctx.quadraticCurveTo(points[i-1].x, points[i-1].y, xc, yc);
+        ctx.strokeStyle = `rgba(255,255,255,${t * t * 0.8})`;
+        ctx.lineWidth = t * 2.5;
+        ctx.stroke();
+      }
+
+      const last = points[points.length - 1];
+      ctx.beginPath();
+      ctx.arc(mx, my, 1.5, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.fill();
+
+      requestAnimationFrame(drawTrail);
+    }
+    drawTrail();
+  } else if(trailCanvas){
+    trailCanvas.style.display = 'none';
+  }
+
+</script>
+<script>
+  const buttons = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  const OUT_MS = 180;
+
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(btn.classList.contains('active')) return;
+
+      const current = document.querySelector('.tab-panel.active');
+      const next = document.getElementById(btn.dataset.tab);
+      if(current === next) return;
+
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if(current){
+        current.classList.remove('active');
+        current.classList.add('leaving');
+        setTimeout(()=>{
+          current.classList.remove('leaving');
+          next.classList.add('active');
+        }, OUT_MS);
+      } else {
+        next.classList.add('active');
+      }
+    });
+  });
+
+  const cheatsSearch = document.getElementById('cheatsSearch');
+  const cheatsGrid = document.getElementById('cheatsGrid');
+  if(cheatsSearch && cheatsGrid){
+    const cheatsCards = Array.from(cheatsGrid.querySelectorAll('.card'));
+    let noResultsEl = null;
+    cheatsSearch.addEventListener('input', ()=>{
+      const q = cheatsSearch.value.trim().toLowerCase();
+      let visible = 0;
+      cheatsCards.forEach(card=>{
+        const title = card.querySelector('h3');
+        const version = card.querySelector('.version-pill');
+        const text = (title ? title.textContent : '') + ' ' + (version ? version.textContent : '');
+        const match = !q || text.toLowerCase().includes(q);
+        card.style.display = match ? '' : 'none';
+        if(match) visible++;
+      });
+      if(!noResultsEl){
+        noResultsEl = document.createElement('div');
+        noResultsEl.className = 'no-results';
+        noResultsEl.textContent = 'Ничего не найдено';
+      }
+      if(visible === 0){
+        if(!noResultsEl.parentNode) cheatsGrid.appendChild(noResultsEl);
+      } else if(noResultsEl.parentNode){
+        noResultsEl.parentNode.removeChild(noResultsEl);
+      }
+    });
+  }
+</script>
+
+
+<script>
+function openLightbox(src){
+  var o=document.createElement('div');
+  o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:999999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
+  o.innerHTML='<img src="'+src+'" style="max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.6);">';
+  o.addEventListener('click',function(){o.remove();});
+  document.body.appendChild(o);
+}
+</script>
+</body></html>
