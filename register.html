@@ -248,6 +248,23 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
             transform: translateY(-3px) scale(1.05);
         }
+
+        .botcheck-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bot-question {
+            color: #fff;
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        .bot-answer {
+            width: 90px;
+            flex: 0 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -255,64 +272,30 @@
 
     <div class="register-container">
         <div class="register-header">
-            <h1 id="formTitle">Создать аккаунт</h1>
+            <h1>Войти в чат</h1>
             <a href="index.html" class="back-btn">&lt; На главную</a>
         </div>
-        <p class="register-subtitle" id="formSubtitle">Заполните форму, чтобы присоединиться к нам.</p>
+        <p class="register-subtitle">Придумайте имя и подтвердите, что вы не робот.</p>
 
-        <form id="registerForm">
+        <form id="enterForm">
             <div class="form-group">
                 <label>Имя пользователя</label>
-                <input type="text" id="username" placeholder="Введите имя пользователя" maxlength="20" required>
+                <input type="text" id="username" placeholder="Введите имя (3-20 символов)" maxlength="20" required>
             </div>
 
             <div class="form-group">
-                <label>Пароль</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Введите пароль" required>
-                    <button type="button" class="password-toggle" onclick="togglePassword('password')">&#128065;</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Повторите пароль</label>
-                <div class="password-wrapper">
-                    <input type="password" id="confirmPassword" placeholder="Повторите пароль" required>
-                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">&#128065;</button>
+                <label>Проверка на бота</label>
+                <div class="botcheck-row">
+                    <span id="botQuestion" class="bot-question"></span>
+                    <input type="text" id="botAnswer" placeholder="?" class="bot-answer" required>
                 </div>
             </div>
 
             <div class="error-message" id="errorMsg"></div>
             <div class="success-message" id="successMsg"></div>
 
-            <button type="submit" class="register-btn">Создать аккаунт</button>
+            <button type="submit" class="register-btn">Войти в чат</button>
         </form>
-
-        <form id="loginForm">
-            <div class="form-group">
-                <label>Имя пользователя</label>
-                <input type="text" id="loginUsername" placeholder="Введите имя пользователя" required>
-            </div>
-
-            <div class="form-group">
-                <label>Пароль</label>
-                <div class="password-wrapper">
-                    <input type="password" id="loginPassword" placeholder="Введите пароль" required>
-                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">&#128065;</button>
-                </div>
-            </div>
-
-            <div class="error-message" id="loginErrorMsg"></div>
-
-            <button type="submit" class="register-btn">Войти</button>
-        </form>
-
-        <div class="toggle-form">
-            <span id="toggleText">Уже есть аккаунт? <a href="#" onclick="showLogin()">Войти</a></span>
-        </div>
-        <div class="toggle-form" style="display:none;" id="registerToggle">
-            <span>Нет аккаунта? <a href="#" onclick="showRegister()">Создать</a></span>
-        </div>
 
         <div class="register-footer">
             <a href="https://t.me/Nefqqq" class="support-btn" target="_blank">Support</a>
@@ -401,12 +384,20 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        let botA = 0, botB = 0;
+        function newBotQuestion() {
+            botA = Math.floor(Math.random() * 9) + 1;
+            botB = Math.floor(Math.random() * 9) + 1;
+            const q = document.getElementById('botQuestion');
+            if (q) q.textContent = `Сколько будет ${botA} + ${botB}?`;
+        }
+        newBotQuestion();
+
+        document.getElementById('enterForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+            const botVal = parseInt(document.getElementById('botAnswer').value.trim(), 10);
             const errorMsg = document.getElementById('errorMsg');
             const successMsg = document.getElementById('successMsg');
 
@@ -425,114 +416,56 @@
                 return;
             }
 
-            if (password.length < 8) {
-                errorMsg.textContent = 'Пароль должен быть не менее 8 символов';
+            if (isNaN(botVal) || botVal !== botA + botB) {
+                errorMsg.textContent = 'Неверный ответ. Вы робот?';
                 errorMsg.style.display = 'block';
+                newBotQuestion();
+                document.getElementById('botAnswer').value = '';
                 return;
             }
 
-            if (password !== confirmPassword) {
-                errorMsg.textContent = 'Пароли не совпадают';
-                errorMsg.style.display = 'block';
-                return;
-            }
+            try {
+                await firebase.auth().signOut().catch(() => {});
+                const cred = await firebase.auth().signInAnonymously();
+                const uid = cred.user.uid;
+                await cred.user.getIdToken(true);
 
-            const email = username.toLowerCase() + '@nefq.site';
+                const userDoc = {
+                    username: username,
+                    uid: uid,
+                    role: 'Пользователь',
+                    regDate: new Date().toLocaleDateString('ru-RU'),
+                    lastVisit: new Date().toLocaleString('ru-RU'),
+                    prevVisit: null,
+                    avatar: null
+                };
 
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then((cred) => {
-                    return cred.user.getIdToken(true).then(() => {
-                        const uid = cred.user.uid;
-                        return db.collection('users').doc(uid).set({
-                            username: username,
-                            uid: uid,
-                            role: 'Пользователь',
-                            regDate: new Date().toLocaleDateString('ru-RU'),
-                            lastVisit: new Date().toLocaleString('ru-RU'),
-                            prevVisit: null,
-                            avatar: null
-                        }).then(() => {
-                            return db.collection('userSecrets').doc(uid).set({ deviceId: getDeviceId() }, { merge: true }).catch(() => {});
-                        }).then(() => uid);
-                    });
-                })
-                .then((uid) => {
-                    localStorage.setItem('currentUser', username);
-                    localStorage.setItem('currentUid', uid);
-                    successMsg.textContent = 'Аккаунт успешно создан!';
-                    successMsg.style.display = 'block';
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-                })
-                .catch((err) => {
-                    errorMsg.textContent = 'Ошибка: ' + (err.message || err.code);
-                    errorMsg.style.display = 'block';
-                });
-        });
-
-        function showLogin() {
-            const reg = document.getElementById('registerForm');
-            const log = document.getElementById('loginForm');
-            reg.style.display = 'none';
-            log.style.display = 'block';
-            log.classList.remove('form-animate');
-            void log.offsetWidth;
-            log.classList.add('form-animate');
-            document.getElementById('formTitle').textContent = 'Войти в аккаунт';
-            document.getElementById('formSubtitle').textContent = 'Войдите, чтобы получить доступ.';
-            document.getElementById('toggleText').style.display = 'none';
-            document.getElementById('registerToggle').style.display = 'block';
-        }
-
-        function showRegister() {
-            const reg = document.getElementById('registerForm');
-            const log = document.getElementById('loginForm');
-            reg.style.display = 'block';
-            log.style.display = 'none';
-            reg.classList.remove('form-animate');
-            void reg.offsetWidth;
-            reg.classList.add('form-animate');
-            document.getElementById('formTitle').textContent = 'Создать аккаунт';
-            document.getElementById('formSubtitle').textContent = 'Заполните форму, чтобы присоединиться к нам.';
-            document.getElementById('toggleText').style.display = 'block';
-            document.getElementById('registerToggle').style.display = 'none';
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const errorMsg = document.getElementById('loginErrorMsg');
-
-            errorMsg.style.display = 'none';
-
-            const email = username.toLowerCase() + '@nefq.site';
-
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then((cred) => {
-                    return db.collection('users').doc(cred.user.uid).get();
-                })
-                .then((snap) => {
-                    if (!snap.exists) {
-                        errorMsg.textContent = 'Аккаунт не найден';
-                        errorMsg.style.display = 'block';
-                        return;
+                let written = false;
+                let lastErr = null;
+                for (let attempt = 0; attempt < 4 && !written; attempt++) {
+                    try {
+                        await db.collection('users').doc(uid).set(userDoc);
+                        written = true;
+                    } catch (e) {
+                        lastErr = e;
+                        await cred.user.getIdToken(true);
+                        await new Promise(r => setTimeout(r, 700));
                     }
-                    const u = snap.data();
-                    db.collection('users').doc(snap.id).update({
-                        prevVisit: u.lastVisit || null,
-                        lastVisit: new Date().toLocaleString('ru-RU')
-                    });
-                    localStorage.setItem('currentUser', u.username);
-                    localStorage.setItem('currentUid', snap.id);
-                    window.location.href = 'index.html';
-                })
-                .catch((err) => {
-                    errorMsg.textContent = 'Неверное имя пользователя или пароль';
-                    errorMsg.style.display = 'block';
-                });
+                }
+                if (!written) throw lastErr;
+
+                await db.collection('userSecrets').doc(uid).set({ deviceId: getDeviceId() }, { merge: true }).catch(() => {});
+
+                localStorage.setItem('currentUser', username);
+                localStorage.setItem('currentUid', uid);
+
+                successMsg.textContent = 'Вход выполнен!';
+                successMsg.style.display = 'block';
+                setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+            } catch (err) {
+                errorMsg.textContent = 'Ошибка: ' + (err.message || err.code);
+                errorMsg.style.display = 'block';
+            }
         });
 
         createStars();

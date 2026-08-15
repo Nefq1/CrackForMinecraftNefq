@@ -1666,7 +1666,7 @@
                     return;
                 }
                 currentUid = user.uid;
-                currentUsername = user.email.split('@')[0];
+                currentUsername = localStorage.getItem('currentUser') || (user.email ? user.email.split('@')[0] : 'Гость');
                 localStorage.setItem('currentUser', currentUsername);
                 localStorage.setItem('currentUid', currentUid);
                 db.collection('userSecrets').doc(currentUid).set({ deviceId: getDeviceId() }, { merge: true }).catch(() => {});
