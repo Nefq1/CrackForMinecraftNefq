@@ -441,18 +441,20 @@
 
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((cred) => {
-                    const uid = cred.user.uid;
-                    return db.collection('users').doc(uid).set({
-                        username: username,
-                        uid: uid,
-                        role: 'Пользователь',
-                        regDate: new Date().toLocaleDateString('ru-RU'),
-                        lastVisit: new Date().toLocaleString('ru-RU'),
-                        prevVisit: null,
-                        avatar: null
-                    }).then(() => {
-                        return db.collection('userSecrets').doc(uid).set({ deviceId: getDeviceId() }, { merge: true }).catch(() => {});
-                    }).then(() => uid);
+                    return cred.user.getIdToken(true).then(() => {
+                        const uid = cred.user.uid;
+                        return db.collection('users').doc(uid).set({
+                            username: username,
+                            uid: uid,
+                            role: 'Пользователь',
+                            regDate: new Date().toLocaleDateString('ru-RU'),
+                            lastVisit: new Date().toLocaleString('ru-RU'),
+                            prevVisit: null,
+                            avatar: null
+                        }).then(() => {
+                            return db.collection('userSecrets').doc(uid).set({ deviceId: getDeviceId() }, { merge: true }).catch(() => {});
+                        }).then(() => uid);
+                    });
                 })
                 .then((uid) => {
                     localStorage.setItem('currentUser', username);
