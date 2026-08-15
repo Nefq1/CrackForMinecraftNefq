@@ -155,6 +155,87 @@
       font-size: 12px;
     }
   }
+  .theme-btn{
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--text-dim);
+    width: 38px; height: 38px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+    transition: color .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .theme-btn:hover{
+    color: var(--text);
+    border-color: var(--accent);
+    transform: scale(1.06);
+  }
+  .theme-panel{
+    position: absolute;
+    top: 48px; right: 0;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px;
+    width: 220px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    z-index: 5;
+  }
+  .theme-panel[hidden]{ display: none; }
+  .theme-panel .tp-label{
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .theme-swatches{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .swatch{
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .swatch:hover{ transform: scale(1.12); }
+  .swatch.active{ border-color: #fff; }
+  .theme-custom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .theme-custom input[type="color"]{
+    width: 42px; height: 28px;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    padding: 2px;
+  }
+  .theme-reset{
+    margin-top: 10px;
+    width: 100%;
+    background: var(--pill);
+    border: 1px solid var(--card-border);
+    color: var(--text-dim);
+    font-size: 12px;
+    padding: 7px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .theme-reset:hover{ color: var(--text); border-color: var(--accent); }
   .wrap{
     position: relative; z-index: 1;
     max-width: 1100px;
@@ -1486,7 +1567,17 @@
 <div class="wrap">
   <div class="top-right">
     <a class="support-btn" id="supportBtn" href="https://t.me/Nefqqq" target="_blank" rel="noopener">support</a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Цвет сайта" title="Цвет сайта">🎨</button>
     <button class="lang-switch" id="langSwitch" type="button" aria-label="Switch language">RU / EN</button>
+    <div class="theme-panel" id="themePanel" hidden>
+      <span class="tp-label">Цвет акцента</span>
+      <div class="theme-swatches" id="themeSwatches"></div>
+      <label class="theme-custom">
+        Свой цвет
+        <input type="color" id="themeCustom" value="#00f0ff">
+      </label>
+      <button class="theme-reset" id="themeReset" type="button">Сбросить</button>
+    </div>
   </div>
   <h1 class="title">Minecraft Cracks</h1>
 
@@ -1851,6 +1942,7 @@
     let mx = W/2, my = H/2;
     let lastMove = Date.now();
     let rafId = null;
+    let trailRGB = window.__trailRGB || [255,255,255];
 
     function startLoop(){
       if(rafId === null) rafId = requestAnimationFrame(drawTrail);
@@ -1868,6 +1960,7 @@
     }, {passive: true});
 
     function drawTrail(){
+      trailRGB = window.__trailRGB || [255,255,255];
       if(Date.now() - lastMove > 60 && points.length > 0){
         points.shift();
       }
@@ -1890,7 +1983,7 @@
           ctx.beginPath();
           ctx.moveTo((points[i-2].x + points[i-1].x)/2, (points[i-2].y + points[i-1].y)/2);
           ctx.quadraticCurveTo(points[i-1].x, points[i-1].y, xc, yc);
-          ctx.strokeStyle = `rgba(255,255,255,${t * t * 0.8})`;
+          ctx.strokeStyle = `rgba(${trailRGB[0]},${trailRGB[1]},${trailRGB[2]},${t * t * 0.8})`;
           ctx.lineWidth = t * 2.5;
           ctx.stroke();
         }
@@ -1898,7 +1991,7 @@
 
       ctx.beginPath();
       ctx.arc(mx, my, 1.5, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.fillStyle = `rgba(${trailRGB[0]},${trailRGB[1]},${trailRGB[2]},0.9)`;
       ctx.fill();
 
       if(Date.now() - lastMove > 60 && points.length === 0){
@@ -1981,5 +2074,89 @@ function openLightbox(src){
   o.addEventListener('click',function(){o.remove();});
   document.body.appendChild(o);
 }
+</script>
+<script>
+(function(){
+  const PRESETS = ['#00f0ff','#00ff88','#ff2a55','#a855f7','#ffb000','#ff00aa','#3b82f6','#8b5cf6','#ec4899','#ffffff','#22d3ee','#84cc16'];
+  const DEFAULT = '#ffffff';
+  const root = document.documentElement;
+  const STORE_KEY = 'siteAccent';
+
+  const btn = document.getElementById('themeBtn');
+  const panel = document.getElementById('themePanel');
+  const swatches = document.getElementById('themeSwatches');
+  const custom = document.getElementById('themeCustom');
+  const reset = document.getElementById('themeReset');
+
+  function hexToRgb(hex){
+    hex = hex.replace('#','');
+    if(hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+    const n = parseInt(hex, 16);
+    return [(n>>16)&255, (n>>8)&255, n&255];
+  }
+
+  let activeSwatch = null;
+
+  function paint(hex){
+    root.style.setProperty('--accent', hex);
+    root.style.setProperty('--accent-2', hex);
+    const rgb = hexToRgb(hex);
+    root.style.setProperty('--accent-glow', `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.35)`);
+    window.__trailRGB = rgb;
+  }
+
+  function applyColor(hex, persist){
+    paint(hex);
+    if(custom.value !== hex) custom.value = hex;
+    const match = swatches.querySelector(`.swatch[data-color="${hex.toLowerCase()}"]`);
+    if(match !== activeSwatch){
+      if(activeSwatch) activeSwatch.classList.remove('active');
+      if(match) match.classList.add('active');
+      activeSwatch = match;
+    }
+    if(persist) localStorage.setItem(STORE_KEY, hex);
+  }
+
+  PRESETS.forEach(c=>{
+    const b = document.createElement('button');
+    b.className = 'swatch';
+    b.dataset.color = c;
+    b.style.background = c;
+    b.title = c;
+    b.addEventListener('click', ()=> applyColor(c, true));
+    swatches.appendChild(b);
+  });
+  const swatchEls = Array.from(swatches.children);
+
+  let rafPending = false, pendingHex = null, savePending = false;
+  function schedulePaint(hex, doSave){
+    pendingHex = hex;
+    if(doSave) savePending = true;
+    if(rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(()=>{
+      rafPending = false;
+      paint(pendingHex);
+      if(savePending){ localStorage.setItem(STORE_KEY, pendingHex); savePending = false; }
+    });
+  }
+
+  custom.addEventListener('input', ()=> schedulePaint(custom.value, true));
+  reset.addEventListener('click', ()=> applyColor(DEFAULT, true));
+
+  btn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    panel.hidden = !panel.hidden;
+  });
+  document.addEventListener('click', (e)=>{
+    if(!panel.hidden && !panel.contains(e.target) && e.target !== btn){
+      panel.hidden = true;
+    }
+  });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') panel.hidden = true; });
+
+  const saved = localStorage.getItem(STORE_KEY);
+  applyColor(saved || DEFAULT, false);
+})();
 </script>
 </body></html>
