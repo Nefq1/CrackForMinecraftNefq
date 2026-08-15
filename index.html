@@ -60,6 +60,98 @@
   @media (prefers-reduced-motion: reduce){
     .star{ animation: none; }
   }
+  .aurora{
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .45;
+    background:
+      radial-gradient(38% 38% at 28% 32%, var(--accent-glow, rgba(0,240,255,.22)), transparent 60%),
+      radial-gradient(42% 42% at 72% 64%, var(--accent-glow, rgba(0,240,255,.15)), transparent 65%);
+    animation: auroraMove 24s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes auroraMove{
+    0%{ transform: translate3d(-4%, -3%, 0) rotate(0deg) scale(1.05); }
+    100%{ transform: translate3d(4%, 3%, 0) rotate(9deg) scale(1.14); }
+  }
+  .vignette{
+    position: fixed; inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(125% 105% at 50% 38%, transparent 52%, rgba(0,0,0,0.7) 100%);
+  }
+  .deep-glow{
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 90vmax; height: 90vmax;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at center, var(--accent-glow, rgba(0,240,255,.3)), transparent 62%);
+    animation: deepPulse 9s ease-in-out infinite alternate;
+    will-change: opacity, transform;
+  }
+  @keyframes deepPulse{
+    0%{ opacity: .35; transform: translate(-50%, -50%) scale(.96); }
+    100%{ opacity: .58; transform: translate(-50%, -50%) scale(1.08); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .aurora{ animation: none; }
+    .deep-glow{ animation: none; }
+    .grid-floor::before{ animation: none; }
+    .mega-glow{ animation: none; }
+  }
+  .mega-glow{
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 150vmax; height: 150vmax;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(20% 20% at 30% 34%, color-mix(in srgb, var(--accent) 48%, transparent), transparent 60%),
+      radial-gradient(24% 24% at 72% 58%, color-mix(in srgb, var(--accent) 40%, transparent), transparent 62%),
+      radial-gradient(30% 30% at 50% 82%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 66%);
+    opacity: .55;
+    animation: megaDrift 20s ease-in-out infinite alternate, megaPulse 5.5s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+  }
+  @keyframes megaDrift{
+    0%{ transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    100%{ transform: translate(-45%, -55%) rotate(22deg) scale(1.2); }
+  }
+  @keyframes megaPulse{
+    0%{ opacity: .35; }
+    100%{ opacity: .6; }
+  }
+  .grid-floor{
+    position: fixed;
+    left: 50%; bottom: 0;
+    width: 220%; height: 55vh;
+    transform: translateX(-50%) perspective(40vh) rotateX(76deg);
+    transform-origin: bottom center;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .18;
+    -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 78%);
+    mask-image: linear-gradient(to top, #000 0%, transparent 78%);
+  }
+  .grid-floor::before{
+    content: "";
+    position: absolute;
+    inset: -60% 0;
+    background-image:
+      repeating-linear-gradient(to right, var(--accent) 0 1px, transparent 1px 46px),
+      repeating-linear-gradient(to bottom, var(--accent) 0 1px, transparent 1px 46px);
+    animation: gridScroll 5s linear infinite;
+    will-change: transform;
+  }
+  @keyframes gridScroll{
+    to{ transform: translateY(46px); }
+  }
   .comets{
     position: fixed; inset: 0;
     overflow: hidden;
@@ -92,6 +184,8 @@
     85%  { opacity: 1; }
     100% { transform: translate(var(--cx, 80vw), var(--cy, 90vh)) rotate(45deg); opacity: 0; }
   }
+  .comet{ background: var(--accent); box-shadow: 0 0 10px 2px var(--accent-glow); }
+  .comet::after{ background: linear-gradient(270deg, var(--accent), transparent); }
   @media (prefers-reduced-motion: reduce){
     .comet{ animation: none; display: none; }
   }
@@ -250,32 +344,26 @@
     transform: scaleX(1.14);
     transform-origin: center;
     margin: 0 0 36px;
-    color: #ffffff;
-    text-shadow:
-      0 0 8px rgba(255,255,255,0.45),
-      0 0 22px rgba(255,255,255,0.35),
-      0 0 48px rgba(180,200,255,0.30),
-      0 0 90px rgba(140,170,255,0.22);
-    animation: title-glow 3.6s ease-in-out infinite;
+    background: linear-gradient(100deg,
+      var(--accent) 0%,
+      #ffffff 22%,
+      var(--accent) 45%,
+      #ffffff 70%,
+      var(--accent) 100%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 18px var(--accent-glow));
+    animation: titleFlow 6s linear infinite;
   }
-  @keyframes title-glow{
-    0%, 100%{
-      text-shadow:
-        0 0 8px rgba(255,255,255,0.45),
-        0 0 22px rgba(255,255,255,0.35),
-        0 0 48px rgba(180,200,255,0.30),
-        0 0 90px rgba(140,170,255,0.22);
-    }
-    50%{
-      text-shadow:
-        0 0 12px rgba(255,255,255,0.60),
-        0 0 30px rgba(255,255,255,0.45),
-        0 0 64px rgba(180,200,255,0.40),
-        0 0 120px rgba(140,170,255,0.30);
-    }
+  @keyframes titleFlow{
+    to{ background-position: 220% center; }
   }
   @media (prefers-reduced-motion: reduce){
     h1.title{ animation: none; }
+    .card:hover::after{ animation: none; }
   }
   nav.tabs{
     display: inline-flex;
@@ -319,6 +407,11 @@
     font-size: 24px;
     font-weight: 700;
     margin: 0 0 28px;
+    background: linear-gradient(100deg, var(--accent), #ffffff 50%, var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
   .search-box{
     display: flex;
@@ -364,8 +457,16 @@
     .grid{ grid-template-columns: 1fr; }
     h1.title{ font-size: 30px; letter-spacing: 5px; transform: scaleX(1.06); }
   }
+  @property --angle{
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
   .card{
-    background: linear-gradient(180deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9));
+    position: relative;
+    background:
+      radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 18%, transparent), transparent 62%),
+      linear-gradient(180deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9));
     border: 1px solid var(--card-border);
     border-radius: 14px;
     padding: 22px;
@@ -373,9 +474,31 @@
     cursor: pointer;
     transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   }
+  .card::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(from var(--angle, 0deg), transparent 0deg, var(--accent) 70deg, transparent 150deg, transparent 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+  }
   .card:hover{
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     border-color: var(--accent);
+    box-shadow: 0 14px 34px -14px var(--accent-glow);
+  }
+  .card:hover::after{
+    opacity: 1;
+    animation: spinBorder 3s linear infinite;
+  }
+  @keyframes spinBorder{
+    to{ --angle: 360deg; }
   }
   .card.selected{
     border-color: var(--accent);
@@ -1277,6 +1400,8 @@
   .update-body strong{
     color: #fff;
   }
+  .update-body ul{ margin: 10px 0 0; padding-left: 20px; }
+  .update-body li{ margin: 5px 0; }
   .chat-form{
     display: flex; gap: 6px; padding: 10px;
     border-top: 1px solid rgba(255,255,255,0.08);
@@ -1557,11 +1682,20 @@
   @media (max-width: 768px), (hover: none){
     *{ backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
     .star{ animation: none !important; }
+    .aurora{ display: none !important; }
+    .deep-glow{ display: none !important; }
+    .mega-glow{ display: none !important; }
+    .grid-floor{ display: none !important; }
   }
 </style>
 </head>
 <body>
 <canvas id="cursorTrail"></canvas>
+<div class="aurora"></div>
+<div class="deep-glow"></div>
+<div class="mega-glow"></div>
+<div class="grid-floor"></div>
+<div class="vignette"></div>
 <div class="stars" id="stars"><div class="star" style="--s: 2.4px; --x: 80.77471869070449%; --y: 60.5439104902709%; --dx: -17px; --dy: -11px; --dur: 37.5s; --delay: -4.3s; --tdur: 4.2s; --tdelay: -2.2s; --o: 0.42;"></div><div class="star" style="--s: 2.6px; --x: 15.718760590892789%; --y: 60.288140511666064%; --dx: -38px; --dy: 6px; --dur: 39.1s; --delay: -24.8s; --tdur: 4.3s; --tdelay: -1.3s; --o: 0.86;"></div><div class="star" style="--s: 1.8px; --x: 48.91683434175261%; --y: 1.1976890248097782%; --dx: -40px; --dy: 4px; --dur: 40.3s; --delay: -17.4s; --tdur: 2.8s; --tdelay: -2.2s; --o: 0.67;"></div><div class="star" style="--s: 2.0px; --x: 63.16630649840378%; --y: 28.073816743267344%; --dx: 20px; --dy: -38px; --dur: 25.5s; --delay: -18.9s; --tdur: 3.0s; --tdelay: -3.4s; --o: 0.75;"></div><div class="star" style="--s: 1.9px; --x: 34.92569119843343%; --y: 52.53138330821579%; --dx: 21px; --dy: -7px; --dur: 39.8s; --delay: -25.0s; --tdur: 4.6s; --tdelay: -1.4s; --o: 0.78;"></div><div class="star" style="--s: 2.1px; --x: 70.27063217777207%; --y: 59.12588090812314%; --dx: -39px; --dy: -36px; --dur: 30.5s; --delay: -12.6s; --tdur: 2.0s; --tdelay: -1.8s; --o: 0.74;"></div><div class="star" style="--s: 1.0px; --x: 47.019678102963624%; --y: 40.84912611517998%; --dx: 2px; --dy: -36px; --dur: 47.5s; --delay: -28.4s; --tdur: 4.4s; --tdelay: -3.4s; --o: 0.71;"></div><div class="star" style="--s: 1.5px; --x: 32.94726561133656%; --y: 70.5153955214763%; --dx: -7px; --dy: -12px; --dur: 47.4s; --delay: -6.2s; --tdur: 4.8s; --tdelay: -0.9s; --o: 0.63;"></div><div class="star" style="--s: 2.1px; --x: 20.779986035132403%; --y: 15.649911628401858%; --dx: 5px; --dy: 13px; --dur: 27.2s; --delay: -15.7s; --tdur: 4.6s; --tdelay: -0.4s; --o: 0.76;"></div><div class="star" style="--s: 1.4px; --x: 88.6487160614456%; --y: 6.4450270403633265%; --dx: 21px; --dy: -30px; --dur: 34.3s; --delay: -28.0s; --tdur: 3.6s; --tdelay: -2.9s; --o: 0.75;"></div><div class="star" style="--s: 0.9px; --x: 78.02376188543221%; --y: 76.79375653789808%; --dx: 37px; --dy: -9px; --dur: 39.9s; --delay: -22.9s; --tdur: 4.8s; --tdelay: -3.2s; --o: 0.46;"></div><div class="star" style="--s: 2.3px; --x: 72.38787497123087%; --y: 90.07132908213815%; --dx: -33px; --dy: 32px; --dur: 33.6s; --delay: -7.4s; --tdur: 2.5s; --tdelay: -2.6s; --o: 0.62;"></div><div class="star" style="--s: 2.2px; --x: 12.868080554369621%; --y: 5.415514092181839%; --dx: -38px; --dy: 18px; --dur: 30.5s; --delay: -16.1s; --tdur: 4.4s; --tdelay: -1.1s; --o: 0.47;"></div><div class="star" style="--s: 1.9px; --x: 19.822456453106618%; --y: 6.870991227618106%; --dx: 25px; --dy: -12px; --dur: 40.6s; --delay: -2.0s; --tdur: 5.0s; --tdelay: -2.8s; --o: 0.62;"></div><div class="star" style="--s: 2.4px; --x: 78.01194465735563%; --y: 23.71715943301226%; --dx: 20px; --dy: 38px; --dur: 33.1s; --delay: -14.4s; --tdur: 3.5s; --tdelay: -0.5s; --o: 0.52;"></div><div class="star" style="--s: 0.7px; --x: 12.445953708227853%; --y: 76.3193062974263%; --dx: 27px; --dy: -38px; --dur: 39.3s; --delay: -18.6s; --tdur: 4.6s; --tdelay: -1.6s; --o: 0.50;"></div><div class="star" style="--s: 2.1px; --x: 78.74198299479309%; --y: 98.97479639824135%; --dx: 30px; --dy: -25px; --dur: 31.3s; --delay: -19.1s; --tdur: 4.2s; --tdelay: -3.1s; --o: 0.81;"></div><div class="star" style="--s: 1.2px; --x: 38.81062299597487%; --y: 67.60634897918688%; --dx: -13px; --dy: -23px; --dur: 36.8s; --delay: -1.7s; --tdur: 3.8s; --tdelay: -0.1s; --o: 0.77;"></div><div class="star" style="--s: 1.3px; --x: 25.847644825487524%; --y: 34.42856145577535%; --dx: 24px; --dy: -6px; --dur: 49.7s; --delay: -5.6s; --tdur: 4.4s; --tdelay: -2.5s; --o: 0.91;"></div><div class="star" style="--s: 1.3px; --x: 30.80609217964283%; --y: 19.836794524023638%; --dx: 36px; --dy: 14px; --dur: 37.5s; --delay: -23.6s; --tdur: 3.2s; --tdelay: -3.4s; --o: 0.41;"></div><div class="star" style="--s: 1.8px; --x: 94.4456905896849%; --y: 30.010672461812995%; --dx: -40px; --dy: -37px; --dur: 42.2s; --delay: -1.6s; --tdur: 4.0s; --tdelay: -2.5s; --o: 0.48;"></div><div class="star" style="--s: 2.3px; --x: 42.2120032173369%; --y: 63.44840796212122%; --dx: 15px; --dy: -14px; --dur: 34.9s; --delay: -10.2s; --tdur: 4.3s; --tdelay: -0.8s; --o: 0.35;"></div><div class="star" style="--s: 1.7px; --x: 74.71621533581218%; --y: 20.735505978808778%; --dx: -30px; --dy: 8px; --dur: 32.5s; --delay: -16.7s; --tdur: 4.4s; --tdelay: -2.3s; --o: 0.42;"></div><div class="star" style="--s: 1.5px; --x: 48.68303424812501%; --y: 39.48941031547437%; --dx: 23px; --dy: -27px; --dur: 36.6s; --delay: -4.7s; --tdur: 3.4s; --tdelay: -3.7s; --o: 0.44;"></div><div class="star" style="--s: 2.4px; --x: 59.74400911149341%; --y: 90.1019446930537%; --dx: 6px; --dy: 8px; --dur: 36.5s; --delay: -29.2s; --tdur: 3.2s; --tdelay: -1.8s; --o: 0.37;"></div><div class="star" style="--s: 2.1px; --x: 30.437104938331984%; --y: 80.63073498799122%; --dx: 17px; --dy: -25px; --dur: 44.4s; --delay: -23.8s; --tdur: 2.6s; --tdelay: -0.7s; --o: 0.55;"></div><div class="star" style="--s: 2.1px; --x: 75.94235768262185%; --y: 18.111089786650147%; --dx: -33px; --dy: -24px; --dur: 43.2s; --delay: -25.2s; --tdur: 2.7s; --tdelay: -1.8s; --o: 0.37;"></div><div class="star" style="--s: 1.4px; --x: 1.623599374395035%; --y: 16.157890362025405%; --dx: -20px; --dy: -40px; --dur: 27.3s; --delay: -0.0s; --tdur: 3.6s; --tdelay: -3.6s; --o: 0.69;"></div><div class="star" style="--s: 2.0px; --x: 57.838819848085635%; --y: 19.618547066651438%; --dx: -26px; --dy: 37px; --dur: 42.9s; --delay: -4.7s; --tdur: 3.8s; --tdelay: -3.5s; --o: 0.62;"></div><div class="star" style="--s: 1.0px; --x: 75.33156309917638%; --y: 44.43292786226042%; --dx: -17px; --dy: 16px; --dur: 45.5s; --delay: -3.1s; --tdur: 3.0s; --tdelay: -3.2s; --o: 0.58;"></div><div class="star" style="--s: 0.9px; --x: 37.52025021554645%; --y: 0.25828425406326794%; --dx: 33px; --dy: 7px; --dur: 45.3s; --delay: -23.6s; --tdur: 4.0s; --tdelay: -1.9s; --o: 0.58;"></div><div class="star" style="--s: 2.3px; --x: 63.992776872270994%; --y: 71.59472310404831%; --dx: -18px; --dy: 33px; --dur: 37.0s; --delay: -8.8s; --tdur: 2.1s; --tdelay: -1.0s; --o: 0.40;"></div><div class="star" style="--s: 1.1px; --x: 52.14033032825171%; --y: 56.00343799779499%; --dx: 39px; --dy: 3px; --dur: 27.6s; --delay: -3.9s; --tdur: 4.0s; --tdelay: -0.6s; --o: 0.44;"></div><div class="star" style="--s: 1.3px; --x: 93.40436390182246%; --y: 50.69210697689537%; --dx: 10px; --dy: -22px; --dur: 46.3s; --delay: -7.5s; --tdur: 2.9s; --tdelay: -2.1s; --o: 0.78;"></div><div class="star" style="--s: 1.9px; --x: 25.54692010436336%; --y: 71.3744149627772%; --dx: -2px; --dy: 24px; --dur: 36.2s; --delay: -14.0s; --tdur: 3.9s; --tdelay: -3.3s; --o: 0.48;"></div><div class="star" style="--s: 1.2px; --x: 3.1915777115412047%; --y: 72.94518630641906%; --dx: -19px; --dy: 22px; --dur: 36.4s; --delay: -27.5s; --tdur: 4.1s; --tdelay: -1.2s; --o: 0.58;"></div><div class="star" style="--s: 2.3px; --x: 46.22973693700006%; --y: 87.46892575986291%; --dx: 20px; --dy: -34px; --dur: 37.6s; --delay: -13.6s; --tdur: 4.9s; --tdelay: -3.5s; --o: 0.38;"></div><div class="star" style="--s: 1.4px; --x: 90.38833648062378%; --y: 28.942244380017957%; --dx: 17px; --dy: 29px; --dur: 43.4s; --delay: -16.4s; --tdur: 2.0s; --tdelay: -1.5s; --o: 0.68;"></div><div class="star" style="--s: 1.4px; --x: 22.701205333874853%; --y: 24.036912524579456%; --dx: 31px; --dy: 0px; --dur: 33.9s; --delay: -21.8s; --tdur: 3.5s; --tdelay: -0.5s; --o: 0.75;"></div><div class="star" style="--s: 1.1px; --x: 91.73146999704444%; --y: 24.372788136573654%; --dx: 36px; --dy: -36px; --dur: 42.6s; --delay: -4.8s; --tdur: 2.7s; --tdelay: -1.0s; --o: 0.38;"></div><div class="star" style="--s: 2.2px; --x: 17.906583107917207%; --y: 96.62008574097383%; --dx: 28px; --dy: -25px; --dur: 40.0s; --delay: -22.1s; --tdur: 4.1s; --tdelay: -1.2s; --o: 0.86;"></div><div class="star" style="--s: 1.5px; --x: 26.41906861486585%; --y: 37.78401536903962%; --dx: -19px; --dy: 36px; --dur: 44.8s; --delay: -22.1s; --tdur: 3.4s; --tdelay: -0.5s; --o: 0.95;"></div><div class="star" style="--s: 1.6px; --x: 3.3069518477079174%; --y: 49.77823941784032%; --dx: -21px; --dy: 31px; --dur: 45.0s; --delay: -13.6s; --tdur: 4.4s; --tdelay: -2.9s; --o: 0.86;"></div><div class="star" style="--s: 2.4px; --x: 67.838552777645%; --y: 96.99578052308485%; --dx: -33px; --dy: 36px; --dur: 36.2s; --delay: -10.2s; --tdur: 2.8s; --tdelay: -1.6s; --o: 0.52;"></div><div class="star" style="--s: 1.8px; --x: 71.12714853744939%; --y: 79.16167456837995%; --dx: -40px; --dy: 12px; --dur: 25.2s; --delay: -12.6s; --tdur: 2.6s; --tdelay: -0.3s; --o: 0.61;"></div><div class="star" style="--s: 2.4px; --x: 98.88295441912071%; --y: 57.627754545726674%; --dx: -38px; --dy: -38px; --dur: 47.0s; --delay: -29.5s; --tdur: 3.0s; --tdelay: -0.9s; --o: 0.59;"></div><div class="star" style="--s: 1.9px; --x: 47.3821680568938%; --y: 45.56032690237397%; --dx: -14px; --dy: -28px; --dur: 30.4s; --delay: -3.3s; --tdur: 2.5s; --tdelay: -2.7s; --o: 0.86;"></div><div class="star" style="--s: 1.6px; --x: 84.60948804255577%; --y: 92.31814239949402%; --dx: 24px; --dy: 31px; --dur: 49.3s; --delay: -13.1s; --tdur: 3.5s; --tdelay: -2.6s; --o: 0.79;"></div><div class="star" style="--s: 1.5px; --x: 35.05591932493424%; --y: 28.470504790383455%; --dx: -33px; --dy: 18px; --dur: 43.5s; --delay: -22.0s; --tdur: 2.9s; --tdelay: -3.6s; --o: 0.89;"></div><div class="star" style="--s: 2.2px; --x: 46.09020620936614%; --y: 68.47378329850106%; --dx: 30px; --dy: 34px; --dur: 46.3s; --delay: -7.2s; --tdur: 4.3s; --tdelay: -3.8s; --o: 0.83;"></div><div class="star" style="--s: 0.7px; --x: 29.140477778046947%; --y: 84.47305071088083%; --dx: 3px; --dy: 12px; --dur: 42.4s; --delay: -12.0s; --tdur: 3.9s; --tdelay: -3.1s; --o: 0.77;"></div><div class="star" style="--s: 1.5px; --x: 4.772538613879829%; --y: 90.74879195142476%; --dx: -16px; --dy: -4px; --dur: 39.6s; --delay: -19.7s; --tdur: 4.3s; --tdelay: -1.0s; --o: 0.84;"></div><div class="star" style="--s: 2.3px; --x: 99.90917133392124%; --y: 22.046238997539625%; --dx: 39px; --dy: -33px; --dur: 32.1s; --delay: -0.1s; --tdur: 2.6s; --tdelay: -0.1s; --o: 0.76;"></div><div class="star" style="--s: 2.4px; --x: 28.35108929315544%; --y: 99.35588361953862%; --dx: -39px; --dy: -5px; --dur: 30.4s; --delay: -10.1s; --tdur: 3.6s; --tdelay: -0.0s; --o: 0.72;"></div><div class="star" style="--s: 1.7px; --x: 64.13006705253316%; --y: 10.308396491885286%; --dx: -8px; --dy: -28px; --dur: 28.2s; --delay: -5.8s; --tdur: 2.9s; --tdelay: -1.6s; --o: 0.53;"></div><div class="star" style="--s: 2.5px; --x: 66.39802928176188%; --y: 43.31617431210749%; --dx: -0px; --dy: 39px; --dur: 29.9s; --delay: -29.0s; --tdur: 4.4s; --tdelay: -1.7s; --o: 0.90;"></div><div class="star" style="--s: 2.0px; --x: 41.89277015774857%; --y: 59.7276199921266%; --dx: 36px; --dy: -15px; --dur: 42.2s; --delay: -20.9s; --tdur: 3.2s; --tdelay: -2.2s; --o: 0.54;"></div><div class="star" style="--s: 2.1px; --x: 7.038415247406949%; --y: 63.67588247831348%; --dx: 0px; --dy: 15px; --dur: 37.3s; --delay: -10.1s; --tdur: 2.4s; --tdelay: -1.4s; --o: 0.82;"></div><div class="star" style="--s: 1.5px; --x: 41.99743467592103%; --y: 47.19037530029948%; --dx: -24px; --dy: -14px; --dur: 36.5s; --delay: -29.6s; --tdur: 2.3s; --tdelay: -2.7s; --o: 0.62;"></div><div class="star" style="--s: 1.7px; --x: 72.1637192529562%; --y: 94.94528702863443%; --dx: 19px; --dy: 28px; --dur: 42.6s; --delay: -24.7s; --tdur: 4.6s; --tdelay: -3.3s; --o: 0.46;"></div><div class="star" style="--s: 1.1px; --x: 77.8966742657361%; --y: 46.287975122783735%; --dx: 39px; --dy: 14px; --dur: 46.2s; --delay: -21.2s; --tdur: 2.6s; --tdelay: -2.7s; --o: 0.73;"></div><div class="star" style="--s: 2.3px; --x: 30.730120642515622%; --y: 74.14512386704963%; --dx: 3px; --dy: 28px; --dur: 28.0s; --delay: -15.3s; --tdur: 2.2s; --tdelay: -0.1s; --o: 0.41;"></div><div class="star" style="--s: 1.8px; --x: 90.47385279975205%; --y: 82.5909621376961%; --dx: -24px; --dy: -11px; --dur: 43.6s; --delay: -0.8s; --tdur: 2.4s; --tdelay: -1.3s; --o: 0.89;"></div><div class="star" style="--s: 1.2px; --x: 28.55439892307293%; --y: 8.537800453003552%; --dx: -39px; --dy: -17px; --dur: 44.9s; --delay: -10.0s; --tdur: 3.6s; --tdelay: -2.0s; --o: 0.66;"></div><div class="star" style="--s: 0.8px; --x: 89.40461902475776%; --y: 34.21823098303665%; --dx: -11px; --dy: -27px; --dur: 25.1s; --delay: -16.9s; --tdur: 3.4s; --tdelay: -2.0s; --o: 0.59;"></div><div class="star" style="--s: 2.4px; --x: 53.74620374986255%; --y: 58.92213171328302%; --dx: 32px; --dy: 37px; --dur: 35.6s; --delay: -10.3s; --tdur: 2.3s; --tdelay: -2.4s; --o: 0.87;"></div><div class="star" style="--s: 1.5px; --x: 11.818408836955541%; --y: 81.13255115070021%; --dx: 7px; --dy: -7px; --dur: 46.9s; --delay: -15.4s; --tdur: 3.0s; --tdelay: -3.0s; --o: 0.84;"></div><div class="star" style="--s: 1.7px; --x: 66.98603929229247%; --y: 43.95558569943569%; --dx: 2px; --dy: -21px; --dur: 45.1s; --delay: -8.5s; --tdur: 3.6s; --tdelay: -3.7s; --o: 0.91;"></div><div class="star" style="--s: 1.9px; --x: 42.58332144768768%; --y: 87.30937489759%; --dx: 3px; --dy: -10px; --dur: 33.4s; --delay: -10.6s; --tdur: 3.5s; --tdelay: -2.0s; --o: 0.49;"></div><div class="star" style="--s: 2.1px; --x: 0.44168106536247587%; --y: 83.0523294115933%; --dx: 37px; --dy: -7px; --dur: 30.0s; --delay: -15.4s; --tdur: 3.6s; --tdelay: -2.6s; --o: 0.36;"></div><div class="star" style="--s: 1.5px; --x: 53.91420025000213%; --y: 42.97858594653873%; --dx: 27px; --dy: 3px; --dur: 26.3s; --delay: -13.3s; --tdur: 4.2s; --tdelay: -3.1s; --o: 0.87;"></div><div class="star" style="--s: 1.5px; --x: 38.71044391930187%; --y: 35.421899959574624%; --dx: -11px; --dy: -11px; --dur: 26.6s; --delay: -28.8s; --tdur: 2.7s; --tdelay: -1.4s; --o: 0.79;"></div><div class="star" style="--s: 2.0px; --x: 61.83998567119242%; --y: 25.586947659253656%; --dx: 10px; --dy: 11px; --dur: 27.4s; --delay: -0.8s; --tdur: 4.5s; --tdelay: -2.6s; --o: 0.81;"></div><div class="star" style="--s: 2.6px; --x: 97.24740424492259%; --y: 19.51862460682412%; --dx: 15px; --dy: -13px; --dur: 49.8s; --delay: -18.7s; --tdur: 4.3s; --tdelay: -1.4s; --o: 0.36;"></div><div class="star" style="--s: 1.5px; --x: 10.81604771159138%; --y: 21.632163778172053%; --dx: -24px; --dy: 12px; --dur: 41.8s; --delay: -23.5s; --tdur: 3.9s; --tdelay: -3.4s; --o: 0.67;"></div><div class="star" style="--s: 2.0px; --x: 66.11590103179746%; --y: 82.08009579610292%; --dx: 34px; --dy: 7px; --dur: 41.7s; --delay: -29.8s; --tdur: 3.0s; --tdelay: -1.8s; --o: 0.55;"></div><div class="star" style="--s: 1.1px; --x: 57.26469853653631%; --y: 40.72169036494575%; --dx: 35px; --dy: 4px; --dur: 41.9s; --delay: -4.3s; --tdur: 2.6s; --tdelay: -3.0s; --o: 0.86;"></div><div class="star" style="--s: 1.4px; --x: 82.75879209752792%; --y: 78.13821951852562%; --dx: 9px; --dy: 31px; --dur: 42.7s; --delay: -3.9s; --tdur: 4.1s; --tdelay: -2.5s; --o: 0.71;"></div><div class="star" style="--s: 1.8px; --x: 49.599745102227374%; --y: 6.021068544098518%; --dx: -20px; --dy: 28px; --dur: 27.2s; --delay: -29.1s; --tdur: 4.3s; --tdelay: -3.1s; --o: 0.69;"></div><div class="star" style="--s: 0.7px; --x: 92.36958961072274%; --y: 12.723502812927467%; --dx: 34px; --dy: -36px; --dur: 43.4s; --delay: -2.1s; --tdur: 3.9s; --tdelay: -3.2s; --o: 0.77;"></div><div class="star" style="--s: 2.0px; --x: 4.592235691021607%; --y: 69.52253705310461%; --dx: -21px; --dy: -8px; --dur: 40.3s; --delay: -3.3s; --tdur: 4.8s; --tdelay: -3.2s; --o: 0.86;"></div><div class="star" style="--s: 1.8px; --x: 89.04577414184631%; --y: 71.01953410420747%; --dx: 27px; --dy: -15px; --dur: 30.9s; --delay: -29.9s; --tdur: 2.2s; --tdelay: -1.1s; --o: 0.74;"></div><div class="star" style="--s: 1.9px; --x: 72.68544207064413%; --y: 9.830465945463784%; --dx: -36px; --dy: -23px; --dur: 41.2s; --delay: -17.4s; --tdur: 4.4s; --tdelay: -1.7s; --o: 0.76;"></div><div class="star" style="--s: 1.8px; --x: 28.402277062245794%; --y: 58.56282375830063%; --dx: 29px; --dy: 25px; --dur: 31.5s; --delay: -21.1s; --tdur: 4.7s; --tdelay: -1.2s; --o: 0.92;"></div><div class="star" style="--s: 1.7px; --x: 86.30320801865432%; --y: 13.278122557248128%; --dx: -22px; --dy: 22px; --dur: 25.7s; --delay: -22.1s; --tdur: 3.9s; --tdelay: -0.9s; --o: 0.82;"></div><div class="star" style="--s: 2.4px; --x: 42.114539556895316%; --y: 22.22897299704899%; --dx: -2px; --dy: 13px; --dur: 39.9s; --delay: -23.1s; --tdur: 4.0s; --tdelay: -0.4s; --o: 0.48;"></div><div class="star" style="--s: 1.8px; --x: 81.04874673092911%; --y: 30.506730853154217%; --dx: 9px; --dy: -21px; --dur: 43.4s; --delay: -10.6s; --tdur: 3.9s; --tdelay: -1.7s; --o: 0.76;"></div><div class="star" style="--s: 1.4px; --x: 50.8109876850984%; --y: 47.44489922380155%; --dx: 1px; --dy: -6px; --dur: 42.1s; --delay: -24.2s; --tdur: 2.1s; --tdelay: -3.0s; --o: 0.64;"></div><div class="star" style="--s: 2.1px; --x: 27.682177174061373%; --y: 59.49153043390485%; --dx: 14px; --dy: -11px; --dur: 48.9s; --delay: -17.0s; --tdur: 4.4s; --tdelay: -3.1s; --o: 0.48;"></div><div class="star" style="--s: 1.0px; --x: 37.4466237536277%; --y: 59.798207364881925%; --dx: 20px; --dy: -12px; --dur: 34.0s; --delay: -13.1s; --tdur: 2.9s; --tdelay: -3.1s; --o: 0.61;"></div><div class="star" style="--s: 1.3px; --x: 54.56588247150508%; --y: 56.94746020440029%; --dx: -40px; --dy: -29px; --dur: 41.1s; --delay: -24.9s; --tdur: 4.5s; --tdelay: -2.1s; --o: 0.65;"></div><div class="star" style="--s: 2.0px; --x: 57.09298926355836%; --y: 51.675386063705716%; --dx: 31px; --dy: -37px; --dur: 41.1s; --delay: -2.9s; --tdur: 4.5s; --tdelay: -3.3s; --o: 0.71;"></div><div class="star" style="--s: 1.8px; --x: 23.612921110579364%; --y: 91.75293947878525%; --dx: 5px; --dy: -22px; --dur: 35.7s; --delay: -11.8s; --tdur: 3.7s; --tdelay: -2.0s; --o: 0.91;"></div><div class="star" style="--s: 1.4px; --x: 41.4734878473852%; --y: 31.148911990520723%; --dx: 16px; --dy: -19px; --dur: 30.0s; --delay: -13.5s; --tdur: 2.4s; --tdelay: -3.9s; --o: 0.83;"></div><div class="star" style="--s: 1.4px; --x: 88.60121791069244%; --y: 12.465890675787906%; --dx: -29px; --dy: 24px; --dur: 45.1s; --delay: -1.0s; --tdur: 2.3s; --tdelay: -2.6s; --o: 0.89;"></div><div class="star" style="--s: 1.8px; --x: 24.01202562432976%; --y: 64.56317212681245%; --dx: -29px; --dy: -37px; --dur: 44.8s; --delay: -7.0s; --tdur: 2.4s; --tdelay: -1.2s; --o: 0.36;"></div><div class="star" style="--s: 1.0px; --x: 83.69474669481507%; --y: 39.123261194037525%; --dx: -21px; --dy: 27px; --dur: 30.6s; --delay: -2.4s; --tdur: 4.6s; --tdelay: -0.4s; --o: 0.95;"></div><div class="star" style="--s: 1.5px; --x: 8.823764419632418%; --y: 19.796953423588405%; --dx: -34px; --dy: 13px; --dur: 41.9s; --delay: -9.3s; --tdur: 4.3s; --tdelay: -0.3s; --o: 0.43;"></div><div class="star" style="--s: 0.8px; --x: 62.903809080128084%; --y: 38.86504226807597%; --dx: 6px; --dy: -23px; --dur: 42.4s; --delay: -22.7s; --tdur: 2.6s; --tdelay: -2.2s; --o: 0.47;"></div><div class="star" style="--s: 1.5px; --x: 12.6392255547222%; --y: 82.89184131479708%; --dx: 17px; --dy: -19px; --dur: 26.7s; --delay: -22.1s; --tdur: 3.2s; --tdelay: -3.4s; --o: 0.84;"></div><div class="star" style="--s: 1.8px; --x: 5.344314755928337%; --y: 34.251460912823376%; --dx: -26px; --dy: -32px; --dur: 32.4s; --delay: -6.0s; --tdur: 4.7s; --tdelay: -2.3s; --o: 0.52;"></div><div class="star" style="--s: 1.9px; --x: 16.19211787110757%; --y: 91.6183988164738%; --dx: 3px; --dy: -14px; --dur: 33.4s; --delay: -16.7s; --tdur: 4.8s; --tdelay: -0.9s; --o: 0.80;"></div><div class="star" style="--s: 0.9px; --x: 39.1715747936074%; --y: 81.53421574014251%; --dx: -25px; --dy: 10px; --dur: 45.8s; --delay: -26.4s; --tdur: 3.3s; --tdelay: -3.3s; --o: 0.53;"></div><div class="star" style="--s: 0.7px; --x: 89.52803893362552%; --y: 25.377321504059815%; --dx: 8px; --dy: -10px; --dur: 34.7s; --delay: -9.9s; --tdur: 2.7s; --tdelay: -1.8s; --o: 0.72;"></div><div class="star" style="--s: 0.7px; --x: 91.23449315919204%; --y: 15.624934826904834%; --dx: -20px; --dy: 5px; --dur: 43.5s; --delay: -2.6s; --tdur: 3.1s; --tdelay: -0.1s; --o: 0.68;"></div><div class="star" style="--s: 1.2px; --x: 18.36174864666942%; --y: 83.08905798667747%; --dx: 9px; --dy: 35px; --dur: 43.7s; --delay: -23.2s; --tdur: 3.9s; --tdelay: -3.2s; --o: 0.89;"></div><div class="star" style="--s: 0.7px; --x: 89.93360878760387%; --y: 49.298400537392276%; --dx: 15px; --dy: 20px; --dur: 36.7s; --delay: -12.6s; --tdur: 3.5s; --tdelay: -1.2s; --o: 0.37;"></div><div class="star" style="--s: 0.9px; --x: 99.1939395720743%; --y: 98.08709827598324%; --dx: -20px; --dy: 7px; --dur: 37.6s; --delay: -2.4s; --tdur: 3.0s; --tdelay: -2.7s; --o: 0.38;"></div><div class="star" style="--s: 2.3px; --x: 25.958229086309537%; --y: 94.22380301648727%; --dx: 18px; --dy: -10px; --dur: 48.6s; --delay: -0.2s; --tdur: 4.8s; --tdelay: -2.3s; --o: 0.52;"></div><div class="star" style="--s: 0.9px; --x: 26.705579803131773%; --y: 71.45621774972744%; --dx: 23px; --dy: -34px; --dur: 48.4s; --delay: -20.0s; --tdur: 2.1s; --tdelay: -3.1s; --o: 0.81;"></div><div class="star" style="--s: 0.7px; --x: 72.22484391742672%; --y: 14.463389707298335%; --dx: -8px; --dy: -5px; --dur: 25.6s; --delay: -24.4s; --tdur: 4.5s; --tdelay: -2.5s; --o: 0.78;"></div><div class="star" style="--s: 2.3px; --x: 69.79117410892167%; --y: 72.79103497670849%; --dx: -39px; --dy: 20px; --dur: 33.2s; --delay: -9.8s; --tdur: 3.8s; --tdelay: -2.2s; --o: 0.78;"></div><div class="star" style="--s: 2.0px; --x: 4.453485672194102%; --y: 55.367357225175226%; --dx: 35px; --dy: 16px; --dur: 40.3s; --delay: -28.1s; --tdur: 2.0s; --tdelay: -2.3s; --o: 0.42;"></div><div class="star" style="--s: 1.3px; --x: 98.12487366273145%; --y: 19.11312687209188%; --dx: -23px; --dy: 6px; --dur: 30.8s; --delay: -8.0s; --tdur: 2.8s; --tdelay: -3.7s; --o: 0.92;"></div><div class="star" style="--s: 2.2px; --x: 8.140262756797355%; --y: 21.603305063366594%; --dx: 29px; --dy: -37px; --dur: 33.9s; --delay: -29.5s; --tdur: 2.6s; --tdelay: -0.3s; --o: 0.79;"></div><div class="star" style="--s: 1.5px; --x: 28.06416434601273%; --y: 24.151199136230815%; --dx: 18px; --dy: 2px; --dur: 34.3s; --delay: -17.7s; --tdur: 2.4s; --tdelay: -0.9s; --o: 0.49;"></div><div class="star" style="--s: 1.4px; --x: 51.389715260956734%; --y: 87.50473789023631%; --dx: 28px; --dy: -8px; --dur: 43.7s; --delay: -2.2s; --tdur: 4.6s; --tdelay: -1.2s; --o: 0.89;"></div><div class="star" style="--s: 1.0px; --x: 1.9036998729841992%; --y: 62.722102523088694%; --dx: 15px; --dy: -10px; --dur: 32.6s; --delay: -1.2s; --tdur: 2.3s; --tdelay: -3.9s; --o: 0.43;"></div><div class="star" style="--s: 0.7px; --x: 86.69470285114805%; --y: 3.898142262885007%; --dx: -7px; --dy: -20px; --dur: 49.7s; --delay: -8.3s; --tdur: 4.9s; --tdelay: -2.7s; --o: 0.56;"></div><div class="star" style="--s: 1.0px; --x: 84.87208815081942%; --y: 41.95310623414036%; --dx: -17px; --dy: 20px; --dur: 35.0s; --delay: -7.5s; --tdur: 4.2s; --tdelay: -3.7s; --o: 0.39;"></div><div class="star" style="--s: 1.7px; --x: 97.80870939504518%; --y: 30.11380292789069%; --dx: -32px; --dy: 15px; --dur: 31.7s; --delay: -17.1s; --tdur: 2.1s; --tdelay: -2.6s; --o: 0.69;"></div><div class="star" style="--s: 0.9px; --x: 34.46387936708799%; --y: 37.33602062388325%; --dx: 23px; --dy: 29px; --dur: 27.7s; --delay: -15.9s; --tdur: 3.9s; --tdelay: -2.3s; --o: 0.93;"></div><div class="star" style="--s: 0.7px; --x: 37.16638900867173%; --y: 8.170765793185097%; --dx: 32px; --dy: -14px; --dur: 37.6s; --delay: -18.4s; --tdur: 3.4s; --tdelay: -3.2s; --o: 0.60;"></div><div class="star" style="--s: 0.6px; --x: 63.60249920814655%; --y: 38.34903525271216%; --dx: -26px; --dy: -37px; --dur: 41.3s; --delay: -12.5s; --tdur: 2.2s; --tdelay: -2.9s; --o: 0.72;"></div><div class="star" style="--s: 1.2px; --x: 72.30277819913101%; --y: 47.05249935871644%; --dx: -31px; --dy: -7px; --dur: 29.2s; --delay: -13.1s; --tdur: 4.7s; --tdelay: -3.5s; --o: 0.91;"></div><div class="star" style="--s: 1.8px; --x: 35.82669957791512%; --y: 63.48872812830011%; --dx: 11px; --dy: -2px; --dur: 46.4s; --delay: -5.0s; --tdur: 4.1s; --tdelay: -1.6s; --o: 0.72;"></div><div class="star" style="--s: 1.4px; --x: 47.47690934669732%; --y: 83.76063368554557%; --dx: 14px; --dy: -30px; --dur: 43.1s; --delay: -26.8s; --tdur: 3.7s; --tdelay: -2.0s; --o: 0.42;"></div><div class="star" style="--s: 1.3px; --x: 65.22103545579803%; --y: 15.644142740195866%; --dx: 1px; --dy: 3px; --dur: 43.1s; --delay: -11.9s; --tdur: 4.1s; --tdelay: -2.6s; --o: 0.82;"></div><div class="star" style="--s: 1.1px; --x: 17.873217029168366%; --y: 70.57915688398421%; --dx: 12px; --dy: -8px; --dur: 29.7s; --delay: -22.4s; --tdur: 4.3s; --tdelay: -0.5s; --o: 0.83;"></div><div class="star" style="--s: 2.5px; --x: 38.667637626506%; --y: 2.2457431715930287%; --dx: -31px; --dy: -16px; --dur: 40.8s; --delay: -20.2s; --tdur: 2.5s; --tdelay: -2.2s; --o: 0.78;"></div><div class="star" style="--s: 2.1px; --x: 34.59937524209441%; --y: 18.206519698499214%; --dx: 30px; --dy: -10px; --dur: 40.1s; --delay: -7.8s; --tdur: 4.6s; --tdelay: -0.7s; --o: 0.66;"></div><div class="star" style="--s: 1.6px; --x: 66.97385074398964%; --y: 12.030452960825688%; --dx: -24px; --dy: 14px; --dur: 49.9s; --delay: -5.9s; --tdur: 3.5s; --tdelay: -0.3s; --o: 0.64;"></div><div class="star" style="--s: 0.8px; --x: 3.7931929260234476%; --y: 94.80276321374451%; --dx: 20px; --dy: -32px; --dur: 42.3s; --delay: -12.9s; --tdur: 2.4s; --tdelay: -1.3s; --o: 0.49;"></div><div class="star" style="--s: 0.7px; --x: 40.997739323754324%; --y: 24.393701545725634%; --dx: 18px; --dy: -2px; --dur: 30.9s; --delay: -17.8s; --tdur: 2.9s; --tdelay: -0.6s; --o: 0.81;"></div><div class="star" style="--s: 1.4px; --x: 29.7250560588054%; --y: 71.49848482167587%; --dx: 4px; --dy: -11px; --dur: 45.7s; --delay: -25.7s; --tdur: 3.2s; --tdelay: -3.9s; --o: 0.48;"></div><div class="star" style="--s: 1.4px; --x: 38.79881223802813%; --y: 30.067656708721092%; --dx: 15px; --dy: 34px; --dur: 30.0s; --delay: -29.7s; --tdur: 4.3s; --tdelay: -1.8s; --o: 0.88;"></div><div class="star" style="--s: 1.3px; --x: 71.56501735353123%; --y: 45.13671010160486%; --dx: -38px; --dy: 30px; --dur: 37.7s; --delay: -28.7s; --tdur: 4.9s; --tdelay: -3.5s; --o: 0.68;"></div><div class="star" style="--s: 1.7px; --x: 47.24159568798173%; --y: 53.177422377613595%; --dx: 28px; --dy: 23px; --dur: 26.7s; --delay: -2.8s; --tdur: 2.8s; --tdelay: -2.2s; --o: 0.82;"></div><div class="star" style="--s: 1.3px; --x: 73.87903015883886%; --y: 91.64766621834605%; --dx: -5px; --dy: 35px; --dur: 35.2s; --delay: -14.9s; --tdur: 5.0s; --tdelay: -2.1s; --o: 0.61;"></div><div class="star" style="--s: 2.3px; --x: 26.247695477356668%; --y: 4.5309073667508475%; --dx: -35px; --dy: -32px; --dur: 26.3s; --delay: -2.7s; --tdur: 3.9s; --tdelay: -0.7s; --o: 0.91;"></div><div class="star" style="--s: 1.0px; --x: 19.992387881890515%; --y: 21.56274850787493%; --dx: 32px; --dy: -10px; --dur: 25.4s; --delay: -15.4s; --tdur: 2.5s; --tdelay: -3.5s; --o: 0.40;"></div><div class="star" style="--s: 0.9px; --x: 46.2088514417918%; --y: 33.009438019759415%; --dx: 2px; --dy: 32px; --dur: 40.2s; --delay: -19.5s; --tdur: 5.0s; --tdelay: -2.9s; --o: 0.78;"></div><div class="star" style="--s: 2.1px; --x: 82.10748545779192%; --y: 75.61916614882877%; --dx: 32px; --dy: 3px; --dur: 25.4s; --delay: -19.1s; --tdur: 5.0s; --tdelay: -1.2s; --o: 0.77;"></div><div class="star" style="--s: 1.0px; --x: 36.382981791116876%; --y: 87.93318462166283%; --dx: 24px; --dy: -23px; --dur: 42.3s; --delay: -0.5s; --tdur: 4.3s; --tdelay: -2.0s; --o: 0.81;"></div><div class="star" style="--s: 1.0px; --x: 78.22580449856929%; --y: 25.890908622322005%; --dx: 26px; --dy: -12px; --dur: 26.0s; --delay: -14.0s; --tdur: 4.5s; --tdelay: -0.5s; --o: 0.38;"></div><div class="star" style="--s: 1.8px; --x: 75.07325552214695%; --y: 82.82549960491676%; --dx: -26px; --dy: 29px; --dur: 50.0s; --delay: -5.2s; --tdur: 3.9s; --tdelay: -0.1s; --o: 0.39;"></div><div class="star" style="--s: 2.2px; --x: 94.32679193156389%; --y: 50.03586889562913%; --dx: 19px; --dy: -9px; --dur: 28.2s; --delay: -2.0s; --tdur: 2.9s; --tdelay: -2.4s; --o: 0.51;"></div><div class="star" style="--s: 1.6px; --x: 86.18603323335715%; --y: 36.5695645233444%; --dx: -38px; --dy: -22px; --dur: 45.0s; --delay: -17.6s; --tdur: 5.0s; --tdelay: -3.0s; --o: 0.42;"></div><div class="star" style="--s: 1.3px; --x: 96.9106528726132%; --y: 40.251305042237874%; --dx: -8px; --dy: -14px; --dur: 33.8s; --delay: -2.7s; --tdur: 4.5s; --tdelay: -1.2s; --o: 0.50;"></div><div class="star" style="--s: 0.8px; --x: 47.76812620030313%; --y: 27.378015815255317%; --dx: 3px; --dy: 26px; --dur: 47.3s; --delay: -21.3s; --tdur: 2.6s; --tdelay: -0.0s; --o: 0.44;"></div><div class="star" style="--s: 2.2px; --x: 10.823513306179066%; --y: 6.709318334888781%; --dx: -31px; --dy: -1px; --dur: 34.0s; --delay: -1.6s; --tdur: 4.1s; --tdelay: -2.8s; --o: 0.58;"></div><div class="star" style="--s: 0.6px; --x: 68.57145844685772%; --y: 30.764153603765276%; --dx: 32px; --dy: -12px; --dur: 37.6s; --delay: -21.4s; --tdur: 3.5s; --tdelay: -0.8s; --o: 0.62;"></div><div class="star" style="--s: 1.6px; --x: 10.19673983180378%; --y: 38.130749108596916%; --dx: 25px; --dy: -1px; --dur: 39.2s; --delay: -7.8s; --tdur: 2.6s; --tdelay: -2.5s; --o: 0.37;"></div><div class="star" style="--s: 2.1px; --x: 33.32083144175737%; --y: 14.58474672608837%; --dx: -40px; --dy: 9px; --dur: 48.4s; --delay: -7.5s; --tdur: 2.7s; --tdelay: -2.8s; --o: 0.86;"></div><div class="star" style="--s: 1.4px; --x: 36.298261200263084%; --y: 42.31250336029703%; --dx: -13px; --dy: 35px; --dur: 38.0s; --delay: -15.3s; --tdur: 4.6s; --tdelay: -2.0s; --o: 0.47;"></div><div class="star" style="--s: 1.5px; --x: 11.380854701100274%; --y: 57.403106363017045%; --dx: -24px; --dy: -3px; --dur: 48.3s; --delay: -1.6s; --tdur: 4.5s; --tdelay: -2.4s; --o: 0.60;"></div><div class="star" style="--s: 2.3px; --x: 49.003207545424445%; --y: 47.99810135570384%; --dx: -38px; --dy: -32px; --dur: 30.8s; --delay: -5.2s; --tdur: 3.5s; --tdelay: -0.1s; --o: 0.48;"></div><div class="star" style="--s: 1.4px; --x: 65.19913179912577%; --y: 76.28435011699646%; --dx: -37px; --dy: -30px; --dur: 38.3s; --delay: -13.7s; --tdur: 3.1s; --tdelay: -1.8s; --o: 0.49;"></div><div class="star" style="--s: 1.1px; --x: 57.9977971030081%; --y: 79.22249690900823%; --dx: 24px; --dy: -4px; --dur: 29.1s; --delay: -17.5s; --tdur: 3.4s; --tdelay: -3.4s; --o: 0.46;"></div><div class="star" style="--s: 1.3px; --x: 57.175452432686825%; --y: 29.6907515301583%; --dx: 24px; --dy: 21px; --dur: 47.4s; --delay: -23.6s; --tdur: 4.2s; --tdelay: -1.2s; --o: 0.49;"></div><div class="star" style="--s: 2.5px; --x: 40.221575540647%; --y: 25.76516608104201%; --dx: 12px; --dy: 34px; --dur: 44.2s; --delay: -25.4s; --tdur: 2.5s; --tdelay: -2.9s; --o: 0.59;"></div><div class="star" style="--s: 0.7px; --x: 9.818968463445865%; --y: 30.42986633197604%; --dx: -7px; --dy: 25px; --dur: 48.7s; --delay: -14.8s; --tdur: 2.9s; --tdelay: -0.8s; --o: 0.79;"></div><div class="star" style="--s: 2.2px; --x: 57.47064289227358%; --y: 25.58419450801017%; --dx: 18px; --dy: -20px; --dur: 47.5s; --delay: -3.8s; --tdur: 3.6s; --tdelay: -0.8s; --o: 0.64;"></div><div class="star" style="--s: 1.7px; --x: 27.62912789890548%; --y: 31.155652007568868%; --dx: -16px; --dy: -10px; --dur: 26.1s; --delay: -18.9s; --tdur: 2.7s; --tdelay: -2.3s; --o: 0.64;"></div><div class="star" style="--s: 2.0px; --x: 53.42482456098045%; --y: 64.699102476044%; --dx: -32px; --dy: 4px; --dur: 49.5s; --delay: -2.9s; --tdur: 2.1s; --tdelay: -0.7s; --o: 0.63;"></div><div class="star" style="--s: 1.0px; --x: 43.42686651081653%; --y: 51.7150969903068%; --dx: 1px; --dy: -19px; --dur: 41.8s; --delay: -15.9s; --tdur: 2.3s; --tdelay: -3.9s; --o: 0.72;"></div><div class="star" style="--s: 2.5px; --x: 73.42251828409935%; --y: 16.719235076572048%; --dx: 13px; --dy: 27px; --dur: 49.1s; --delay: -20.3s; --tdur: 2.5s; --tdelay: -0.4s; --o: 0.72;"></div><div class="star" style="--s: 0.6px; --x: 92.25507978366942%; --y: 92.93550582111439%; --dx: -40px; --dy: 25px; --dur: 45.7s; --delay: -1.2s; --tdur: 4.3s; --tdelay: -3.1s; --o: 0.87;"></div><div class="star" style="--s: 1.5px; --x: 12.420167504303947%; --y: 20.4764868510795%; --dx: -9px; --dy: 33px; --dur: 29.0s; --delay: -19.1s; --tdur: 4.2s; --tdelay: -0.4s; --o: 0.75;"></div><div class="star" style="--s: 2.3px; --x: 35.525643445921375%; --y: 13.629622571195387%; --dx: 25px; --dy: -35px; --dur: 47.7s; --delay: -22.9s; --tdur: 2.7s; --tdelay: -1.2s; --o: 0.53;"></div><div class="star" style="--s: 1.0px; --x: 35.60746616883732%; --y: 61.033612937513105%; --dx: -0px; --dy: -12px; --dur: 47.8s; --delay: -27.2s; --tdur: 4.2s; --tdelay: -2.5s; --o: 0.45;"></div><div class="star" style="--s: 1.6px; --x: 61.620863150710484%; --y: 34.40510719083556%; --dx: 31px; --dy: 18px; --dur: 28.3s; --delay: -5.7s; --tdur: 4.1s; --tdelay: -2.3s; --o: 0.59;"></div><div class="star" style="--s: 1.0px; --x: 67.19858346708017%; --y: 72.92217711122235%; --dx: 23px; --dy: -4px; --dur: 48.1s; --delay: -6.6s; --tdur: 4.0s; --tdelay: -2.4s; --o: 0.77;"></div><div class="star" style="--s: 1.2px; --x: 84.6518297226192%; --y: 8.26462223102361%; --dx: 35px; --dy: -30px; --dur: 47.7s; --delay: -25.3s; --tdur: 3.0s; --tdelay: -3.8s; --o: 0.71;"></div><div class="star" style="--s: 1.4px; --x: 63.71720239284836%; --y: 60.750222085930574%; --dx: 31px; --dy: -19px; --dur: 36.1s; --delay: -26.2s; --tdur: 2.0s; --tdelay: -2.0s; --o: 0.47;"></div><div class="star" style="--s: 2.5px; --x: 1.4390663143591498%; --y: 75.71615133316895%; --dx: 10px; --dy: -1px; --dur: 30.0s; --delay: -14.7s; --tdur: 3.9s; --tdelay: -3.2s; --o: 0.70;"></div><div class="star" style="--s: 0.8px; --x: 76.82355635925813%; --y: 56.56321303699653%; --dx: 24px; --dy: 14px; --dur: 49.8s; --delay: -16.5s; --tdur: 4.1s; --tdelay: -3.4s; --o: 0.68;"></div><div class="star" style="--s: 2.1px; --x: 44.874929219834826%; --y: 79.30062983317579%; --dx: 40px; --dy: -22px; --dur: 30.8s; --delay: -25.4s; --tdur: 4.1s; --tdelay: -1.9s; --o: 0.58;"></div><div class="star" style="--s: 0.8px; --x: 97.69699289009769%; --y: 29.55943358310561%; --dx: -35px; --dy: 21px; --dur: 37.2s; --delay: -21.0s; --tdur: 3.1s; --tdelay: -1.9s; --o: 0.50;"></div><div class="star" style="--s: 2.0px; --x: 18.638445644638%; --y: 87.74260139360894%; --dx: 4px; --dy: 24px; --dur: 41.3s; --delay: -26.8s; --tdur: 3.7s; --tdelay: -0.2s; --o: 0.46;"></div><div class="star" style="--s: 0.7px; --x: 89.71750975371616%; --y: 60.29250674222174%; --dx: 20px; --dy: -32px; --dur: 39.8s; --delay: -4.5s; --tdur: 3.0s; --tdelay: -3.5s; --o: 0.65;"></div><div class="star" style="--s: 2.4px; --x: 94.87386042416274%; --y: 50.09171755624284%; --dx: -15px; --dy: -22px; --dur: 49.0s; --delay: -12.3s; --tdur: 3.7s; --tdelay: -2.9s; --o: 0.84;"></div><div class="star" style="--s: 0.7px; --x: 66.18626836032689%; --y: 11.813263913427107%; --dx: 7px; --dy: 30px; --dur: 25.8s; --delay: -15.9s; --tdur: 4.5s; --tdelay: -2.2s; --o: 0.43;"></div><div class="star" style="--s: 2.0px; --x: 81.76125297226818%; --y: 14.405204187459619%; --dx: -16px; --dy: -18px; --dur: 38.4s; --delay: -22.8s; --tdur: 3.6s; --tdelay: -1.8s; --o: 0.91;"></div><div class="star" style="--s: 0.8px; --x: 31.507921375583138%; --y: 24.284852086016684%; --dx: 33px; --dy: 8px; --dur: 32.7s; --delay: -19.3s; --tdur: 3.2s; --tdelay: -0.6s; --o: 0.36;"></div><div class="star" style="--s: 0.9px; --x: 73.36640700650285%; --y: 82.69068335506896%; --dx: -16px; --dy: 15px; --dur: 29.0s; --delay: -17.7s; --tdur: 2.7s; --tdelay: -0.2s; --o: 0.87;"></div><div class="star" style="--s: 1.8px; --x: 65.29036980084035%; --y: 57.75484628248619%; --dx: -33px; --dy: -27px; --dur: 39.5s; --delay: -15.5s; --tdur: 4.3s; --tdelay: -0.3s; --o: 0.36;"></div><div class="star" style="--s: 1.4px; --x: 16.705489639889525%; --y: 65.38140211644662%; --dx: 1px; --dy: -11px; --dur: 25.3s; --delay: -11.7s; --tdur: 4.6s; --tdelay: -2.1s; --o: 0.68;"></div><div class="star" style="--s: 0.9px; --x: 30.930321634010618%; --y: 57.26426416114526%; --dx: 34px; --dy: 37px; --dur: 29.0s; --delay: -4.1s; --tdur: 4.8s; --tdelay: -0.2s; --o: 0.64;"></div><div class="star" style="--s: 0.8px; --x: 45.448773416595735%; --y: 27.716856762445307%; --dx: 30px; --dy: -30px; --dur: 32.5s; --delay: -26.5s; --tdur: 2.1s; --tdelay: -0.9s; --o: 0.95;"></div><div class="star" style="--s: 1.8px; --x: 10.786835044391797%; --y: 25.451427725484066%; --dx: 26px; --dy: -34px; --dur: 32.6s; --delay: -6.5s; --tdur: 3.7s; --tdelay: -3.7s; --o: 0.61;"></div><div class="star" style="--s: 2.4px; --x: 74.8280614833676%; --y: 53.68379053784946%; --dx: -39px; --dy: 18px; --dur: 41.5s; --delay: -15.3s; --tdur: 4.5s; --tdelay: -1.4s; --o: 0.85;"></div><div class="star" style="--s: 2.4px; --x: 1.2828849493748073%; --y: 21.092942252425438%; --dx: 11px; --dy: -27px; --dur: 45.6s; --delay: -23.0s; --tdur: 2.4s; --tdelay: -3.7s; --o: 0.69;"></div><div class="star" style="--s: 1.2px; --x: 70.60422614328287%; --y: 97.31703176819386%; --dx: -0px; --dy: -23px; --dur: 41.3s; --delay: -2.9s; --tdur: 3.8s; --tdelay: -2.8s; --o: 0.93;"></div><div class="star" style="--s: 1.6px; --x: 1.9925161356333598%; --y: 38.20022410761648%; --dx: -21px; --dy: 24px; --dur: 46.8s; --delay: -3.6s; --tdur: 3.6s; --tdelay: -0.9s; --o: 0.72;"></div><div class="star" style="--s: 1.6px; --x: 61.551223033447855%; --y: 30.961905847186944%; --dx: 1px; --dy: -16px; --dur: 44.6s; --delay: -19.6s; --tdur: 3.7s; --tdelay: -1.6s; --o: 0.72;"></div><div class="star" style="--s: 2.6px; --x: 59.254692489726544%; --y: 51.27865390262777%; --dx: -36px; --dy: -16px; --dur: 47.8s; --delay: -25.1s; --tdur: 5.0s; --tdelay: -2.5s; --o: 0.70;"></div><div class="star" style="--s: 2.2px; --x: 12.500582304203167%; --y: 78.79103750650005%; --dx: 22px; --dy: -24px; --dur: 38.5s; --delay: -6.5s; --tdur: 3.9s; --tdelay: -1.9s; --o: 0.70;"></div><div class="star" style="--s: 0.6px; --x: 5.36405950234462%; --y: 25.281131442034855%; --dx: -18px; --dy: -37px; --dur: 38.7s; --delay: -28.0s; --tdur: 2.2s; --tdelay: -0.4s; --o: 0.93;"></div><div class="star" style="--s: 2.1px; --x: 4.598665250281053%; --y: 52.27406175393025%; --dx: -2px; --dy: 26px; --dur: 37.1s; --delay: -0.1s; --tdur: 4.9s; --tdelay: -3.4s; --o: 0.66;"></div><div class="star" style="--s: 2.5px; --x: 90.52225373297392%; --y: 25.090620552690034%; --dx: -14px; --dy: 30px; --dur: 28.3s; --delay: -10.3s; --tdur: 3.5s; --tdelay: -2.7s; --o: 0.52;"></div><div class="star" style="--s: 1.8px; --x: 77.62864583887973%; --y: 68.44239759174539%; --dx: 19px; --dy: 10px; --dur: 40.5s; --delay: -21.6s; --tdur: 3.4s; --tdelay: -0.8s; --o: 0.72;"></div><div class="star" style="--s: 0.9px; --x: 82.62394718727751%; --y: 17.523039171680267%; --dx: -14px; --dy: -13px; --dur: 31.8s; --delay: -2.7s; --tdur: 4.8s; --tdelay: -2.8s; --o: 0.42;"></div><div class="star" style="--s: 2.1px; --x: 11.68459631400447%; --y: 15.406934134195872%; --dx: -40px; --dy: 3px; --dur: 38.1s; --delay: -22.9s; --tdur: 3.4s; --tdelay: -2.7s; --o: 0.74;"></div><div class="star" style="--s: 0.9px; --x: 20.271589153595205%; --y: 77.53099707072127%; --dx: 38px; --dy: 27px; --dur: 33.7s; --delay: -4.9s; --tdur: 3.0s; --tdelay: -2.3s; --o: 0.51;"></div><div class="star" style="--s: 1.2px; --x: 0.7657265268165903%; --y: 41.3817903910349%; --dx: 15px; --dy: -31px; --dur: 25.4s; --delay: -1.4s; --tdur: 2.6s; --tdelay: -2.8s; --o: 0.95;"></div><div class="star" style="--s: 1.6px; --x: 38.851813991909026%; --y: 91.39749127049876%; --dx: -27px; --dy: -16px; --dur: 40.5s; --delay: -3.9s; --tdur: 2.7s; --tdelay: -2.0s; --o: 0.75;"></div><div class="star" style="--s: 2.2px; --x: 3.9276285770381447%; --y: 54.155480292447436%; --dx: -11px; --dy: 7px; --dur: 46.1s; --delay: -14.4s; --tdur: 3.3s; --tdelay: -1.4s; --o: 0.85;"></div><div class="star" style="--s: 2.5px; --x: 16.993985346903372%; --y: 7.805821419914894%; --dx: 38px; --dy: -30px; --dur: 28.8s; --delay: -22.9s; --tdur: 3.6s; --tdelay: -1.3s; --o: 0.43;"></div><div class="star" style="--s: 1.1px; --x: 94.23089147133943%; --y: 47.7096949168828%; --dx: -9px; --dy: -25px; --dur: 49.9s; --delay: -23.8s; --tdur: 3.5s; --tdelay: -1.8s; --o: 0.38;"></div><div class="star" style="--s: 2.5px; --x: 49.19090617111919%; --y: 70.47147271687737%; --dx: -1px; --dy: -25px; --dur: 37.3s; --delay: -25.8s; --tdur: 4.0s; --tdelay: -0.3s; --o: 0.52;"></div><div class="star" style="--s: 1.1px; --x: 58.32978248002445%; --y: 81.21675449561265%; --dx: -35px; --dy: -22px; --dur: 35.7s; --delay: -15.2s; --tdur: 5.0s; --tdelay: -1.7s; --o: 0.90;"></div><div class="star" style="--s: 1.1px; --x: 26.042837189928857%; --y: 54.931436806247305%; --dx: 24px; --dy: 30px; --dur: 43.3s; --delay: -24.2s; --tdur: 2.3s; --tdelay: -3.1s; --o: 0.60;"></div><div class="star" style="--s: 1.7px; --x: 36.17334934615464%; --y: 75.30932560881006%; --dx: 33px; --dy: -18px; --dur: 25.3s; --delay: -15.5s; --tdur: 3.8s; --tdelay: -2.3s; --o: 0.89;"></div><div class="star" style="--s: 2.3px; --x: 8.407313002089156%; --y: 21.65994095715462%; --dx: 33px; --dy: -36px; --dur: 40.6s; --delay: -24.6s; --tdur: 4.7s; --tdelay: -0.6s; --o: 0.56;"></div><div class="star" style="--s: 1.2px; --x: 40.70776051150459%; --y: 63.77601765521745%; --dx: 22px; --dy: -39px; --dur: 38.4s; --delay: -8.7s; --tdur: 3.7s; --tdelay: -3.5s; --o: 0.61;"></div><div class="star" style="--s: 0.9px; --x: 9.04918640699659%; --y: 14.118553579717464%; --dx: -18px; --dy: -18px; --dur: 28.0s; --delay: -19.5s; --tdur: 3.0s; --tdelay: -2.2s; --o: 0.85;"></div><div class="star" style="--s: 0.8px; --x: 84.3014980288587%; --y: 45.043780373489604%; --dx: -16px; --dy: 6px; --dur: 39.2s; --delay: -27.5s; --tdur: 2.5s; --tdelay: -2.9s; --o: 0.41;"></div><div class="star" style="--s: 2.5px; --x: 16.387560748973762%; --y: 20.185229127793214%; --dx: -23px; --dy: 20px; --dur: 28.4s; --delay: -19.7s; --tdur: 2.5s; --tdelay: -0.4s; --o: 0.76;"></div><div class="star" style="--s: 2.3px; --x: 90.10936004182908%; --y: 2.8492694346054503%; --dx: -23px; --dy: -23px; --dur: 26.3s; --delay: -0.3s; --tdur: 4.8s; --tdelay: -1.1s; --o: 0.43;"></div><div class="star" style="--s: 1.7px; --x: 24.215960821826798%; --y: 51.929031503082236%; --dx: -26px; --dy: -18px; --dur: 44.6s; --delay: -7.2s; --tdur: 3.1s; --tdelay: -3.4s; --o: 0.85;"></div><div class="star" style="--s: 2.1px; --x: 72.69737670135193%; --y: 65.64084528906851%; --dx: 8px; --dy: 39px; --dur: 47.8s; --delay: -19.4s; --tdur: 3.0s; --tdelay: -3.2s; --o: 0.51;"></div><div class="star" style="--s: 2.5px; --x: 26.137019247392303%; --y: 77.96913630708518%; --dx: -10px; --dy: -9px; --dur: 42.9s; --delay: -24.1s; --tdur: 3.7s; --tdelay: -0.0s; --o: 0.43;"></div><div class="star" style="--s: 1.2px; --x: 51.806210207259284%; --y: 10.251302549231877%; --dx: -2px; --dy: -7px; --dur: 45.2s; --delay: -19.0s; --tdur: 3.0s; --tdelay: -1.7s; --o: 0.74;"></div><div class="star" style="--s: 0.8px; --x: 6.952954551143476%; --y: 39.25863213998768%; --dx: -5px; --dy: 34px; --dur: 28.7s; --delay: -28.5s; --tdur: 5.0s; --tdelay: -2.7s; --o: 0.90;"></div><div class="star" style="--s: 2.6px; --x: 52.12743275442764%; --y: 18.38061303976486%; --dx: 32px; --dy: -27px; --dur: 49.4s; --delay: -22.0s; --tdur: 3.8s; --tdelay: -0.7s; --o: 0.40;"></div><div class="star" style="--s: 1.9px; --x: 97.1791264757439%; --y: 44.980467194424044%; --dx: -5px; --dy: 35px; --dur: 46.8s; --delay: -2.9s; --tdur: 4.3s; --tdelay: -3.2s; --o: 0.49;"></div><div class="star" style="--s: 0.8px; --x: 93.19065193264375%; --y: 90.8625070834691%; --dx: -6px; --dy: -30px; --dur: 38.4s; --delay: -0.3s; --tdur: 2.1s; --tdelay: -0.9s; --o: 0.73;"></div><div class="star" style="--s: 2.5px; --x: 19.48763805247219%; --y: 80.94984930745458%; --dx: -26px; --dy: 33px; --dur: 40.1s; --delay: -14.4s; --tdur: 4.7s; --tdelay: -0.8s; --o: 0.76;"></div><div class="star" style="--s: 1.6px; --x: 15.481317624549785%; --y: 98.74869983435866%; --dx: 22px; --dy: -5px; --dur: 30.4s; --delay: -17.4s; --tdur: 4.8s; --tdelay: -4.0s; --o: 0.74;"></div><div class="star" style="--s: 2.1px; --x: 75.67873995847994%; --y: 40.96182030707762%; --dx: -39px; --dy: -33px; --dur: 35.9s; --delay: -26.9s; --tdur: 3.1s; --tdelay: -1.3s; --o: 0.88;"></div><div class="star" style="--s: 2.5px; --x: 80.57143161341747%; --y: 97.64483950690172%; --dx: 9px; --dy: -15px; --dur: 37.5s; --delay: -11.7s; --tdur: 4.6s; --tdelay: -1.8s; --o: 0.60;"></div><div class="star" style="--s: 1.9px; --x: 64.19214183930093%; --y: 35.49311436877204%; --dx: 23px; --dy: 13px; --dur: 48.3s; --delay: -13.9s; --tdur: 2.6s; --tdelay: -3.0s; --o: 0.63;"></div><div class="star" style="--s: 1.0px; --x: 45.046673157828735%; --y: 77.63888442488238%; --dx: 37px; --dy: 1px; --dur: 40.8s; --delay: -1.2s; --tdur: 2.3s; --tdelay: -1.7s; --o: 0.78;"></div><div class="star" style="--s: 1.6px; --x: 22.110882118961605%; --y: 50.74162559617727%; --dx: -34px; --dy: 10px; --dur: 26.7s; --delay: -8.0s; --tdur: 3.3s; --tdelay: -1.3s; --o: 0.86;"></div><div class="star" style="--s: 2.2px; --x: 0.462722761438783%; --y: 19.518479402954657%; --dx: -25px; --dy: 22px; --dur: 38.0s; --delay: -11.3s; --tdur: 4.2s; --tdelay: -3.5s; --o: 0.37;"></div><div class="star" style="--s: 1.4px; --x: 1.0041944195224417%; --y: 74.90185159515596%; --dx: -16px; --dy: -18px; --dur: 39.9s; --delay: -18.3s; --tdur: 3.1s; --tdelay: -0.3s; --o: 0.70;"></div><div class="star" style="--s: 2.4px; --x: 35.107815913382936%; --y: 88.6220965987446%; --dx: 17px; --dy: -31px; --dur: 29.4s; --delay: -10.5s; --tdur: 4.9s; --tdelay: -0.7s; --o: 0.38;"></div><div class="star" style="--s: 2.4px; --x: 95.86091006612884%; --y: 16.375664937251223%; --dx: -21px; --dy: -23px; --dur: 40.3s; --delay: -19.7s; --tdur: 3.3s; --tdelay: -2.9s; --o: 0.87;"></div><div class="star" style="--s: 2.4px; --x: 89.28389900836889%; --y: 85.30821617579943%; --dx: -22px; --dy: -4px; --dur: 44.5s; --delay: -27.0s; --tdur: 3.7s; --tdelay: -2.3s; --o: 0.78;"></div><div class="star" style="--s: 1.0px; --x: 68.30816481158763%; --y: 52.617596227153065%; --dx: 16px; --dy: 26px; --dur: 31.2s; --delay: -8.4s; --tdur: 3.0s; --tdelay: -3.3s; --o: 0.73;"></div><div class="star" style="--s: 2.5px; --x: 50.99077221103362%; --y: 50.747766030362484%; --dx: 40px; --dy: -14px; --dur: 45.7s; --delay: -19.6s; --tdur: 4.4s; --tdelay: -2.4s; --o: 0.37;"></div><div class="star" style="--s: 0.7px; --x: 97.28371309939045%; --y: 3.6192425076356893%; --dx: 14px; --dy: 16px; --dur: 36.7s; --delay: -21.5s; --tdur: 2.2s; --tdelay: -1.3s; --o: 0.53;"></div><div class="star" style="--s: 1.5px; --x: 34.05516558574384%; --y: 23.718247093996535%; --dx: -36px; --dy: -38px; --dur: 35.6s; --delay: -20.9s; --tdur: 3.4s; --tdelay: -0.1s; --o: 0.55;"></div><div class="star" style="--s: 1.0px; --x: 47.85342412966236%; --y: 99.80703139260746%; --dx: -12px; --dy: 37px; --dur: 45.7s; --delay: -1.9s; --tdur: 3.0s; --tdelay: -1.9s; --o: 0.84;"></div><div class="star" style="--s: 2.3px; --x: 1.4842124213173102%; --y: 51.36836366120217%; --dx: 21px; --dy: -37px; --dur: 33.3s; --delay: -1.8s; --tdur: 2.7s; --tdelay: -0.1s; --o: 0.88;"></div><div class="star" style="--s: 1.8px; --x: 34.70085018975402%; --y: 12.841090203107575%; --dx: 39px; --dy: -29px; --dur: 45.0s; --delay: -16.4s; --tdur: 4.4s; --tdelay: -0.4s; --o: 0.92;"></div><div class="star" style="--s: 1.7px; --x: 42.476457551285804%; --y: 27.410593739322998%; --dx: -8px; --dy: 15px; --dur: 31.8s; --delay: -5.9s; --tdur: 3.1s; --tdelay: -0.1s; --o: 0.64;"></div><div class="star" style="--s: 0.7px; --x: 99.726259012936%; --y: 0.10609031500200539%; --dx: -35px; --dy: 5px; --dur: 41.6s; --delay: -18.0s; --tdur: 3.5s; --tdelay: -2.3s; --o: 0.36;"></div><div class="star" style="--s: 1.9px; --x: 3.01656665478901%; --y: 5.93121104774762%; --dx: 37px; --dy: 35px; --dur: 45.2s; --delay: -11.8s; --tdur: 3.0s; --tdelay: -0.2s; --o: 0.86;"></div><div class="star" style="--s: 0.9px; --x: 20.52784345873595%; --y: 6.367154312327006%; --dx: -26px; --dy: -2px; --dur: 39.0s; --delay: -23.0s; --tdur: 3.8s; --tdelay: -0.2s; --o: 0.55;"></div><div class="star" style="--s: 1.3px; --x: 73.92114406996363%; --y: 51.075080001298915%; --dx: 20px; --dy: -0px; --dur: 28.2s; --delay: -13.5s; --tdur: 3.3s; --tdelay: -1.7s; --o: 0.60;"></div><div class="star" style="--s: 2.0px; --x: 31.34198218419938%; --y: 4.855860155684155%; --dx: 19px; --dy: 11px; --dur: 46.6s; --delay: -28.5s; --tdur: 3.1s; --tdelay: -1.0s; --o: 0.72;"></div><div class="star" style="--s: 2.2px; --x: 24.81649024369276%; --y: 24.79779765569162%; --dx: -7px; --dy: -23px; --dur: 43.2s; --delay: -3.6s; --tdur: 2.5s; --tdelay: -2.4s; --o: 0.93;"></div><div class="star" style="--s: 2.3px; --x: 98.27188410134717%; --y: 16.210339497225124%; --dx: -11px; --dy: -38px; --dur: 49.1s; --delay: -22.0s; --tdur: 3.7s; --tdelay: -2.9s; --o: 0.71;"></div><div class="star" style="--s: 2.0px; --x: 57.77564200119738%; --y: 31.314456514784794%; --dx: -31px; --dy: 24px; --dur: 47.6s; --delay: -21.3s; --tdur: 4.6s; --tdelay: -2.6s; --o: 0.94;"></div><div class="star" style="--s: 1.6px; --x: 48.603056360626674%; --y: 39.81146326988073%; --dx: -18px; --dy: -14px; --dur: 49.8s; --delay: -25.6s; --tdur: 3.9s; --tdelay: -1.5s; --o: 0.90;"></div><div class="star" style="--s: 0.8px; --x: 52.44067816773048%; --y: 77.18944387567652%; --dx: -16px; --dy: -28px; --dur: 28.5s; --delay: -13.4s; --tdur: 2.5s; --tdelay: -1.1s; --o: 0.44;"></div><div class="star" style="--s: 1.2px; --x: 23.73598928574404%; --y: 95.39185941575906%; --dx: 25px; --dy: 17px; --dur: 31.9s; --delay: -1.4s; --tdur: 4.1s; --tdelay: -1.7s; --o: 0.52;"></div><div class="star" style="--s: 1.2px; --x: 51.23442887406959%; --y: 90.47452613514237%; --dx: 24px; --dy: -26px; --dur: 35.2s; --delay: -19.7s; --tdur: 2.7s; --tdelay: -3.6s; --o: 0.86;"></div><div class="star" style="--s: 1.2px; --x: 65.1998198743154%; --y: 77.5435460966129%; --dx: -16px; --dy: 11px; --dur: 27.6s; --delay: -16.3s; --tdur: 2.2s; --tdelay: -3.1s; --o: 0.52;"></div><div class="star" style="--s: 0.9px; --x: 82.82763572374843%; --y: 77.67125707841961%; --dx: 20px; --dy: -25px; --dur: 36.5s; --delay: -6.3s; --tdur: 2.6s; --tdelay: -1.9s; --o: 0.49;"></div><div class="star" style="--s: 2.2px; --x: 9.994207578817417%; --y: 21.673636342205103%; --dx: -38px; --dy: -2px; --dur: 31.6s; --delay: -2.7s; --tdur: 2.5s; --tdelay: -3.0s; --o: 0.60;"></div><div class="star" style="--s: 1.0px; --x: 22.014337168708707%; --y: 38.57012930001077%; --dx: 19px; --dy: -5px; --dur: 39.6s; --delay: -20.3s; --tdur: 4.2s; --tdelay: -2.2s; --o: 0.73;"></div><div class="star" style="--s: 1.3px; --x: 47.46231422341422%; --y: 57.05177496283596%; --dx: 7px; --dy: -20px; --dur: 41.4s; --delay: -14.9s; --tdur: 3.9s; --tdelay: -1.1s; --o: 0.64;"></div><div class="star" style="--s: 2.2px; --x: 0.2871633535979856%; --y: 73.94488358106473%; --dx: 17px; --dy: -27px; --dur: 46.7s; --delay: -14.1s; --tdur: 3.9s; --tdelay: -0.0s; --o: 0.56;"></div><div class="star" style="--s: 2.3px; --x: 17.03723665509277%; --y: 45.80570682958056%; --dx: -17px; --dy: -38px; --dur: 39.6s; --delay: -26.8s; --tdur: 4.1s; --tdelay: -3.6s; --o: 0.37;"></div><div class="star" style="--s: 1.6px; --x: 35.83049816234093%; --y: 60.72882173823001%; --dx: -18px; --dy: 30px; --dur: 42.5s; --delay: -16.6s; --tdur: 2.2s; --tdelay: -2.1s; --o: 0.85;"></div><div class="star" style="--s: 0.8px; --x: 12.710944156555293%; --y: 56.84693133111881%; --dx: -27px; --dy: -16px; --dur: 46.3s; --delay: -14.6s; --tdur: 4.4s; --tdelay: -3.9s; --o: 0.93;"></div><div class="star" style="--s: 2.2px; --x: 98.42915806407552%; --y: 34.307179847757276%; --dx: 5px; --dy: -11px; --dur: 49.5s; --delay: -5.0s; --tdur: 2.4s; --tdelay: -2.8s; --o: 0.67;"></div><div class="star" style="--s: 2.4px; --x: 82.05048525949917%; --y: 61.40231657967151%; --dx: -21px; --dy: 36px; --dur: 42.9s; --delay: -7.5s; --tdur: 2.6s; --tdelay: -0.4s; --o: 0.91;"></div><div class="star" style="--s: 1.1px; --x: 79.22587637766847%; --y: 82.51146117224806%; --dx: -16px; --dy: 6px; --dur: 29.7s; --delay: -8.1s; --tdur: 4.2s; --tdelay: -0.7s; --o: 0.77;"></div><div class="star" style="--s: 2.0px; --x: 76.9634519445021%; --y: 5.917349964437868%; --dx: -30px; --dy: 22px; --dur: 39.7s; --delay: -9.9s; --tdur: 3.6s; --tdelay: -3.7s; --o: 0.87;"></div><div class="star" style="--s: 2.1px; --x: 56.594885611971755%; --y: 42.4913665825946%; --dx: 16px; --dy: -28px; --dur: 36.6s; --delay: -11.7s; --tdur: 2.2s; --tdelay: -2.6s; --o: 0.51;"></div><div class="star" style="--s: 2.6px; --x: 31.138963869976543%; --y: 60.817823903174386%; --dx: -3px; --dy: -34px; --dur: 30.8s; --delay: -26.8s; --tdur: 3.9s; --tdelay: -3.0s; --o: 0.83;"></div><div class="star" style="--s: 2.4px; --x: 20.3380193046215%; --y: 24.714916307207258%; --dx: 27px; --dy: -27px; --dur: 33.2s; --delay: -13.8s; --tdur: 3.3s; --tdelay: -2.6s; --o: 0.38;"></div><div class="star" style="--s: 2.4px; --x: 55.06354982181494%; --y: 33.49109093958821%; --dx: -25px; --dy: 2px; --dur: 26.0s; --delay: -18.2s; --tdur: 2.0s; --tdelay: -1.5s; --o: 0.50;"></div><div class="star" style="--s: 1.5px; --x: 90.22011656379925%; --y: 24.316275279669043%; --dx: -6px; --dy: -24px; --dur: 28.8s; --delay: -15.2s; --tdur: 4.3s; --tdelay: -0.6s; --o: 0.69;"></div><div class="star" style="--s: 1.7px; --x: 96.51497743323063%; --y: 49.37689720547378%; --dx: 2px; --dy: 16px; --dur: 43.7s; --delay: -9.7s; --tdur: 3.5s; --tdelay: -0.2s; --o: 0.91;"></div><div class="star" style="--s: 0.7px; --x: 28.343612773531245%; --y: 9.213342133403534%; --dx: -6px; --dy: -1px; --dur: 44.0s; --delay: -27.5s; --tdur: 3.9s; --tdelay: -2.3s; --o: 0.35;"></div></div>
 
 <div class="wrap">
@@ -1579,7 +1713,7 @@
       <button class="theme-reset" id="themeReset" type="button">Сбросить</button>
     </div>
   </div>
-  <h1 class="title">Minecraft Cracks</h1>
+  <h1 class="title">Cracks For Minecraft</h1>
 
   <div class="tabs-row">
   
@@ -1592,7 +1726,7 @@
   </div>
 
   <section id="cheats" class="tab-panel active">
-    <h2 class="section-title" data-i18n="cheats_title">Читы для клиентов</h2>
+    <h2 class="section-title" data-i18n="cheats_title">Читы</h2>
     <div class="search-box">
       <input type="search" id="cheatsSearch" placeholder="Поиск читов…" data-i18n-placeholder="search_ph" autocomplete="off">
     </div>
@@ -1712,6 +1846,13 @@
           <a class="dl-btn" href="https://github.com/migodi2/cracksforminecraftmigodi2/releases/download/v1.0/PulseVisuals.1.21.11.jar" download data-i18n="dl">Скачать</a>
         </div>
       </div>
+      <div class="card">
+        <h3>ReallyVisuals</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.16.5</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/ReallyVisuals.rar" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1748,7 +1889,12 @@
       <div class="update-item">
         <div class="update-date">15.08.2026</div>
         <div class="update-body">
-          Полный редизайн сайта с новыми клиентами и визуалами!!
+          <ul>
+            <li>Во вкладку «Визуалы» добавлен <b>ReallyVisuals</b> (1.16.5).</li>
+            <li>След курсора: белая плавная линия, точно за мышью, гаснет при остановке.</li>
+            <li>Заголовок сайта: <b>Cracks For Minecraft</b>.</li>
+            <li>Оптимизация</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1802,7 +1948,7 @@
       tab_visuals: 'Визуалы',
       tab_configs: 'Конфиги',
       tab_updates: 'Обновление',
-      cheats_title: 'Читы для клиентов',
+      cheats_title: 'Читы',
       visuals_title: 'Визуалы',
       dl: 'Скачать',
       beta_note: 'Это только бета версия, дальше будет лучше!',
@@ -1832,7 +1978,7 @@
       tab_visuals: 'Visuals',
       tab_configs: 'Configs',
       tab_updates: 'Updates',
-      cheats_title: 'Cheats for clients',
+      cheats_title: 'Cheats',
       visuals_title: 'Visuals',
       dl: 'Download',
       beta_note: 'This is just a beta version, it will get better!',
@@ -2157,6 +2303,28 @@ function openLightbox(src){
 
   const saved = localStorage.getItem(STORE_KEY);
   applyColor(saved || DEFAULT, false);
+})();
+</script>
+<script>
+(function(){
+  if(!window.matchMedia('(hover: hover)').matches) return;
+  let rafId = null, ev = null;
+  function update(){
+    rafId = null;
+    if(!ev) return;
+    const x = ev.clientX, y = ev.clientY;
+    const el = document.elementFromPoint(x, y);
+    const card = el && el.closest('.card');
+    if(card){
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((x - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--my', ((y - r.top) / r.height * 100) + '%');
+    }
+  }
+  window.addEventListener('mousemove', (e)=>{
+    ev = e;
+    if(!rafId) rafId = requestAnimationFrame(update);
+  }, {passive: true});
 })();
 </script>
 </body></html>
