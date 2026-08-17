@@ -16,6 +16,14 @@
     --pill: #1c1c1c;
   }
   *{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: no-preference){
+    .card, .tab-btn, .support-btn, .lang-switch, .theme-btn, .swatch,
+    .respack-preview, .theme-panel, .minigame, .auth-modal, .ban-modal,
+    .btn, button, a{
+      transition-duration: .4s !important;
+      transition-timing-function: cubic-bezier(.22,.61,.36,1) !important;
+    }
+  }
   html,body{
     margin:0; padding:0;
     background: #000000;
@@ -23,6 +31,7 @@
     font-family: 'Segoe UI', Roboto, Arial, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
+    scroll-behavior: smooth;
   }
   #cursorTrail{
     position: fixed;
@@ -66,22 +75,22 @@
     width: 200%; height: 200%;
     z-index: 0;
     pointer-events: none;
-    opacity: .45;
+    opacity: .32;
     background:
-      radial-gradient(38% 38% at 28% 32%, var(--accent-glow, rgba(0,240,255,.22)), transparent 60%),
-      radial-gradient(42% 42% at 72% 64%, var(--accent-glow, rgba(0,240,255,.15)), transparent 65%);
-    animation: auroraMove 24s ease-in-out infinite alternate;
+      radial-gradient(38% 38% at 28% 32%, var(--accent-glow, rgba(0,240,255,.16)), transparent 62%),
+      radial-gradient(42% 42% at 72% 64%, var(--accent-glow, rgba(0,240,255,.11)), transparent 66%);
+    animation: auroraMove 36s ease-in-out infinite alternate;
     will-change: transform;
   }
   @keyframes auroraMove{
-    0%{ transform: translate3d(-4%, -3%, 0) rotate(0deg) scale(1.05); }
-    100%{ transform: translate3d(4%, 3%, 0) rotate(9deg) scale(1.14); }
+    0%{ transform: translate3d(-3%, -2%, 0) rotate(0deg) scale(1.03); }
+    100%{ transform: translate3d(3%, 2%, 0) rotate(6deg) scale(1.08); }
   }
   .vignette{
     position: fixed; inset: 0;
     z-index: 0;
     pointer-events: none;
-    background: radial-gradient(125% 105% at 50% 38%, transparent 52%, rgba(0,0,0,0.7) 100%);
+    background: radial-gradient(125% 105% at 50% 38%, transparent 55%, rgba(0,0,0,0.52) 100%);
   }
   .deep-glow{
     position: fixed;
@@ -90,13 +99,13 @@
     transform: translate(-50%, -50%);
     z-index: 0;
     pointer-events: none;
-    background: radial-gradient(circle at center, var(--accent-glow, rgba(0,240,255,.3)), transparent 62%);
-    animation: deepPulse 9s ease-in-out infinite alternate;
+    background: radial-gradient(circle at center, var(--accent-glow, rgba(0,240,255,.2)), transparent 64%);
+    animation: deepPulse 22s ease-in-out infinite alternate;
     will-change: opacity, transform;
   }
   @keyframes deepPulse{
-    0%{ opacity: .35; transform: translate(-50%, -50%) scale(.96); }
-    100%{ opacity: .58; transform: translate(-50%, -50%) scale(1.08); }
+    0%{ opacity: .2; transform: translate(-50%, -50%) scale(.98); }
+    100%{ opacity: .36; transform: translate(-50%, -50%) scale(1.04); }
   }
   @media (prefers-reduced-motion: reduce){
     .aurora{ animation: none; }
@@ -112,20 +121,20 @@
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(20% 20% at 30% 34%, color-mix(in srgb, var(--accent) 48%, transparent), transparent 60%),
-      radial-gradient(24% 24% at 72% 58%, color-mix(in srgb, var(--accent) 40%, transparent), transparent 62%),
-      radial-gradient(30% 30% at 50% 82%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 66%);
-    opacity: .55;
-    animation: megaDrift 20s ease-in-out infinite alternate, megaPulse 5.5s ease-in-out infinite alternate;
+      radial-gradient(20% 20% at 30% 34%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 62%),
+      radial-gradient(24% 24% at 72% 58%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 64%),
+      radial-gradient(30% 30% at 50% 82%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 68%);
+    opacity: .38;
+    animation: megaDrift 46s ease-in-out infinite alternate, megaPulse 15s ease-in-out infinite alternate;
     will-change: transform, opacity;
   }
   @keyframes megaDrift{
     0%{ transform: translate(-50%, -50%) rotate(0deg) scale(1); }
-    100%{ transform: translate(-45%, -55%) rotate(22deg) scale(1.2); }
+    100%{ transform: translate(-48%, -52%) rotate(14deg) scale(1.1); }
   }
   @keyframes megaPulse{
-    0%{ opacity: .35; }
-    100%{ opacity: .6; }
+    0%{ opacity: .24; }
+    100%{ opacity: .4; }
   }
   .grid-floor{
     position: fixed;
@@ -135,7 +144,7 @@
     transform-origin: bottom center;
     z-index: 0;
     pointer-events: none;
-    opacity: .18;
+    opacity: .12;
     -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 78%);
     mask-image: linear-gradient(to top, #000 0%, transparent 78%);
   }
@@ -146,7 +155,7 @@
     background-image:
       repeating-linear-gradient(to right, var(--accent) 0 1px, transparent 1px 46px),
       repeating-linear-gradient(to bottom, var(--accent) 0 1px, transparent 1px 46px);
-    animation: gridScroll 5s linear infinite;
+    animation: gridScroll 9s linear infinite;
     will-change: transform;
   }
   @keyframes gridScroll{
@@ -164,7 +173,7 @@
     width: 3px; height: 3px;
     border-radius: 50%;
     background: #ffffff;
-    box-shadow: 0 0 10px 2px rgba(255,255,255,0.85);
+    box-shadow: 0 0 6px 1px rgba(255,255,255,0.6);
     opacity: 0;
     will-change: transform, opacity;
     animation: comet-fly var(--cdur) linear var(--cdelay) infinite;
@@ -195,16 +204,16 @@
     width: 160%; height: 160%;
     z-index: 0;
     pointer-events: none;
-    opacity: .35;
+    opacity: .26;
     background:
-      radial-gradient(30% 30% at 65% 30%, color-mix(in srgb, var(--accent) 45%, transparent), transparent 60%),
-      radial-gradient(26% 26% at 30% 70%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 62%);
-    animation: auroraDrift2 30s ease-in-out infinite alternate;
+      radial-gradient(30% 30% at 65% 30%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 62%),
+      radial-gradient(26% 26% at 30% 70%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 64%);
+    animation: auroraDrift2 44s ease-in-out infinite alternate;
     will-change: transform;
   }
   @keyframes auroraDrift2{
     0%{ transform: translate(0,0) rotate(0deg) scale(1); }
-    100%{ transform: translate(6%, -5%) rotate(-14deg) scale(1.15); }
+    100%{ transform: translate(5%, -4%) rotate(-10deg) scale(1.1); }
   }
   .particles{
     position: fixed; inset: 0;
@@ -218,6 +227,7 @@
     border-radius: 50%;
     background: radial-gradient(circle at 40% 40%, #ffffff, var(--accent) 45%, transparent 72%);
     opacity: 0;
+    filter: blur(0.5px);
     will-change: transform, opacity;
     animation: floatUp var(--pdur, 18s) linear var(--pdelay, 0s) infinite;
   }
@@ -232,14 +242,14 @@
     top: -50%; left: -50%;
     width: 200%; height: 200%;
     z-index: 0; pointer-events: none;
-    opacity: .12;
+    opacity: .08;
     background: repeating-linear-gradient(115deg,
       transparent 0 40px,
       color-mix(in srgb, var(--accent) 70%, transparent) 42px 46px,
       transparent 48px 86px);
     -webkit-mask-image: radial-gradient(58% 58% at 50% 32%, #000, transparent 75%);
             mask-image: radial-gradient(58% 58% at 50% 32%, #000, transparent 75%);
-    animation: beamsSpin 120s linear infinite;
+    animation: beamsSpin 200s linear infinite;
     will-change: transform;
   }
   @keyframes beamsSpin{ to{ transform: rotate(360deg); } }
@@ -248,12 +258,12 @@
     position: absolute;
     left: -30%; width: 160%;
     border-radius: 50%;
-    background: radial-gradient(60% 100% at 50% 50%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 70%);
-    opacity: .35;
+    background: radial-gradient(60% 100% at 50% 50%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 72%);
+    opacity: .22;
     will-change: transform;
   }
-  .ribbons span:nth-child(1){ top: 8%; height: 220px; animation: ribbonFlow 26s ease-in-out infinite alternate; }
-  .ribbons span:nth-child(2){ top: 32%; height: 160px; opacity: .25; animation: ribbonFlow 34s ease-in-out infinite alternate-reverse; }
+  .ribbons span:nth-child(1){ top: 8%; height: 220px; animation: ribbonFlow 48s ease-in-out infinite alternate; }
+  .ribbons span:nth-child(2){ top: 32%; height: 160px; opacity: .16; animation: ribbonFlow 60s ease-in-out infinite alternate-reverse; }
   @keyframes ribbonFlow{
     0%{ transform: translateX(-6%); }
     100%{ transform: translateX(6%); }
@@ -430,8 +440,8 @@
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 18px var(--accent-glow));
-    animation: titleFlow 6s linear infinite;
+    filter: drop-shadow(0 0 10px var(--accent-glow));
+    animation: titleFlow 18s ease-in-out infinite;
   }
   @keyframes titleFlow{
     to{ background-position: 220% center; }
@@ -463,7 +473,7 @@
     padding: 10px 20px;
     border-radius: 999px;
     cursor: pointer;
-    transition: background .25s ease, color .25s ease, transform .15s ease;
+    transition: background .35s ease, color .35s ease, transform .2s ease;
     overflow: hidden;
   }
   nav.tabs button:hover{
@@ -475,7 +485,7 @@
   nav.tabs button.active{
     background: var(--accent);
     color: #000000;
-    box-shadow: 0 0 14px rgba(255,255,255,0.35);
+    box-shadow: 0 0 10px rgba(255,255,255,0.22);
   }
   h2.section-title{
     text-align: center;
@@ -540,14 +550,14 @@
   .card{
     position: relative;
     background:
-      radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 18%, transparent), transparent 62%),
+      radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 12%, transparent), transparent 64%),
       linear-gradient(180deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9));
     border: 1px solid var(--card-border);
     border-radius: 14px;
     padding: 22px;
     text-align: center;
     cursor: pointer;
-    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
   }
   .card::after{
     content: "";
@@ -560,17 +570,17 @@
     -webkit-mask-composite: xor;
             mask-composite: exclude;
     opacity: 0;
-    transition: opacity .3s ease;
+    transition: opacity .35s ease;
     pointer-events: none;
   }
   .card:hover{
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: var(--accent);
-    box-shadow: 0 14px 34px -14px var(--accent-glow);
+    box-shadow: 0 12px 30px -16px var(--accent-glow);
   }
   .card:hover::after{
     opacity: 1;
-    animation: spinBorder 3s linear infinite;
+    animation: spinBorder 6s linear infinite;
   }
   @keyframes spinBorder{
     to{ --angle: 360deg; }
@@ -1764,7 +1774,116 @@
     .aurora2{ display: none !important; }
     .particles{ display: none !important; }
     .beams{ display: none !important; }
-    .ribbons{ display: none !important; }
+  .ribbons{ display: none !important; }
+}
+
+  /* ---- Мини-игра ---- */
+  .minigame{
+    position: fixed;
+    right: 16px; bottom: 16px;
+    width: 252px;
+    z-index: 80;
+    background: rgba(8,8,8,0.82);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.55);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    user-select: none;
+  }
+  .minigame__head{
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 10px;
+    cursor: grab;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 24%, transparent), transparent);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .minigame__head:active{ cursor: grabbing; }
+  .minigame__title{ font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
+  .minigame__min{
+    background: none; border: none; color: var(--text-dim);
+    font-size: 18px; line-height: 1; cursor: pointer; padding: 0 4px;
+  }
+  .minigame__min:hover{ color: var(--text); }
+  .minigame__body{ padding: 8px; position: relative; }
+  .minigame.collapsed .minigame__body{ display: none; }
+  .minigame__hud{
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--text-dim); margin-bottom: 6px;
+  }
+  .minigame__hud b{ color: var(--accent); font-weight: 700; }
+  .minigame__canvas{
+    display: block; width: 100%; height: 172px;
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 17px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 17px),
+      #060606;
+    border-radius: 8px; cursor: crosshair; touch-action: none;
+  }
+  .minigame__over{
+    position: absolute; inset: 0;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; background: rgba(0,0,0,0.82); border-radius: 8px; text-align: center;
+  }
+  .minigame.over .minigame__over{ display: flex; }
+  .minigame__over span{ font-size: 14px; color: var(--text); }
+  .minigame__restart{
+    border: 1px solid var(--accent); background: transparent; color: var(--accent);
+    padding: 6px 14px; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13px;
+  }
+  .minigame__restart:hover{ background: color-mix(in srgb, var(--accent) 18%, transparent); }
+  .minigame__start{
+    position: absolute; inset: 0;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; background: rgba(0,0,0,0.82); border-radius: 8px; text-align: center;
+    padding: 8px;
+  }
+  .minigame.start .minigame__start{ display: flex; }
+  .minigame__start p{ font-size: 12px; color: var(--text-dim); margin: 0; max-width: 200px; }
+  .minigame__play{
+    border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 16%, transparent);
+    color: var(--accent); padding: 8px 20px; border-radius: 8px; cursor: pointer;
+    font-weight: 700; font-size: 14px;
+  }
+  .minigame__play:hover{ background: color-mix(in srgb, var(--accent) 30%, transparent); }
+  @media (max-width: 768px), (hover: none){
+    .minigame{ right: 8px; bottom: 8px; width: 200px; }
+    .minigame__canvas{ height: 130px; }
+  }
+  /* ---- Пасхалка: крипер + тост ---- */
+  .secret-creeper{
+    position: fixed;
+    z-index: 95;
+    pointer-events: auto;
+    cursor: pointer;
+    width: 64px; height: 64px;
+    will-change: transform;
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 60%, transparent));
+  }
+  .toast{
+    position: fixed;
+    left: 50%; bottom: 28px;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 120;
+    background: rgba(10,10,10,0.92);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px; font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.show{
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 </style>
 </head>
@@ -1962,6 +2081,16 @@
           <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/34678.zip" download data-i18n="dl">Скачать</a>
         </div>
       </div>
+      <div class="card respack-card">
+        <div class="respack-preview" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="rp3.png" alt="Resource Pack 3" loading="lazy" decoding="async">
+        </div>
+        <h3>PvP Resource Pack</h3>
+        <div class="card-footer">
+          <span class="version-pill">1.16.5 - 1.21+</span>
+          <a class="dl-btn" href="https://github.com/Nefq1/crackforminecraftnefq/releases/download/v1.0/www-.-www.zip" download data-i18n="dl">Скачать</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1969,6 +2098,17 @@
   <section id="updates" class="tab-panel">
     <h2 class="section-title" data-i18n="tab_updates">Обновление</h2>
     <div class="updates-list">
+      <div class="update-item">
+        <div class="update-date">16.08.2026</div>
+        <div class="update-body">
+          <ul>
+            <li>Мини-игра <b>«Лови крипера!»</b>: кликай по криперам, счёт и жизни, панель можно свернуть и перетащить.</li>
+            <li>Пасхалка — секретное слово: набери <b>creeper</b>, <b>nefq</b> или <b>minecraft</b>, и крипер пробежит по экрану (клик по нему — взрыв!).</li>
+            <li>Анимации сайта стали мягче и приятнее: плавный фон, спокойный заголовок, мягкие ховеры.</li>
+            <li>Оптимизация и стабильность.</li>
+          </ul>
+        </div>
+      </div>
       <div class="update-item">
         <div class="update-date">15.08.2026</div>
         <div class="update-body">
@@ -2424,10 +2564,359 @@ function openLightbox(src){
     p.style.setProperty('--pdur', (Math.random() * 16 + 14).toFixed(1) + 's');
     p.style.setProperty('--pdelay', (-Math.random() * 30).toFixed(1) + 's');
     p.style.setProperty('--psway', (Math.random() * 60 - 30).toFixed(0) + 'px');
-    p.style.setProperty('--popacity', (Math.random() * 0.5 + 0.4).toFixed(2));
+    p.style.setProperty('--popacity', (Math.random() * 0.3 + 0.22).toFixed(2));
     frag.appendChild(p);
   }
   wrap.appendChild(frag);
+})();
+</script>
+<aside class="minigame start" id="miniGame" aria-label="Мини-игра">
+  <div class="minigame__head" id="mgHead">
+    <span class="minigame__title">🎮 Лови крипера!</span>
+    <button class="minigame__min" id="mgMin" type="button" aria-label="Свернуть" title="Свернуть">–</button>
+  </div>
+  <div class="minigame__body">
+    <div class="minigame__hud">
+      <span>Очки: <b id="mgScore">0</b></span>
+      <span>Жизни: <b id="mgLives">♥♥♥♥♥</b></span>
+    </div>
+    <canvas class="minigame__canvas" id="mgCanvas" width="234" height="172"></canvas>
+    <div class="minigame__start" id="mgStart">
+      <p>Кликай по криперам, пока они не взорвались. Не дай им уйти!</p>
+      <button class="minigame__play" id="mgPlay" type="button">Играть</button>
+    </div>
+    <div class="minigame__over" id="mgOver">
+      <span>Игра окончена!</span>
+      <span>Очки: <b id="mgFinal">0</b></span>
+      <button class="minigame__restart" id="mgRestart" type="button">Заново</button>
+    </div>
+  </div>
+</aside>
+<script>
+(function(){
+  const game = document.getElementById('miniGame');
+  if(!game) return;
+  const canvas = document.getElementById('mgCanvas');
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('mgScore');
+  const livesEl = document.getElementById('mgLives');
+  const overEl = document.getElementById('mgOver');
+  const finalEl = document.getElementById('mgFinal');
+  const head = document.getElementById('mgHead');
+  const minBtn = document.getElementById('mgMin');
+  const restartBtn = document.getElementById('mgRestart');
+  const playBtn = document.getElementById('mgPlay');
+
+  let W = 0, H = 0, dpr = 1, rafId = null;
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    if(!r.width) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(r.width * dpr);
+    canvas.height = Math.round(r.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = r.width; H = r.height;
+  }
+
+  function accent(){
+    return (window.__trailRGB && Array.isArray(window.__trailRGB)) ? window.__trailRGB : [255,255,255];
+  }
+
+  let creepers = [], particles = [], score = 0, lives = 5, running = false;
+  let lastSpawn = 0, spawnGap = 1100;
+
+  function spawn(){
+    const r = 15 + Math.random() * 9;
+    creepers.push({
+      x: r + Math.random() * (W - 2 * r),
+      y: r + Math.random() * (H - 2 * r),
+      r: r,
+      born: performance.now(),
+      life: 1500 - Math.min(700, score * 20)
+    });
+  }
+
+  function explode(x, y, r){
+    const [cr, cg, cb] = accent();
+    const n = 10 + Math.floor(r);
+    for(let i = 0; i < n; i++){
+      const a = Math.random() * Math.PI * 2;
+      const sp = 1 + Math.random() * 3.5;
+      particles.push({
+        x, y,
+        vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 1,
+        s: 2 + Math.random() * 3,
+        life: 1, decay: 0.012 + Math.random() * 0.02,
+        col: [cr, cg, cb]
+      });
+    }
+  }
+
+  function drawCreeper(c){
+    const left = (c.life - (performance.now() - c.born)) / c.life;
+    const scale = 1 + (1 - left) * 0.18;
+    const k = c.r, s = k * 1.7;
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    ctx.scale(scale, scale);
+    ctx.fillStyle = '#5fae43';
+    ctx.fillRect(-s/2, -s/2, s, s);
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.fillRect(-s/2, s/2 - s*0.18, s, s*0.18);
+    ctx.fillStyle = '#0e1a0e';
+    const e = s * 0.22;
+    ctx.fillRect(-s*0.32 - e/2, -s*0.18, e, s*0.42);
+    ctx.fillRect( s*0.18, -s*0.18, e, s*0.42);
+    ctx.fillRect(-e/2, s*0.05, e, e);
+    ctx.fillRect(-s*0.30, s*0.30, s*0.60, s*0.14);
+    ctx.restore();
+  }
+
+  function loseLife(){
+    lives--;
+    livesEl.textContent = '♥'.repeat(Math.max(0, lives)) || '—';
+    if(lives <= 0) gameOver();
+  }
+
+  function gameOver(){
+    running = false;
+    finalEl.textContent = score;
+    game.classList.add('over');
+  }
+
+  function reset(){
+    score = 0; lives = 5; running = true;
+    creepers = []; particles = [];
+    scoreEl.textContent = '0';
+    livesEl.textContent = '♥♥♥♥♥';
+    game.classList.remove('over', 'start');
+    lastSpawn = performance.now();
+    spawnGap = 1100;
+    spawn();
+  }
+
+  function startGame(){
+    game.classList.remove('start', 'over');
+    reset();
+  }
+
+  function tick(now){
+    rafId = requestAnimationFrame(tick);
+    if(game.classList.contains('collapsed') || document.hidden) return;
+    if(running){
+      if(now - lastSpawn > spawnGap){
+        spawn();
+        lastSpawn = now;
+        spawnGap = Math.max(450, 1100 - score * 15);
+      }
+    }
+    ctx.clearRect(0, 0, W, H);
+    for(let i = creepers.length - 1; i >= 0; i--){
+      const c = creepers[i];
+      if(now - c.born > c.life){
+        explode(c.x, c.y, c.r);
+        loseLife();
+        creepers.splice(i, 1);
+        continue;
+      }
+      drawCreeper(c);
+    }
+    for(let i = particles.length - 1; i >= 0; i--){
+      const p = particles[i];
+      p.vy += 0.12;
+      p.x += p.vx; p.y += p.vy;
+      p.life -= p.decay;
+      if(p.life <= 0){ particles.splice(i, 1); continue; }
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = 'rgb(' + p.col[0] + ',' + p.col[1] + ',' + p.col[2] + ')';
+      ctx.fillRect(p.x - p.s/2, p.y - p.s/2, p.s, p.s);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  canvas.addEventListener('pointerdown', (e)=>{
+    if(!running) return;
+    const r = canvas.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    let hit = false;
+    for(let i = creepers.length - 1; i >= 0; i--){
+      const c = creepers[i];
+      if(Math.hypot(x - c.x, y - c.y) <= c.r * 1.2 + 6){
+        explode(c.x, c.y, c.r);
+        creepers.splice(i, 1);
+        score++;
+        scoreEl.textContent = score;
+        hit = true;
+        break;
+      }
+    }
+    if(!hit && creepers.length){
+      loseLife();
+      if(running){
+        const life = 1500 - Math.min(700, score * 20);
+        for(const c of creepers){
+          c.r = 15 + Math.random() * 9;
+          c.x = c.r + Math.random() * (W - 2 * c.r);
+          c.y = c.r + Math.random() * (H - 2 * c.r);
+          c.born = performance.now();
+          c.life = life;
+        }
+      }
+    }
+  });
+
+  minBtn.addEventListener('click', (e)=>{ e.stopPropagation(); game.classList.toggle('collapsed'); });
+  restartBtn.addEventListener('click', (e)=>{ e.stopPropagation(); startGame(); });
+  playBtn.addEventListener('click', (e)=>{ e.stopPropagation(); startGame(); });
+
+  let drag = null;
+  head.addEventListener('pointerdown', (e)=>{
+    if(e.target === minBtn) return;
+    drag = { x: e.clientX, y: e.clientY, l: game.offsetLeft, t: game.offsetTop };
+    head.setPointerCapture(e.pointerId);
+  });
+  head.addEventListener('pointermove', (e)=>{
+    if(!drag) return;
+    game.style.left = (drag.l + (e.clientX - drag.x)) + 'px';
+    game.style.top = (drag.t + (e.clientY - drag.y)) + 'px';
+    game.style.right = 'auto';
+    game.style.bottom = 'auto';
+  });
+  head.addEventListener('pointerup', ()=>{ drag = null; });
+
+  if('ResizeObserver' in window){ new ResizeObserver(resize).observe(canvas); }
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+  game.classList.add('start');
+  rafId = requestAnimationFrame(tick);
+})();
+</script>
+<div id="toast" class="toast" aria-live="polite"></div>
+<script>
+(function(){
+  const WORDS = ['creeper', 'nefq', 'minecraft'];
+  const MSG = {
+    creeper: 'Тсс… крипер пробежал! 💥',
+    nefq: 'NEFQ-секрет активирован 👀',
+    minecraft: 'Minecraft в сердце 🟩'
+  };
+  let buf = '';
+  const toast = document.getElementById('toast');
+  let busy = false;
+
+  function showToast(msg){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(()=> toast.classList.remove('show'), 2400);
+  }
+
+  function explodePage(x, y, power){
+    const rgb = (window.__trailRGB && Array.isArray(window.__trailRGB)) ? window.__trailRGB : [255,255,255];
+    const count = power ? 44 : 22;
+    const baseSp = power ? 70 : 40;
+    const spRnd = power ? 240 : 130;
+    const size = power ? 9 : 6;
+    for(let i = 0; i < count; i++){
+      const p = document.createElement('div');
+      p.style.cssText = 'position:fixed;left:' + x + 'px;top:' + y + 'px;width:' + size + 'px;height:' + size + 'px;' +
+        'background:rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ');z-index:96;pointer-events:none;border-radius:1px;';
+      document.body.appendChild(p);
+      const a = Math.random() * Math.PI * 2;
+      const sp = baseSp + Math.random() * spRnd;
+      const dx = Math.cos(a) * sp, dy = Math.sin(a) * sp - 40;
+      const an = p.animate([
+        { transform: 'translate(0,0) scale(1)', opacity: 1 },
+        { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(0.3)', opacity: 0 }
+      ], { duration: (power ? 750 : 600) + Math.random() * 400, easing: 'ease-out' });
+      an.onfinish = ()=> p.remove();
+    }
+    if(power){
+      const f = document.createElement('div');
+      f.style.cssText = 'position:fixed;left:' + (x - 50) + 'px;top:' + (y - 50) + 'px;width:100px;height:100px;' +
+        'border-radius:50%;z-index:95;pointer-events:none;background:radial-gradient(circle, rgba(255,255,255,0.9), ' +
+        'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0.45) 38%, transparent 70%);';
+      document.body.appendChild(f);
+      f.animate([
+        { transform: 'scale(0.2)', opacity: 1 },
+        { transform: 'scale(1.7)', opacity: 0 }
+      ], { duration: 460, easing: 'ease-out' }).onfinish = ()=> f.remove();
+    }
+  }
+
+  function runCreeper(){
+    if(busy) return;
+    busy = true;
+    const el = document.createElement('div');
+    el.className = 'secret-creeper';
+    el.innerHTML = '<svg viewBox="0 0 64 64" width="64" height="64">' +
+      '<rect x="6" y="6" width="52" height="52" rx="3" fill="#5fae43"/>' +
+      '<rect x="6" y="44" width="52" height="14" fill="#4a8c34"/>' +
+      '<rect x="16" y="20" width="10" height="18" fill="#101810"/>' +
+      '<rect x="38" y="20" width="10" height="18" fill="#101810"/>' +
+      '<rect x="29" y="30" width="6" height="6" fill="#101810"/>' +
+      '<rect x="18" y="40" width="28" height="6" fill="#101810"/>' +
+      '</svg>';
+    const vw = window.innerWidth, vh = window.innerHeight, m = 90;
+    const dir = Math.floor(Math.random() * 6);
+    let sx, sy, dx, dy, arc = 0;
+    if(dir === 0){            // справа налево
+      sx = vw + m; sy = Math.random() * vh * 0.7 + vh * 0.15;
+      dx = -(vw + 2 * m); dy = 0; arc = -20;
+    } else if(dir === 1){     // слева направо
+      sx = -m; sy = Math.random() * vh * 0.7 + vh * 0.15;
+      dx = vw + 2 * m; dy = 0; arc = -20;
+    } else if(dir === 2){     // сверху вниз
+      sx = Math.random() * vw * 0.7 + vw * 0.15; sy = -m;
+      dx = 0; dy = vh + 2 * m; arc = 20;
+    } else if(dir === 3){     // снизу вверх
+      sx = Math.random() * vw * 0.7 + vw * 0.15; sy = vh + m;
+      dx = 0; dy = -(vh + 2 * m); arc = 20;
+    } else if(dir === 4){     // правый верхний -> левый нижний
+      sx = vw + m; sy = -m;
+      dx = -(vw + 2 * m); dy = vh + 2 * m; arc = 0;
+    } else {                  // левый верхний -> правый нижний
+      sx = -m; sy = -m;
+      dx = vw + 2 * m; dy = vh + 2 * m; arc = 0;
+    }
+    el.style.left = sx + 'px';
+    el.style.top = sy + 'px';
+    const midX = dx * 0.5 + (dy === 0 ? 0 : (dir === 2 || dir === 3 ? arc : 0));
+    const midY = dy * 0.5 + (dx === 0 ? 0 : (dir === 0 || dir === 1 ? arc : 0));
+    const dur = 4200 + Math.random() * 1800;
+    const kf = [
+      { transform: 'translate(0,0)' },
+      { transform: 'translate(' + midX + 'px,' + midY + 'px)' },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px)' }
+    ];
+    document.body.appendChild(el);
+    const anim = el.animate(kf, { duration: dur, easing: 'ease-in-out' });
+    anim.onfinish = ()=>{ el.remove(); busy = false; };
+    el.addEventListener('click', ()=>{
+      const rect = el.getBoundingClientRect();
+      try { anim.cancel(); } catch(_){}
+      el.remove();
+      busy = false;
+      explodePage(rect.left + rect.width / 2, rect.top + rect.height / 2, true);
+      showToast('Бум! 💥');
+    });
+  }
+
+  document.addEventListener('keydown', (e)=>{
+    const t = e.target;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if(!e.key || e.key.length !== 1) return;
+    const ch = e.key.toLowerCase();
+    if(ch < 'a' || ch > 'z') return;
+    buf = (buf + ch).slice(-30);
+    const hit = WORDS.find(w => buf.endsWith(w));
+    if(hit){
+      buf = '';
+      runCreeper();
+      showToast(MSG[hit]);
+    }
+  });
 })();
 </script>
 </body></html>
