@@ -2531,7 +2531,13 @@ function openLightbox(src){
 <script>
 (function(){
   if(!window.matchMedia('(hover: hover)').matches) return;
-  let rafId = null, ev = null;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let rafId = null, ev = null, current = null;
+  function clearCard(c){
+    if(!c) return;
+    c.style.transform = '';
+    c.style.transition = '';
+  }
   function update(){
     rafId = null;
     if(!ev) return;
@@ -2539,9 +2545,22 @@ function openLightbox(src){
     const el = document.elementFromPoint(x, y);
     const card = el && el.closest('.card');
     if(card){
+      if(card !== current){
+        clearCard(current);
+        current = card;
+        card.style.setProperty('transition', 'transform .12s ease, border-color .4s ease, box-shadow .4s ease', 'important');
+      }
       const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', ((x - r.left) / r.width * 100) + '%');
-      card.style.setProperty('--my', ((y - r.top) / r.height * 100) + '%');
+      const px = (x - r.left) / r.width;
+      const py = (y - r.top) / r.height;
+      card.style.setProperty('--mx', (px * 100) + '%');
+      card.style.setProperty('--my', (py * 100) + '%');
+      const ry = (px - 0.5) * 18;
+      const rx = (0.5 - py) * 14;
+      card.style.transform = 'perspective(800px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(1.02)';
+    } else if(current){
+      clearCard(current);
+      current = null;
     }
   }
   window.addEventListener('mousemove', (e)=>{
